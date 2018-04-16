@@ -1,6 +1,8 @@
 import fromEvent from 'xstream/extra/fromEvent'
 import dropRepeats from 'xstream/extra/dropRepeats'
 
+import './snake.css'
+
 // canvas related
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
@@ -19,6 +21,9 @@ let playerId = null
 let gridColumns = null
 let gridRows = null
 ////////////////////////
+
+// look into this
+// let playerImageMap = new Map()
 
 let savedColorHash = null
 
@@ -44,8 +49,15 @@ socket.addEventListener('open', () => {
 
 const updateScores = () => {
 	state.players.forEach(player => {
-		// console.log(player)
-		document.getElementById('score').innerHTML = player.score
+		// brute forcing for now
+		document.getElementById('p1-score').innerHTML = player.score + ' pts'
+		document.getElementById('p1-name').innerHTML = player.name
+		if (player.state === 'dead') {
+			let pImage = document.getElementById('p1-image')
+			if (!pImage.classList.contains('dead')) {
+				pImage.classList.add('dead')
+			}
+		}
 	})
 }
 
@@ -61,6 +73,12 @@ socket.addEventListener('message', message => {
 			playerId = msg.id
 			gridColumns = msg.gridColumns
 			gridRows = msg.gridRows
+			break
+		case 'IMAGE_UPDATE':
+			msg.images.forEach(imgArray => {
+				document.getElementById('p1-image').src = imgArray[1]
+				document.getElementById('p2-image').src = imgArray[1]
+			})
 			break
 	}
 })

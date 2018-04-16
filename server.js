@@ -15,7 +15,10 @@ const wss = new WebSocket.Server({ server })
 
 const R = require('ramda')
 const move = require('./move')
+
 const processFoodCollisions = require('./collision_process/food')
+const processPlayerCollisions = require('./collision_process/player')
+
 const updateFoodPositions = require('./position_update/food')
 const updatePlayersFromConnections = require('./updatePlayersFromConnections')
 const { getRandomDirection } = require('./utils')
@@ -33,6 +36,9 @@ let connectionQueue = {
 	connections: [],
 	disconnections: [],
 }
+let imageQueue = [
+	['test', 'https://media.giphy.com/media/WmQY7DwQcbPfG/giphy.gif'],
+]
 ////////////////////////
 
 ////////////////////////
@@ -102,6 +108,7 @@ function gameLoop(state) {
 	let updatedPlayers = updatePlayersFromConnections(
 		{ players: state.players, food: state.food },
 		connectionQueue,
+		imageQueue,
 	)
 
 	let playersAfterMove = move(
@@ -111,7 +118,11 @@ function gameLoop(state) {
 		gridRows,
 	)
 
-	let updatedState = R.compose(updateFoodPositions, processFoodCollisions)({
+	let updatedState = R.compose(
+		processPlayerCollisions,
+		updateFoodPositions,
+		processFoodCollisions,
+	)({
 		players: playersAfterMove,
 		food: state.food,
 	})
@@ -126,6 +137,20 @@ function gameLoop(state) {
 			)
 	})
 
+	imageQueue.forEach(img => {
+		wss.clients.forEach(client => {
+			if (client.readyState === WebSocket.OPEN)
+				client.send(
+					JSON.stringify({
+						type: 'IMAGE_UPDATE',
+						images: imageQueue,
+					}),
+				)
+		})
+	})
+	while (imageQueue.length) {
+		imageQueue.pop()
+	}
 	setTimeout(() => gameLoop(updatedState), LOOP_REPEAT_INTERVAL)
 }
 ////////////////////////

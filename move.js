@@ -4,6 +4,13 @@ const mod = (n, m) => (n % m + m) % m
 const move = (playersArray, directionQueue, ...dimensions) => {
 	// console.log('playersArray in move', playersArray)
 	return playersArray.map(player => {
+		// console.log('player.image', player.image)
+		if (player.state === 'dead') {
+			return {
+				...player,
+				body: player.body.slice(0, player.body.length - 1),
+			}
+		}
 		return {
 			...player,
 			body: [

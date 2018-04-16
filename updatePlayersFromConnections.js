@@ -1,5 +1,7 @@
 const R = require('ramda')
 const { getRandomKey, getAllOccupiedPositions } = require('./utils')
+const getSnakeName = require('./get_snake_names')
+const getSnakeImage = require('./image_search')
 
 let findIndex = (array, currentId) =>
 	R.findIndex(element => element.id === currentId)(array)
@@ -9,8 +11,18 @@ let removeId = (stored, currentId) => {
 	return foundIndex > -1 ? R.remove(foundIndex, 1, stored) : stored
 }
 
-let addId = randomKey => (stored, currentId) => {
+let addId = (randomKey, imageQueue) => (stored, currentId) => {
 	let foundIndex = findIndex(stored, currentId)
+
+	let snakeName
+
+	if (foundIndex < 0) {
+		snakeName = getSnakeName()
+		getSnakeImage(snakeName).then(url => {
+			imageQueue.push([currentId, url])
+		})
+	}
+
 	return foundIndex > -1
 		? stored
 		: R.append(
@@ -18,6 +30,7 @@ let addId = randomKey => (stored, currentId) => {
 					id: currentId,
 					body: [randomKey, randomKey, randomKey],
 					state: 'normal',
+					name: snakeName,
 					score: 0,
 					goalScore: 10,
 				},
@@ -28,10 +41,10 @@ let addId = randomKey => (stored, currentId) => {
 const updatePlayersFromConnections = (
 	{ players, food },
 	{ connections, disconnections },
+	imageQueue,
 ) => {
 	if (connections.length === 0 && disconnections.length === 0) return players
 
-	// let allPos = getPositions({ players, food }).everything
 	let allPos = getAllOccupiedPositions({ players, food })
 
 	let randomKey = getRandomKey()
@@ -40,7 +53,7 @@ const updatePlayersFromConnections = (
 	}
 
 	let updatedPlayers = R.reduce(
-		addId(randomKey),
+		addId(randomKey, imageQueue),
 		R.reduce(removeId, players, disconnections),
 		connections,
 	)
