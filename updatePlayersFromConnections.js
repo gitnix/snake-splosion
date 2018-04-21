@@ -1,5 +1,5 @@
 const R = require('ramda')
-const { getRandomKey, getAllOccupiedPositions } = require('./utils')
+const { getValidRandomKey, getAllOccupiedPositions } = require('./utils')
 const getSnakeName = require('./get_snake_names')
 const getSnakeImage = require('./image_search')
 
@@ -45,12 +45,7 @@ const updatePlayersFromConnections = (
 ) => {
 	if (connections.length === 0 && disconnections.length === 0) return players
 
-	let allPos = getAllOccupiedPositions({ players, food })
-
-	let randomKey = getRandomKey()
-	while (allPos.includes(randomKey)) {
-		randomKey = getRandomKey()
-	}
+	let randomKey = getValidRandomKey(getAllOccupiedPositions({ players, food }))
 
 	let updatedPlayers = R.reduce(
 		addId(randomKey, imageQueue),

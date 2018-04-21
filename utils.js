@@ -1,8 +1,15 @@
 const { gridSize, possibleDirections } = require('./constants')
 const R = require('ramda')
 
-const getRandom = () => Math.round(Math.random() * gridSize)
+const getRandom = () => Math.floor(Math.random() * gridSize)
 const getRandomKey = () => '' + getRandom() + '_' + getRandom()
+const getValidRandomKey = array => {
+	let randomKey = getRandomKey()
+	while (array.includes(randomKey)) {
+		randomKey = getRandomKey()
+	}
+	return randomKey
+}
 
 const getAllFoodPositions = food => Object.keys(food)
 const getAllPlayerPositions = players => R.chain(player => player.body, players)
@@ -15,7 +22,7 @@ const getRandomDirection = () =>
 	]
 
 module.exports = {
-	getRandomKey,
+	getValidRandomKey,
 	getAllFoodPositions,
 	getAllPlayerPositions,
 	getAllOccupiedPositions,

@@ -5,49 +5,33 @@
 }
 
 .wrapper {
-	text-align: center;
-	font-size: 24px;
 	font-family: 'Love Ya Like A Sister', cursive;
-	display: grid;
-	grid-auto-columns: auto;
-	grid-gap: 10px;
-	grid-auto-rows: auto;
-	justify-items: center;
-	max-width: 200px;
+	display: inline-flex;
+	flex-direction: column;
+	text-align: center;
 	padding-left: 20px;
-	height: 1000px;
+}
+
+.player-block {
+	margin-bottom: 20px;
+}
+
+img {
+	max-width: 100px;
+	max-height: 100px;
+	border-radius: 8px;
 }
 
 .dead {
 	filter: grayscale(100%);
 }
 
-#p1-image {
-	grid-row: 1;
-	width: 200px;
-	height: 200px;
-	border-radius: 8px;
-}
-
-#p1-name {
-	grid-row: 2;
-}
-
-#p1-score {
-	grid-row: 3;
-}
-
-#p2-image {
-	width: 200px;
-	height: 200px;
-	grid-row: 4;
-	border-radius: 8px;
-}
-
-#p2-name {
-	grid-row: 5;
-}
-
-#p2-score {
-	grid-row: 6;
+@media (max-width: 710px) {
+	.wrapper {
+		flex-direction: row;
+		margin-top: 20px;
+	}
+	.player-block {
+		padding-right: 30px;
+	}
 }

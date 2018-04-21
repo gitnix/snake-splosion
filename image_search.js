@@ -8,10 +8,8 @@ let getImage = async snakeName => {
 		// let snakeImage = snakeImages[0].url
 		// return snakeImage
 
-		// resolve for testing
-		return Promise.resolve(
-			'https://reptilepark.com.au/wp-content/uploads/2015/12/venomous_brown_tree_snake.jpg',
-		)
+		// hard code for development
+		return 'venomous_brown_tree_snake.jpg'
 	} catch (e) {
 		console.log(e)
 		throw e

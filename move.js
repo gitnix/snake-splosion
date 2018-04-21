@@ -3,8 +3,7 @@ const mod = (n, m) => (n % m + m) % m
 
 const move = (playersArray, directionQueue, ...dimensions) => {
 	// console.log('playersArray in move', playersArray)
-	return playersArray.map(player => {
-		// console.log('player.image', player.image)
+	let returnArray = playersArray.map(player => {
 		if (player.state === 'dead') {
 			return {
 				...player,
@@ -20,7 +19,7 @@ const move = (playersArray, directionQueue, ...dimensions) => {
 		}
 	})
 	// console.log('returnArray', returnArray)
-	// return returnArray
+	return returnArray
 }
 
 // side effects: mutates directionQueue

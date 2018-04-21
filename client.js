@@ -41,7 +41,7 @@ function pickColor(str, lightness) {
 
 let state = {}
 
-let socket = new WebSocket('ws://192.168.0.3:8080')
+let socket = new WebSocket('ws://192.168.1.4:8080')
 
 socket.addEventListener('open', () => {
 	console.log('successful connection')
@@ -87,51 +87,64 @@ window.addEventListener('beforeunload', function() {
 	socket.close(JSON.stringify({ id: playerId }))
 })
 
-let keyPress$ = fromEvent(document, 'keydown').compose(
-	// if anything evaluates to true - ignore it
-	dropRepeats((current, last) => {
-		switch (current.key) {
+let keyPress$ = fromEvent(document, 'keydown')
+	.compose(
+		dropRepeats((current, last) => {
+			// if anything evaluates to true - ignore it
+			switch (current.key) {
+				case 'ArrowLeft':
+					if (last.key === 'ArrowRight') return true
+					return last.key === current.key
+				case 'ArrowRight':
+					if (last.key === 'ArrowLeft') return true
+					return last.key === current.key
+				case 'ArrowUp':
+					if (last.key === 'ArrowDown') return true
+					return last.key === current.key
+				case 'ArrowDown':
+					if (last.key === 'ArrowUp') return true
+					return last.key === current.key
+				default:
+					return true
+			}
+		}),
+	)
+	.filter(event => {
+		switch (event.key) {
 			case 'ArrowLeft':
-				if (last.key === 'ArrowRight') return true
-				return last.key === current.key
 			case 'ArrowRight':
-				if (last.key === 'ArrowLeft') return true
-				return last.key === current.key
 			case 'ArrowUp':
-				if (last.key === 'ArrowDown') return true
-				return last.key === current.key
 			case 'ArrowDown':
-				if (last.key === 'ArrowUp') return true
-				return last.key === current.key
-			default:
 				return true
+			default:
+				return false
 		}
-	}),
-)
+	})
 
 keyPress$.addListener({
 	next: keyEvent => {
-		// console.log('key', keyEvent.key)
-		socket.send(
-			JSON.stringify({
-				type: 'CHANGE_DIRECTION',
-				id: playerId,
-				direction: keyEvent.key.slice(5).toUpperCase(),
-			}),
-		)
+		if (socket.readyState != 0) {
+			socket.send(
+				JSON.stringify({
+					type: 'CHANGE_DIRECTION',
+					id: playerId,
+					direction: keyEvent.key.slice(5).toUpperCase(),
+				}),
+			)
+		}
 	},
 	error: err => console.error(err),
 	complete: () => console.log('completed'),
 })
 
-document.addEventListener('click', () =>
-	socket.send(
-		JSON.stringify({
-			type: 'STOP_AND_LOG',
-			id: playerId,
-		}),
-	),
-)
+// document.addEventListener('click', () =>
+// 	socket.send(
+// 		JSON.stringify({
+// 			type: 'STOP_AND_LOG',
+// 			id: playerId,
+// 		}),
+// 	),
+// )
 
 const scale = (val = 1) => val * UNIT_SIZE
 

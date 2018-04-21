@@ -37,7 +37,7 @@ let connectionQueue = {
 	disconnections: [],
 }
 let imageQueue = [
-	['test', 'https://media.giphy.com/media/WmQY7DwQcbPfG/giphy.gif'],
+	// ['test', 'https://media.giphy.com/media/WmQY7DwQcbPfG/giphy.gif'],
 ]
 ////////////////////////
 
