@@ -94,18 +94,18 @@ let keyPress$ = fromEvent(document, 'keydown')
 			switch (current.key) {
 				case 'ArrowLeft':
 					if (last.key === 'ArrowRight') return true
-					return last.key === current.key
+					break
 				case 'ArrowRight':
 					if (last.key === 'ArrowLeft') return true
-					return last.key === current.key
+					break
 				case 'ArrowUp':
 					if (last.key === 'ArrowDown') return true
-					return last.key === current.key
+					break
 				case 'ArrowDown':
 					if (last.key === 'ArrowUp') return true
-					return last.key === current.key
+					break
 				default:
-					return true
+					return last.key === current.key
 			}
 		}),
 	)
