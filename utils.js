@@ -1,6 +1,19 @@
 const { gridSize, possibleDirections } = require('./constants')
 const R = require('ramda')
 
+const directionToKey = dir => {
+	switch (dir) {
+		case 'UP':
+			return 'ArrowUp'
+		case 'DOWN':
+			return 'ArrowDown'
+		case 'LEFT':
+			return 'ArrowLeft'
+		case 'RIGHT':
+			return 'ArrowRight'
+	}
+}
+
 const getRandom = () => Math.floor(Math.random() * gridSize)
 const getRandomKey = () => '' + getRandom() + '_' + getRandom()
 const getValidRandomKey = array => {
@@ -22,6 +35,7 @@ const getRandomDirection = () =>
 	]
 
 module.exports = {
+	directionToKey,
 	getValidRandomKey,
 	getAllFoodPositions,
 	getAllPlayerPositions,

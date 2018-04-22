@@ -21,7 +21,7 @@ const processPlayerCollisions = require('./collision_process/player')
 
 const updateFoodPositions = require('./position_update/food')
 const updatePlayersFromConnections = require('./updatePlayersFromConnections')
-const { getRandomDirection } = require('./utils')
+const { directionToKey, getRandomDirection } = require('./utils')
 const { gridSize, LOOP_REPEAT_INTERVAL } = require('./constants')
 // For now the grid is a square
 // will entertain more possibilites later
@@ -48,17 +48,20 @@ wss.on('connection', (ws, req) => {
 	console.log(`Client ${ws.id} has connected`)
 	console.log(`There are currently ${wss.clients.size} connected clients`)
 
+	connectionQueue.connections.push(ws.id)
+	let startingDirection = getRandomDirection()
+	directionQueue[ws.id] = [startingDirection]
+	let startingArrowKey = directionToKey(startingDirection)
+
 	ws.send(
 		JSON.stringify({
 			type: 'GAME_CONNECTION',
 			id: ws.id,
+			startingKey: startingArrowKey,
 			gridColumns,
 			gridRows,
 		}),
 	)
-
-	connectionQueue.connections.push(ws.id)
-	directionQueue[ws.id] = [getRandomDirection()]
 
 	if (wss.clients.size == 1) {
 		gameRunning = true
