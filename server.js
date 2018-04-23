@@ -19,7 +19,9 @@ const move = require('./move')
 const processFoodCollisions = require('./collision_process/food')
 const processPlayerCollisions = require('./collision_process/player')
 
+const getStateAfterTeleportingPlayers = require('./position_update/player')
 const updateFoodPositions = require('./position_update/food')
+
 const updatePlayersFromConnections = require('./updatePlayersFromConnections')
 const { directionToKey, getRandomDirection } = require('./utils')
 const { gridSize, LOOP_REPEAT_INTERVAL } = require('./constants')
@@ -122,6 +124,7 @@ function gameLoop(state) {
 	)
 
 	let updatedState = R.compose(
+		getStateAfterTeleportingPlayers,
 		processPlayerCollisions,
 		updateFoodPositions,
 		processFoodCollisions,

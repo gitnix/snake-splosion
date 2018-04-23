@@ -5,6 +5,12 @@ const move = (playersArray, directionQueue, ...dimensions) => {
 	// console.log('playersArray in move', playersArray)
 	let returnArray = playersArray.map(player => {
 		if (player.state === 'dead') {
+			if (player.body.length <= 1) {
+				return {
+					...player,
+					state: 'teleportReady',
+				}
+			}
 			return {
 				...player,
 				body: player.body.slice(0, player.body.length - 1),
