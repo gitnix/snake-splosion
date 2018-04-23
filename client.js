@@ -113,7 +113,12 @@ function drawOnSocketMessage() {
 	state.players.forEach(player => {
 		player.body.forEach((bodyString, index) => {
 			let [x, y] = strToCoords(bodyString)
-			drawUnit(x, y, 'green')
+			if (player.state === 'teleported') {
+				// for future
+				// get location and set function in motion to draw a teleport thing over specified time
+			}
+			if (player.state === 'dead') drawUnit(x, y, 'gray')
+			else drawUnit(x, y, 'green')
 		})
 	})
 	Object.keys(state.food).forEach(key => {

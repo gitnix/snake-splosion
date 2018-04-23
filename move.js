@@ -1,3 +1,5 @@
+const { DEATH_TICKS } = require('./constants')
+
 // accounts for negative modulus
 const mod = (n, m) => (n % m + m) % m
 
@@ -9,11 +11,19 @@ const move = (playersArray, directionQueue, ...dimensions) => {
 				return {
 					...player,
 					state: 'teleportReady',
+					deathTicks: DEATH_TICKS,
+				}
+			}
+			if (player.deathTicks > 0) {
+				return {
+					...player,
+					deathTicks: player.deathTicks - 1,
 				}
 			}
 			return {
 				...player,
 				body: player.body.slice(0, player.body.length - 1),
+				deathTicks: DEATH_TICKS,
 			}
 		}
 		return {

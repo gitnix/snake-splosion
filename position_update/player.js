@@ -12,7 +12,8 @@ const getStateAfterTeleportingPlayers = ({ players, food }) => {
 		return {
 			...player,
 			body: [randomKey, randomKey, randomKey],
-			state: 'normal',
+			// for future use
+			state: 'teleported',
 		}
 		allPos.push(randomKey)
 	})

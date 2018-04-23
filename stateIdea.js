@@ -5,6 +5,7 @@ players = [
 		id: 'someId',
 		body: ['X_Y', 'X_Y'],
 		state: 'normal' | 'dead',
+		deathTicks: 3,
 		goalScore: 10,
 		score: 0,
 	},

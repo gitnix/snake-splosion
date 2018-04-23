@@ -1,5 +1,6 @@
 const R = require('ramda')
 const { getValidRandomKey, getAllOccupiedPositions } = require('./utils')
+const { DEATH_TICKS } = require('./constants')
 const getSnakeName = require('./get_snake_names')
 const getSnakeImage = require('./image_search')
 
@@ -28,9 +29,20 @@ let addId = (randomKey, imageQueue) => (stored, currentId) => {
 		: R.append(
 				{
 					id: currentId,
-					body: [randomKey, randomKey, randomKey],
+					body: [
+						randomKey,
+						randomKey,
+						randomKey,
+						randomKey,
+						randomKey,
+						randomKey,
+						randomKey,
+						randomKey,
+						randomKey,
+					],
 					state: 'normal',
 					name: snakeName,
+					deathTicks: DEATH_TICKS,
 					score: 0,
 					goalScore: 10,
 				},
