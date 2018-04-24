@@ -1,4 +1,4 @@
-const { getAllPlayerPositions } = require('../utils')
+const { getAllPlayerPositions } = require('../../utils')
 
 const processPlayerCollisions = ({ players, food }) => {
 	const checkCollision = (head, otherPlayers) =>

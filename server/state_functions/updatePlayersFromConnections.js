@@ -3,10 +3,10 @@ const {
 	getValidRandomKey,
 	getAllOccupiedPositions,
 	newBody,
-} = require('./utils')
-const { DEATH_TICKS } = require('./constants')
-const getSnakeName = require('./get_snake_names')
-const getSnakeImage = require('./image_search')
+} = require('../utils')
+const { DEATH_TICKS } = require('../constants')
+const getSnakeName = require('../get_snake_names')
+const getSnakeImage = require('../image_search')
 
 let findIndex = (array, currentId) =>
 	R.findIndex(element => element.id === currentId)(array)

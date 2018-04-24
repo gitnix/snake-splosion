@@ -1,5 +1,5 @@
 const R = require('ramda')
-const { getValidRandomKey, getAllOccupiedPositions } = require('../utils')
+const { getValidRandomKey, getAllOccupiedPositions } = require('../../utils')
 
 const updateFoodPositions = ({ players, food }) => {
 	let allMarkedFood = R.filter(f => !!food[f].isCollided)(Object.keys(food))

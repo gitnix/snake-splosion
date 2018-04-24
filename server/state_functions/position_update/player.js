@@ -2,7 +2,7 @@ const {
 	getValidRandomKey,
 	getAllOccupiedPositions,
 	newBody,
-} = require('../utils')
+} = require('../../utils')
 
 const getStateAfterTeleportingPlayers = ({ players, food }) => {
 	let allPos = getAllOccupiedPositions({ players, food })

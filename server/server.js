@@ -8,21 +8,22 @@ const WebSocket = require('ws')
 const uuid = require('uuid')
 const app = express()
 
+app.use(express.static('client/assets'))
 app.use(express.static('dist'))
 
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
 const R = require('ramda')
-const move = require('./move')
+const move = require('./state_functions/move')
 
-const processFoodCollisions = require('./collision_process/food')
-const processPlayerCollisions = require('./collision_process/player')
+const processFoodCollisions = require('./state_functions/collision_process/food')
+const processPlayerCollisions = require('./state_functions/collision_process/player')
 
-const getStateAfterTeleportingPlayers = require('./position_update/player')
-const updateFoodPositions = require('./position_update/food')
+const getStateAfterTeleportingPlayers = require('./state_functions/position_update/player')
+const updateFoodPositions = require('./state_functions/position_update/food')
 
-const updatePlayersFromConnections = require('./updatePlayersFromConnections')
+const updatePlayersFromConnections = require('./state_functions/updatePlayersFromConnections')
 const { directionToKey, getRandomDirection } = require('./utils')
 const { gridSize, LOOP_REPEAT_INTERVAL } = require('./constants')
 // For now the grid is a square

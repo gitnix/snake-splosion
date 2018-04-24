@@ -1,4 +1,4 @@
-const { DEATH_TICKS } = require('./constants')
+const { DEATH_TICKS } = require('../constants')
 
 // accounts for negative modulus
 const mod = (n, m) => (n % m + m) % m

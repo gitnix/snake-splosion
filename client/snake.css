@@ -11,7 +11,7 @@ body {
 }
 
 #bottom-scene {
-	background: url('dist/backgrounds/sand_background.jpg');
+	background: url('assets/backgrounds/sand_background.jpg');
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	position: absolute;
