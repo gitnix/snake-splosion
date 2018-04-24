@@ -25,13 +25,25 @@ const move = (playersArray, directionQueue, ...dimensions) => {
 				body: player.body.slice(0, player.body.length - 1),
 				deathTicks: DEATH_TICKS,
 			}
+		} // end dead
+
+		let direction = directionQueue[player.id][0]
+		if (typeof direction !== 'string')
+			throw `direction ${direction} is not string`
+
+		// make sure there is always a direction to go
+		if (directionQueue[player.id].length > 1) {
+			directionQueue[player.id].shift()
 		}
+
 		return {
 			...player,
 			body: [
-				computeNewHead(player.body[0], directionQueue[player.id], dimensions),
+				computeNewHead(player.body[0], direction, dimensions),
 				...player.body.slice(0, player.body.length - 1),
 			],
+			state: 'normal',
+			direction,
 		}
 	})
 	// console.log('returnArray', returnArray)
@@ -39,20 +51,11 @@ const move = (playersArray, directionQueue, ...dimensions) => {
 }
 
 // side effects: mutates directionQueue
-const computeNewHead = (head, directionQueue, [columns, rows]) => {
+const computeNewHead = (head, direction, [columns, rows]) => {
 	const [x, y] = head.split('_').map(string => parseInt(string))
 
 	const getModString = (x, y) => {
 		return '' + x + '_' + y
-	}
-
-	let direction = directionQueue[0]
-	if (typeof direction !== 'string')
-		throw 'direction ' + direction + ' is not string'
-
-	// make sure there is always a direction to go
-	if (directionQueue.length > 1) {
-		directionQueue.shift()
 	}
 
 	switch (direction) {

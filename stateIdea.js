@@ -8,6 +8,7 @@ players = [
 		deathTicks: 3,
 		goalScore: 10,
 		score: 0,
+		direction: 'left',
 	},
 ]
 

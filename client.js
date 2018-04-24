@@ -28,6 +28,12 @@ let lastKey = null
 // }
 // window.requestAnimationFrame(drawOtherStuff)
 
+let appleImage = new Image(UNIT_SIZE, UNIT_SIZE)
+appleImage.src = 'images/apple.png'
+const eatAudio = new Audio('audio/eat.mp3')
+const snakeSkin = new Image(UNIT_SIZE, UNIT_SIZE)
+snakeSkin.src = 'images/snakeSkin.jpg'
+
 ////////////////////////
 // initialized on server connection
 let playerId = null
@@ -122,12 +128,10 @@ const drawUnit = (x, y, color) => {
 
 function drawOnSocketMessage() {
 	layer1.clearRect(0, 0, WIDTH, HEIGHT)
-	layer1.fillStyle = '#EBEEB8'
-	layer1.fillRect(0, 0, scale(gridColumns), scale(gridRows))
 
 	Object.keys(state.food).forEach(key => {
 		let [x, y] = strToCoords(key)
-		drawUnit(x, y, 'red')
+		layer1.drawImage(appleImage, scale(x), scale(y))
 	})
 
 	state.players.forEach(player => {
@@ -137,8 +141,9 @@ function drawOnSocketMessage() {
 				// for future
 				// get location and set function in motion to draw a teleport thing over specified time
 			}
+			if (player.state === 'eating') eatAudio.play()
 			if (player.state === 'dead') drawUnit(x, y, 'gray')
-			else drawUnit(x, y, 'green')
+			else layer1.drawImage(snakeSkin, scale(x), scale(y))
 		})
 	})
 }

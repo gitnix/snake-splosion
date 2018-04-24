@@ -1,4 +1,6 @@
 node_modules
-dist
+*.ds_store
+dist/index.html
+dist/bundle.js
 keys.js
 client_dev.js

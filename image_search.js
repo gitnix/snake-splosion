@@ -9,7 +9,7 @@ let getImage = async snakeName => {
 		// return snakeImage
 
 		// hard code for development
-		return 'venomous_brown_tree_snake.jpg'
+		return 'images/venomous_brown_tree_snake.jpg'
 	} catch (e) {
 		console.log(e)
 		throw e
