@@ -29,11 +29,18 @@
 	display: inline-flex;
 	flex-direction: column;
 	text-align: center;
-	padding-left: 20px;
+	margin-left: 510px;
+	border: 2px solid rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
+	padding: 40px 10px;
 }
 
 .player-block {
-	margin-bottom: 20px;
+	margin-bottom: 40px;
+}
+
+.player-block:last-of-type {
+	margin-bottom: 0;
 }
 
 img {
@@ -46,12 +53,15 @@ img {
 	filter: grayscale(100%);
 }
 
-@media (max-width: 710px) {
+@media (max-width: 620px) {
 	.wrapper {
 		flex-direction: row;
-		margin-top: 20px;
+		margin-top: 510px;
+		margin-left: 0;
+		padding: 10px 40px;
 	}
 	.player-block {
 		padding-right: 30px;
+		margin-bottom: 0;
 	}
 }
