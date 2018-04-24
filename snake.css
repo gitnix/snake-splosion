@@ -1,7 +1,7 @@
-@import url(https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister);
+@import url('https://fonts.googleapis.com/css?family=Do+Hyeon');
 
-#canvas {
-	float: left;
+body {
+	background: pink;
 }
 
 #canvas-wrappper {
@@ -24,29 +24,42 @@
 	z-index: 2;
 }
 
-.wrapper {
-	font-family: 'Love Ya Like A Sister', cursive;
+.player-list {
+	font-family: 'Do Hyeon', cursive;
 	display: inline-flex;
 	flex-direction: column;
 	text-align: center;
-	margin-left: 510px;
+	margin-left: 800px;
 	border: 2px solid rgba(0, 0, 0, 0.3);
 	border-radius: 5px;
-	padding: 40px 10px;
+	padding: 40px 20px;
+	background: rgba(171, 210, 171, 0.77);
+}
+
+.player-info {
+	background: rgba(255, 254, 254, 0.9);
+	padding: 12px;
+	border-radius: 20%;
+}
+
+.score {
+	font-size: 30px;
 }
 
 .player-block {
 	margin-bottom: 40px;
+	max-width: 150px;
 }
 
 .player-block:last-of-type {
-	margin-bottom: 0;
+	margin: 0;
 }
 
 img {
-	max-width: 100px;
-	max-height: 100px;
+	max-width: 120px;
+	max-height: 120px;
 	border-radius: 8px;
+	border: 13px ridge #ead45dde;
 }
 
 .dead {
@@ -54,7 +67,7 @@ img {
 }
 
 @media (max-width: 620px) {
-	.wrapper {
+	.player-list {
 		flex-direction: row;
 		margin-top: 510px;
 		margin-left: 0;
@@ -63,5 +76,11 @@ img {
 	.player-block {
 		padding-right: 30px;
 		margin-bottom: 0;
+	}
+	.player-info {
+		padding: 0;
+	}
+	.score {
+		font-size: 18px;
 	}
 }
