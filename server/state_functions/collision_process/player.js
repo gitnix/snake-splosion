@@ -1,18 +1,24 @@
 const { getAllPlayerPositions } = require('../../utils')
 
 const processPlayerCollisions = ({ players, food }) => {
-	const checkCollision = (head, otherPlayers) =>
-		getAllPlayerPositions(otherPlayers).includes(head) ? true : false
-
 	let collisionArray = []
 
 	let markedPlayers = players.map(player => {
+		let self = players.filter(p => p.id === player.id)
+		let others = players.filter(p => p.id !== player.id)
+		// doesn't include head
+		let selfPositions = getAllPlayerPositions(self).slice(1)
+		let otherPositions = getAllPlayerPositions(others)
+
+		// ensures head-on collisions handle properly
+		// otherwise both players would get head sliced
+		// leaving a gap and making it appear as if there
+		// wasn't a collision
 		let shouldSlice = true
+
 		let head = player.body[0]
-		let isCollided = checkCollision(
-			head,
-			players.filter(p => p.id !== player.id),
-		)
+		let isCollided = selfPositions.concat(otherPositions).includes(head)
+
 		if (isCollided) {
 			if (collisionArray.includes(player.body[0])) shouldSlice = false
 			else collisionArray.push(player.body[0])
