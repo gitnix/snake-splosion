@@ -1,3 +1,4 @@
+import { localIp } from './client_dev'
 import addKeyListener from './key_listener'
 
 import './snake.css'
@@ -40,7 +41,7 @@ function pickColor(str, lightness) {
 
 let state = {}
 
-let socket = new WebSocket('ws://192.168.1.4:8080')
+let socket = new WebSocket(`ws://${localIp}:8080`)
 
 socket.addEventListener('open', () => {
 	console.log('successful connection')
