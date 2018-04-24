@@ -4,16 +4,29 @@ import addKeyListener from './key_listener'
 import './snake.css'
 
 // canvas related
-let canvas = document.getElementById('canvas')
-let ctx = canvas.getContext('2d')
-const WIDTH = canvas.width
-const HEIGHT = canvas.height
+let canvasBottom = document.getElementById('bottom-scene')
+let layer1 = canvasBottom.getContext('2d')
+const WIDTH = canvasBottom.width
+const HEIGHT = canvasBottom.height
+
+let canvasTop = document.getElementById('top-scene')
+let layer2 = canvasTop.getContext('2d')
 
 const DIMENSIONS = { x: WIDTH, y: HEIGHT }
 const UNIT_SIZE = 20
 let timeCounter = 0
 let previousTimestamp = null
 let lastKey = null
+
+// test blob for second canvas
+// const drawOtherStuff = (x, y, color) => {
+// 	layer2.clearRect(0, 0, WIDTH, HEIGHT)
+// 	layer2.fillStyle = 'blue'
+// 	layer2.fillRect(30, 30, 100, 100)
+// 	layer2.stroke()
+// 	window.requestAnimationFrame(drawOtherStuff)
+// }
+// window.requestAnimationFrame(drawOtherStuff)
 
 ////////////////////////
 // initialized on server connection
@@ -102,15 +115,21 @@ const scale = (val = 1) => val * UNIT_SIZE
 const strToCoords = key => key.split('_').map(string => parseInt(string))
 
 const drawUnit = (x, y, color) => {
-	ctx.fillStyle = color
-	ctx.fillRect(scale(x), scale(y), scale(), scale())
-	ctx.stroke()
+	layer1.fillStyle = color
+	layer1.fillRect(scale(x), scale(y), scale(), scale())
+	layer1.stroke()
 }
 
 function drawOnSocketMessage() {
-	ctx.clearRect(0, 0, WIDTH, HEIGHT)
-	ctx.fillStyle = '#EBEEB8'
-	ctx.fillRect(0, 0, scale(gridColumns), scale(gridRows))
+	layer1.clearRect(0, 0, WIDTH, HEIGHT)
+	layer1.fillStyle = '#EBEEB8'
+	layer1.fillRect(0, 0, scale(gridColumns), scale(gridRows))
+
+	Object.keys(state.food).forEach(key => {
+		let [x, y] = strToCoords(key)
+		drawUnit(x, y, 'red')
+	})
+
 	state.players.forEach(player => {
 		player.body.forEach((bodyString, index) => {
 			let [x, y] = strToCoords(bodyString)
@@ -121,9 +140,5 @@ function drawOnSocketMessage() {
 			if (player.state === 'dead') drawUnit(x, y, 'gray')
 			else drawUnit(x, y, 'green')
 		})
-	})
-	Object.keys(state.food).forEach(key => {
-		let [x, y] = strToCoords(key)
-		drawUnit(x, y, 'red')
 	})
 }

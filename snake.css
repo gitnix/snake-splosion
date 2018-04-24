@@ -4,6 +4,26 @@
 	float: left;
 }
 
+#canvas-wrappper {
+	position: relative;
+	width: 500px;
+	height: 500px;
+}
+
+#bottom-scene {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 1;
+}
+
+#top-scene {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 2;
+}
+
 .wrapper {
 	font-family: 'Love Ya Like A Sister', cursive;
 	display: inline-flex;

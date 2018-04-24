@@ -1,4 +1,4 @@
-const { gridSize, possibleDirections } = require('./constants')
+const { gridSize, newBodyLength, possibleDirections } = require('./constants')
 const R = require('ramda')
 
 const directionToKey = dir => {
@@ -34,6 +34,8 @@ const getRandomDirection = () =>
 		Math.round(Math.random() * (possibleDirections.length - 1))
 	]
 
+const newBody = key => new Array(newBodyLength).fill(key)
+
 module.exports = {
 	directionToKey,
 	getValidRandomKey,
@@ -41,4 +43,5 @@ module.exports = {
 	getAllPlayerPositions,
 	getAllOccupiedPositions,
 	getRandomDirection,
+	newBody,
 }

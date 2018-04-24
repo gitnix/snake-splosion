@@ -1,4 +1,8 @@
-const { getValidRandomKey, getAllOccupiedPositions } = require('../utils')
+const {
+	getValidRandomKey,
+	getAllOccupiedPositions,
+	newBody,
+} = require('../utils')
 
 const getStateAfterTeleportingPlayers = ({ players, food }) => {
 	let allPos = getAllOccupiedPositions({ players, food })
@@ -11,7 +15,7 @@ const getStateAfterTeleportingPlayers = ({ players, food }) => {
 		let randomKey = getValidRandomKey(allPos)
 		return {
 			...player,
-			body: [randomKey, randomKey, randomKey],
+			body: newBody(randomKey),
 			// for future use
 			state: 'teleported',
 		}
