@@ -1,4 +1,9 @@
-const { gridSize, newBodyLength, possibleDirections } = require('./constants')
+const {
+	gridColumns,
+	gridRows,
+	newBodyLength,
+	possibleDirections,
+} = require('./constants')
 const R = require('ramda')
 
 const directionToKey = dir => {
@@ -13,9 +18,9 @@ const directionToKey = dir => {
 			return 'ArrowRight'
 	}
 }
-
-const getRandom = () => Math.floor(Math.random() * gridSize)
-const getRandomKey = () => '' + getRandom() + '_' + getRandom()
+const getRandom = bounds => Math.floor(Math.random() * bounds)
+const getRandomKey = () =>
+	'' + getRandom(gridColumns) + '_' + getRandom(gridRows)
 const getValidRandomKey = array => {
 	let randomKey = getRandomKey()
 	while (array.includes(randomKey)) {

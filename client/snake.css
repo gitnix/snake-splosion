@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Do+Hyeon');
 
 body {
-	background: pink;
+	font-family: 'Do Hyeon', cursive;
+	background: #2b2a2a;
 }
 
 #canvas-wrappper {
@@ -11,7 +12,9 @@ body {
 }
 
 #bottom-scene {
-	background: url('assets/backgrounds/sand_background.jpg');
+	border: 2px solid #2a5f3a;
+	border-radius: 13px;
+	background: url('assets/backgrounds/sand.jpg');
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	position: absolute;
@@ -29,21 +32,29 @@ body {
 }
 
 .player-list {
-	font-family: 'Do Hyeon', cursive;
 	display: inline-flex;
 	flex-direction: column;
 	text-align: center;
-	margin-left: 800px;
+	margin-left: 810px;
 	border: 2px solid rgba(0, 0, 0, 0.3);
 	border-radius: 5px;
 	padding: 40px 20px;
-	background: rgba(171, 210, 171, 0.77);
+	background: url('assets/backgrounds/metal.jpg');
+	background-size: 100% 100%;
 }
 
 .player-info {
 	background: rgba(255, 254, 254, 0.9);
 	padding: 12px;
 	border-radius: 20%;
+	box-shadow: 7px 10px 22px 10px #252424;
+}
+
+.name {
+	font-size: 19px;
+	background: rgba(182, 181, 181, 0.9);
+	border-radius: 30px;
+	padding: 8px;
 }
 
 .score {
@@ -52,7 +63,7 @@ body {
 
 .player-block {
 	margin-bottom: 40px;
-	max-width: 150px;
+	max-width: 155px;
 }
 
 .player-block:last-of-type {
@@ -70,21 +81,21 @@ img {
 	filter: grayscale(100%);
 }
 
-@media (max-width: 620px) {
-	.player-list {
-		flex-direction: row;
-		margin-top: 510px;
-		margin-left: 0;
-		padding: 10px 40px;
-	}
-	.player-block {
-		padding-right: 30px;
-		margin-bottom: 0;
-	}
-	.player-info {
-		padding: 0;
-	}
-	.score {
-		font-size: 18px;
-	}
+.title {
+	position: absolute;
+	top: 610px;
+	width: 790px;
+	border-radius: 10px;
+	border: 2px solid;
+	background: url('assets/backgrounds/metal.jpg');
+}
+
+.title > h1 {
+	color: #e2dda3f7;
+	margin: 4px 0;
+	text-align: center;
+}
+
+#game-container {
+	position: relative;
 }

@@ -25,11 +25,7 @@ const updateFoodPositions = require('./state_functions/position_update/food')
 
 const updatePlayersFromConnections = require('./state_functions/updatePlayersFromConnections')
 const { directionToKey, getRandomDirection } = require('./utils')
-const { gridSize, LOOP_REPEAT_INTERVAL } = require('./constants')
-// For now the grid is a square
-// will entertain more possibilites later
-const gridColumns = gridSize
-const gridRows = gridSize
+const { gridColumns, gridRows, LOOP_REPEAT_INTERVAL } = require('./constants')
 
 ////////////////////////
 // server specific state

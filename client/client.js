@@ -31,6 +31,7 @@ let lastKey = null
 let appleImage = new Image(UNIT_SIZE, UNIT_SIZE)
 appleImage.src = 'images/apple.png'
 const eatAudio = new Audio('audio/eat.mp3')
+eatAudio.volume = 0.1
 const snakeSkin = new Image(UNIT_SIZE, UNIT_SIZE)
 snakeSkin.src = 'images/snakeSkin.jpg'
 
