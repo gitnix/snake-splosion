@@ -1,8 +1,8 @@
-import { compose, find, ifElse, propEq } from 'ramda'
+import { find, propEq } from 'ramda'
 
 import { idFor, updateDOM, scale, strToCoords, noop } from './utils'
 import { appleImage, snakeSkin } from './assets/images'
-import { eatAudio } from './assets/audio'
+import { eatAudio, collisionAudio } from './assets/audio'
 
 const drawUnit = (ctx, x, y, color) => {
 	ctx.fillStyle = color
@@ -10,12 +10,16 @@ const drawUnit = (ctx, x, y, color) => {
 	ctx.stroke()
 }
 
-const playEatAudio = (players, id) => {
-	ifElse(
-		compose(propEq('state', 'eating'), find(propEq('id', id))),
-		() => eatAudio.play(),
-		noop,
-	)(players)
+const playAudio = (players, id) => {
+	const currentPlayer = find(propEq('id', id))(players)
+	switch (currentPlayer.state) {
+		case 'eating':
+			eatAudio.play()
+			break
+		case 'dead':
+			collisionAudio.play()
+			break
+	}
 }
 
 const updateImage = (id, state) => {
@@ -77,4 +81,4 @@ const updateGame = (state, ctx, width, height) => {
 	})
 }
 
-export { playEatAudio, updateGame, updateUI }
+export { playAudio, updateGame, updateUI }
