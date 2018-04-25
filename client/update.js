@@ -1,4 +1,6 @@
-import { idFor, updateDOM, scale, strToCoords } from './utils'
+import { compose, find, ifElse, propEq } from 'ramda'
+
+import { idFor, updateDOM, scale, strToCoords, noop } from './utils'
 import { appleImage, snakeSkin } from './assets/images'
 import { eatAudio } from './assets/audio'
 
@@ -8,15 +10,23 @@ const drawUnit = (ctx, x, y, color) => {
 	ctx.stroke()
 }
 
+const playEatAudio = (players, id) => {
+	ifElse(
+		compose(propEq('state', 'eating'), find(propEq('id', id))),
+		() => eatAudio.play(),
+		noop,
+	)(players)
+}
+
 const updateImage = (id, state) => {
 	switch (state) {
 		case 'dead': {
-			let pImage = idFor(id, 'image')
+			const pImage = idFor(id, 'image')
 			pImage.classList.add('dead')
 			break
 		}
 		case 'teleported': {
-			let pImage = idFor(id, 'image')
+			const pImage = idFor(id, 'image')
 			pImage.classList.remove('dead')
 			break
 		}
@@ -59,8 +69,6 @@ const updateGame = (state, ctx, width, height) => {
 				case 'dead':
 					drawUnit(ctx, x, y, 'gray')
 					break
-				case 'eating':
-					eatAudio.play()
 				default:
 					ctx.drawImage(snakeSkin, scale(x), scale(y))
 					break
@@ -69,4 +77,4 @@ const updateGame = (state, ctx, width, height) => {
 	})
 }
 
-export { updateGame, updateUI }
+export { playEatAudio, updateGame, updateUI }

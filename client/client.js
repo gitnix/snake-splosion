@@ -1,6 +1,6 @@
 import { localIp } from './client_dev'
 import { UNIT_SIZE } from './constants'
-import { updateGame, updateUI } from './update'
+import { playEatAudio, updateGame, updateUI } from './update'
 import { idFor, updateDOM, scale, strToCoords } from './utils'
 import addKeyListener from './key_listener'
 
@@ -60,6 +60,7 @@ socket.addEventListener('message', message => {
 	switch (msg.type) {
 		case 'STATE_UPDATE':
 			state = msg.state
+			playEatAudio(state.players, playerId)
 			updateGame(state, layer1, WIDTH, HEIGHT)
 			updateUI(state.players, playerId)
 			break

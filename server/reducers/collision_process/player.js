@@ -1,7 +1,7 @@
 const { getAllPlayerPositions } = require('../../utils')
 
 const processPlayerCollisions = ({ players, food }) => {
-	let collisionArray = []
+	const collisionArray = [] //mutable
 
 	const markedPlayers = players.map(player => {
 		const self = players.filter(p => p.id === player.id)

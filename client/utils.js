@@ -13,4 +13,6 @@ const getImage = src => {
 	return img
 }
 
-export { idFor, updateDOM, scale, strToCoords, getImage }
+const noop = () => {}
+
+export { idFor, updateDOM, scale, strToCoords, getImage, noop }
