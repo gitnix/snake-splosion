@@ -1,22 +1,20 @@
 import { localIp } from './client_dev'
+import { UNIT_SIZE } from './constants'
+import { updateGame, updateUI } from './update'
+import { idFor, updateDOM, scale, strToCoords } from './utils'
 import addKeyListener from './key_listener'
 
 import './snake.css'
 
-// canvas related
-let canvasBottom = document.getElementById('bottom-scene')
-let layer1 = canvasBottom.getContext('2d')
+// canvas where main game is drawn
+const canvasBottom = document.getElementById('bottom-scene')
+const layer1 = canvasBottom.getContext('2d')
 const WIDTH = canvasBottom.width
 const HEIGHT = canvasBottom.height
 
-let canvasTop = document.getElementById('top-scene')
-let layer2 = canvasTop.getContext('2d')
-
-const DIMENSIONS = { x: WIDTH, y: HEIGHT }
-const UNIT_SIZE = 20
-let timeCounter = 0
-let previousTimestamp = null
-let lastKey = null
+// canvas where extra effects are drawn
+const canvasTop = document.getElementById('top-scene')
+const layer2 = canvasTop.getContext('2d')
 
 // test blob for second canvas
 // const drawOtherStuff = (x, y, color) => {
@@ -28,13 +26,6 @@ let lastKey = null
 // }
 // window.requestAnimationFrame(drawOtherStuff)
 
-let appleImage = new Image(UNIT_SIZE, UNIT_SIZE)
-appleImage.src = 'images/apple.png'
-const eatAudio = new Audio('audio/eat.mp3')
-eatAudio.volume = 0.1
-const snakeSkin = new Image(UNIT_SIZE, UNIT_SIZE)
-snakeSkin.src = 'images/snakeSkin.jpg'
-
 ////////////////////////
 // initialized on server connection
 let playerId = null
@@ -42,12 +33,9 @@ let gridColumns = null
 let gridRows = null
 ////////////////////////
 
-// look into this
-// let playerImageMap = new Map()
-
 let savedColorHash = null
 
-function hashCode(str, savedColorHash) {
+const hashCode = (str, savedColorHash) => {
 	let hash = 0
 	for (var i = 0; i < str.length; i++) {
 		hash = str.charCodeAt(i) + ((hash << 5) - hash)
@@ -55,39 +43,25 @@ function hashCode(str, savedColorHash) {
 	return hash
 }
 
-function pickColor(str, lightness) {
+const pickColor = (str, lightness) => {
 	return `hsl(${hashCode(str) % 360}, 100%, ${lightness}%)`
 }
 
 let state = {}
 
-let socket = new WebSocket(`ws://${localIp}:8080`)
+const socket = new WebSocket(`ws://${localIp}:8080`)
 
 socket.addEventListener('open', () => {
 	console.log('successful connection')
 })
 
-const updateScores = () => {
-	state.players.forEach(player => {
-		// brute forcing for now
-		document.getElementById('p1-score').innerHTML = player.score + ' pts'
-		document.getElementById('p1-name').innerHTML = player.name
-		if (player.state === 'dead') {
-			let pImage = document.getElementById('p1-image')
-			if (!pImage.classList.contains('dead')) {
-				pImage.classList.add('dead')
-			}
-		}
-	})
-}
-
 socket.addEventListener('message', message => {
-	let msg = JSON.parse(message.data)
+	const msg = JSON.parse(message.data)
 	switch (msg.type) {
 		case 'STATE_UPDATE':
 			state = msg.state
-			drawOnSocketMessage()
-			updateScores()
+			updateGame(state, layer1, WIDTH, HEIGHT)
+			updateUI(state.players, playerId)
 			break
 		case 'GAME_CONNECTION':
 			playerId = msg.id
@@ -107,44 +81,3 @@ socket.addEventListener('message', message => {
 window.addEventListener('beforeunload', function() {
 	socket.close(JSON.stringify({ id: playerId }))
 })
-
-// document.addEventListener('click', () =>
-// 	socket.send(
-// 		JSON.stringify({
-// 			type: 'STOP_AND_LOG',
-// 			id: playerId,
-// 		}),
-// 	),
-// )
-
-const scale = (val = 1) => val * UNIT_SIZE
-
-const strToCoords = key => key.split('_').map(string => parseInt(string))
-
-const drawUnit = (x, y, color) => {
-	layer1.fillStyle = color
-	layer1.fillRect(scale(x), scale(y), scale(), scale())
-	layer1.stroke()
-}
-
-function drawOnSocketMessage() {
-	layer1.clearRect(0, 0, WIDTH, HEIGHT)
-
-	Object.keys(state.food).forEach(key => {
-		let [x, y] = strToCoords(key)
-		layer1.drawImage(appleImage, scale(x), scale(y))
-	})
-
-	state.players.forEach(player => {
-		player.body.forEach((bodyString, index) => {
-			let [x, y] = strToCoords(bodyString)
-			if (player.state === 'teleported') {
-				// for future
-				// get location and set function in motion to draw a teleport thing over specified time
-			}
-			if (player.state === 'eating') eatAudio.play()
-			if (player.state === 'dead') drawUnit(x, y, 'gray')
-			else layer1.drawImage(snakeSkin, scale(x), scale(y))
-		})
-	})
-}

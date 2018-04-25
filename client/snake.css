@@ -39,6 +39,7 @@ body {
 	border: 2px solid rgba(0, 0, 0, 0.3);
 	border-radius: 5px;
 	padding: 40px 20px;
+	box-shadow: 6px 11px 44px -2px;
 	background: url('assets/backgrounds/metal.jpg');
 	background-size: 100% 100%;
 }
@@ -83,10 +84,12 @@ img {
 
 .title {
 	position: absolute;
+	margin-left: 5px;
 	top: 610px;
 	width: 790px;
 	border-radius: 10px;
 	border: 2px solid;
+	box-shadow: 4px 12px 20px -6px;
 	background: url('assets/backgrounds/metal.jpg');
 }
 
@@ -94,6 +97,13 @@ img {
 	color: #e2dda3f7;
 	margin: 4px 0;
 	text-align: center;
+}
+
+.snake-representation {
+	height: 10px;
+	width: 100px;
+	margin-left: 15px;
+	background: green;
 }
 
 #game-container {
