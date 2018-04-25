@@ -3,12 +3,12 @@ const { getAllPlayerPositions } = require('../../utils')
 const processPlayerCollisions = ({ players, food }) => {
 	let collisionArray = []
 
-	let markedPlayers = players.map(player => {
-		let self = players.filter(p => p.id === player.id)
-		let others = players.filter(p => p.id !== player.id)
+	const markedPlayers = players.map(player => {
+		const self = players.filter(p => p.id === player.id)
+		const others = players.filter(p => p.id !== player.id)
 		// doesn't include head
-		let selfPositions = getAllPlayerPositions(self).slice(1)
-		let otherPositions = getAllPlayerPositions(others)
+		const selfPositions = getAllPlayerPositions(self).slice(1)
+		const otherPositions = getAllPlayerPositions(others)
 
 		// ensures head-on collisions handle properly
 		// otherwise both players would get head sliced
@@ -16,8 +16,8 @@ const processPlayerCollisions = ({ players, food }) => {
 		// wasn't a collision
 		let shouldSlice = true
 
-		let head = player.body[0]
-		let isCollided = selfPositions.concat(otherPositions).includes(head)
+		const head = player.body[0]
+		const isCollided = selfPositions.concat(otherPositions).includes(head)
 
 		if (isCollided) {
 			if (collisionArray.includes(player.body[0])) shouldSlice = false

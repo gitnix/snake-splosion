@@ -4,7 +4,15 @@ const {
 	newBodyLength,
 	possibleDirections,
 } = require('./constants')
-const R = require('ramda')
+
+const WebSocket = require('ws')
+const { chain, concat } = require('ramda')
+
+const broadcast = (clients, obj) => {
+	clients.forEach(client => {
+		if (client.readyState === WebSocket.OPEN) client.send(JSON.stringify(obj))
+	})
+}
 
 const directionToKey = dir => {
 	switch (dir) {
@@ -30,9 +38,9 @@ const getValidRandomKey = array => {
 }
 
 const getAllFoodPositions = food => Object.keys(food)
-const getAllPlayerPositions = players => R.chain(player => player.body, players)
+const getAllPlayerPositions = players => chain(player => player.body, players)
 const getAllOccupiedPositions = ({ players, food }) =>
-	R.concat(getAllPlayerPositions(players), getAllFoodPositions(food))
+	concat(getAllPlayerPositions(players), getAllFoodPositions(food))
 
 const getRandomDirection = () =>
 	possibleDirections[
@@ -42,6 +50,7 @@ const getRandomDirection = () =>
 const newBody = key => new Array(newBodyLength).fill(key)
 
 module.exports = {
+	broadcast,
 	directionToKey,
 	getValidRandomKey,
 	getAllFoodPositions,

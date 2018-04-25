@@ -2,7 +2,7 @@ import fromEvent from 'xstream/extra/fromEvent'
 import dropRepeats from 'xstream/extra/dropRepeats'
 
 export default (startingKey, socket, playerId) => {
-	let keyPress$ = fromEvent(document, 'keydown')
+	const keyPress$ = fromEvent(document, 'keydown')
 		.startWith({ key: startingKey })
 		.compose(
 			dropRepeats((current, last) => {

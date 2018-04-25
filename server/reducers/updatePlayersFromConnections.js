@@ -1,4 +1,4 @@
-const R = require('ramda')
+const { findIndex, remove, append, reduce } = require('ramda')
 const {
 	getValidRandomKey,
 	getAllOccupiedPositions,
@@ -8,29 +8,29 @@ const { DEATH_TICKS } = require('../constants')
 const getSnakeName = require('../get_snake_names')
 const getSnakeImage = require('../image_search')
 
-let findIndex = (array, currentId) =>
-	R.findIndex(element => element.id === currentId)(array)
+const indexForId = (array, currentId) =>
+	findIndex(element => element.id === currentId)(array)
 
-let removeId = (stored, currentId) => {
-	let foundIndex = findIndex(stored, currentId)
-	return foundIndex > -1 ? R.remove(foundIndex, 1, stored) : stored
+const removeId = (stored, currentId) => {
+	const foundIndex = indexForId(stored, currentId)
+	return foundIndex > -1 ? remove(foundIndex, 1, stored) : stored
 }
 
-let addId = (randomKey, imageQueue) => (stored, currentId) => {
-	let foundIndex = findIndex(stored, currentId)
+const addId = (randomKey, imageQueue) => (stored, currentId) => {
+	const foundIndex = indexForId(stored, currentId)
 
 	let snakeName
 
 	if (foundIndex < 0) {
 		snakeName = getSnakeName()
 		getSnakeImage(snakeName).then(url => {
-			imageQueue.push([currentId, url])
+			imageQueue.push([currentId, url]) // side effect
 		})
 	}
 
 	return foundIndex > -1
 		? stored
-		: R.append(
+		: append(
 				{
 					id: currentId,
 					body: newBody(randomKey),
@@ -51,17 +51,19 @@ const updatePlayersFromConnections = (
 ) => {
 	if (connections.length === 0 && disconnections.length === 0) return players
 
-	let randomKey = getValidRandomKey(getAllOccupiedPositions({ players, food }))
+	const randomKey = getValidRandomKey(
+		getAllOccupiedPositions({ players, food }),
+	)
 
-	let updatedPlayers = R.reduce(
+	const updatedPlayers = reduce(
 		addId(randomKey, imageQueue),
-		R.reduce(removeId, players, disconnections),
+		reduce(removeId, players, disconnections),
 		connections,
 	)
 
 	// clear connections
-	connections.splice(0)
-	disconnections.splice(0)
+	connections.splice(0) // side effect
+	disconnections.splice(0) // side effect
 
 	return updatedPlayers
 }

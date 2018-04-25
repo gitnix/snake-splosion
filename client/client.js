@@ -78,6 +78,6 @@ socket.addEventListener('message', message => {
 	}
 })
 
-window.addEventListener('beforeunload', function() {
+window.addEventListener('beforeunload', () => {
 	socket.close(JSON.stringify({ id: playerId }))
 })

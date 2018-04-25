@@ -1,6 +1,5 @@
-const fs = require('fs')
-const path = require('path')
-
+////////////////////////
+// server setup
 const express = require('express')
 const http = require('http')
 
@@ -14,17 +13,11 @@ app.use(express.static('dist'))
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
-const R = require('ramda')
-const move = require('./state_functions/move')
-
-const processFoodCollisions = require('./state_functions/collision_process/food')
-const processPlayerCollisions = require('./state_functions/collision_process/player')
-
-const getStateAfterTeleportingPlayers = require('./state_functions/position_update/player')
-const updateFoodPositions = require('./state_functions/position_update/food')
-
-const updatePlayersFromConnections = require('./state_functions/updatePlayersFromConnections')
-const { directionToKey, getRandomDirection } = require('./utils')
+////////////////////////
+// app dependencies
+const { compose } = require('ramda')
+const { reduceState, move, connectionUpdate } = require('./reducers')
+const { broadcast, directionToKey, getRandomDirection } = require('./utils')
 const { gridColumns, gridRows, LOOP_REPEAT_INTERVAL } = require('./constants')
 
 ////////////////////////
@@ -48,9 +41,9 @@ wss.on('connection', (ws, req) => {
 	console.log(`There are currently ${wss.clients.size} connected clients`)
 
 	connectionQueue.connections.push(ws.id)
-	let startingDirection = getRandomDirection()
+	const startingDirection = getRandomDirection()
 	directionQueue[ws.id] = [startingDirection]
-	let startingArrowKey = directionToKey(startingDirection)
+	const startingArrowKey = directionToKey(startingDirection)
 
 	ws.send(
 		JSON.stringify({
@@ -71,7 +64,7 @@ wss.on('connection', (ws, req) => {
 	}
 
 	ws.on('message', message => {
-		let { type, id, direction } = JSON.parse(message)
+		const { type, id, direction } = JSON.parse(message)
 		switch (type) {
 			case 'CHANGE_DIRECTION':
 				directionQueue[id].push(direction)
@@ -82,10 +75,12 @@ wss.on('connection', (ws, req) => {
 	// disconnections throw errors
 	// will fail without err callback
 	ws.on('error', err => {
-		if (err.code === 'ECONNRESET') {
-			console.log('A connection is set to be closed')
-		} else {
-			console.log('WEBSOCKET ERROR ------', err)
+		switch (err.code) {
+			case 'ECONNRESET':
+				console.log('A connection is set to be closed')
+				break
+			default:
+				console.log('WEBSOCKET ERROR ------', err)
 		}
 	})
 
@@ -107,50 +102,36 @@ wss.on('connection', (ws, req) => {
 function gameLoop(state) {
 	if (!gameRunning) return
 
-	let updatedPlayers = updatePlayersFromConnections(
+	const updatedPlayers = connectionUpdate(
 		{ players: state.players, food: state.food },
 		connectionQueue,
 		imageQueue,
 	)
 
-	let playersAfterMove = move(
+	const playersAfterMove = move(
 		updatedPlayers,
 		directionQueue,
 		gridColumns,
 		gridRows,
 	)
 
-	let updatedState = R.compose(
-		getStateAfterTeleportingPlayers,
-		processPlayerCollisions,
-		updateFoodPositions,
-		processFoodCollisions,
-	)({
+	const updatedState = reduceState({
 		players: playersAfterMove,
 		food: state.food,
 	})
 
-	wss.clients.forEach(client => {
-		if (client.readyState === WebSocket.OPEN)
-			client.send(
-				JSON.stringify({
-					type: 'STATE_UPDATE',
-					state: updatedState,
-				}),
-			)
+	broadcast(wss.clients, {
+		type: 'STATE_UPDATE',
+		state: updatedState,
 	})
 
 	imageQueue.forEach(img => {
-		wss.clients.forEach(client => {
-			if (client.readyState === WebSocket.OPEN)
-				client.send(
-					JSON.stringify({
-						type: 'IMAGE_UPDATE',
-						images: imageQueue,
-					}),
-				)
+		broadcast(wss.clients, {
+			type: 'IMAGE_UPDATE',
+			images: imageQueue,
 		})
 	})
+
 	while (imageQueue.length) {
 		imageQueue.pop()
 	}

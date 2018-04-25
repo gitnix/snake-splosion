@@ -5,18 +5,17 @@ const {
 } = require('../../utils')
 
 const getStateAfterTeleportingPlayers = ({ players, food }) => {
-	let allPos = getAllOccupiedPositions({ players, food })
+	const allPos = getAllOccupiedPositions({ players, food }) // mutable
 
-	let teleportedPlayers = players.map(player => {
+	const teleportedPlayers = players.map(player => {
 		if (player.state !== 'teleportReady') {
 			return player
 		}
 
-		let randomKey = getValidRandomKey(allPos)
+		const randomKey = getValidRandomKey(allPos)
 		return {
 			...player,
 			body: newBody(randomKey),
-			// for future use
 			state: 'teleported',
 		}
 		allPos.push(randomKey)

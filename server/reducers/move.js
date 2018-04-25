@@ -5,7 +5,7 @@ const mod = (n, m) => (n % m + m) % m
 
 const move = (playersArray, directionQueue, ...dimensions) => {
 	// console.log('playersArray in move', playersArray)
-	let returnArray = playersArray.map(player => {
+	const returnArray = playersArray.map(player => {
 		if (player.state === 'dead') {
 			if (player.body.length <= 0) {
 				return {
@@ -27,13 +27,13 @@ const move = (playersArray, directionQueue, ...dimensions) => {
 			}
 		} // end dead
 
-		let direction = directionQueue[player.id][0]
+		const direction = directionQueue[player.id][0]
 		if (typeof direction !== 'string')
 			throw `direction ${direction} is not string`
 
 		// make sure there is always a direction to go
 		if (directionQueue[player.id].length > 1) {
-			directionQueue[player.id].shift()
+			directionQueue[player.id].shift() // side effect
 		}
 
 		return {

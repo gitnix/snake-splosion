@@ -1,5 +1,5 @@
 const processFoodCollisions = ({ players, food }) => {
-	let newFoodArray = []
+	const newFoodArray = [] // mutable
 
 	const checkCollision = head => {
 		if (food[head]) {
@@ -9,10 +9,10 @@ const processFoodCollisions = ({ players, food }) => {
 		return false
 	}
 
-	let markedPlayers = players.map(player => {
-		let head = player.body[0]
-		let tail = player.body[player.body.length - 1]
-		let isCollided = checkCollision(head, food)
+	const markedPlayers = players.map(player => {
+		const head = player.body[0]
+		const tail = player.body[player.body.length - 1]
+		const isCollided = checkCollision(head, food)
 		return {
 			...player,
 			state: isCollided ? 'eating' : player.state,
@@ -21,7 +21,7 @@ const processFoodCollisions = ({ players, food }) => {
 		}
 	})
 
-	let markedFood = Object.assign({}, food, ...newFoodArray)
+	const markedFood = Object.assign({}, food, ...newFoodArray)
 
 	return {
 		players: markedPlayers,
