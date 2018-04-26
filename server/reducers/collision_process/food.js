@@ -6,7 +6,6 @@ const processFoodCollisions = ({ players, food, mines, mineMods }) => {
 		if (food[head]) {
 			newFoodArray.push({ [head]: { isCollided: true } })
 			mineIncrement += 1
-			console.log(mineIncrement)
 			return true
 		}
 		return false

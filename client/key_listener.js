@@ -1,7 +1,7 @@
 import fromEvent from 'xstream/extra/fromEvent'
 import dropRepeats from 'xstream/extra/dropRepeats'
 import { equals, ifElse, or } from 'ramda'
-import { KEY_MAP } from './constants'
+import { KEY_MAP } from './key_map'
 
 const shouldDrop = ifElse(
 	({ curr }) => KEY_MAP.has(curr),

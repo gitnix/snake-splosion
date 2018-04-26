@@ -19,7 +19,7 @@ const { compose } = require('ramda')
 const { reduceState, move, connectionUpdate } = require('./reducers')
 const { broadcast, directionToKey, getRandomDirection } = require('./utils')
 const { gridColumns, gridRows, LOOP_REPEAT_INTERVAL } = require('./constants')
-
+const initialGameState = require('./initial_game_state')
 ////////////////////////
 // server specific state
 let gameRunning = false
@@ -57,17 +57,7 @@ wss.on('connection', (ws, req) => {
 
 	if (wss.clients.size == 1) {
 		gameRunning = true
-		gameLoop({
-			players: [],
-			food: { '3_3': { score: 10 } },
-			mines: { '7_7': {} },
-			mineMods: {
-				turnCounter: 0,
-				minesToAdd: 3,
-				turnToAdd: 2,
-				mineMultiplier: 1,
-			},
-		})
+		gameLoop(initialGameState)
 	}
 
 	ws.on('message', message => {

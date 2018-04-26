@@ -38,9 +38,15 @@ const getValidRandomKey = array => {
 }
 
 const getAllFoodPositions = food => Object.keys(food)
+const getAllMinePositions = mines => Object.keys(mines)
 const getAllPlayerPositions = players => chain(player => player.body, players)
-const getAllOccupiedPositions = ({ players, food }) =>
-	concat(getAllPlayerPositions(players), getAllFoodPositions(food))
+
+const getAllOccupiedPositions = ({ players, food, mines }) =>
+	concat(
+		getAllPlayerPositions(players),
+		getAllFoodPositions(food),
+		getAllMinePositions(mines),
+	)
 
 const getRandomDirection = () =>
 	possibleDirections[
