@@ -5,4 +5,5 @@ module.exports = {
 	possibleDirections: ['RIGHT', 'LEFT', 'UP', 'DOWN'],
 	LOOP_REPEAT_INTERVAL: 75,
 	DEATH_TICKS: 2,
+	GOAL_SCORE: 10,
 }

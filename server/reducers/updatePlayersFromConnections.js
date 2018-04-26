@@ -4,7 +4,7 @@ const {
 	getAllOccupiedPositions,
 	newBody,
 } = require('../utils')
-const { DEATH_TICKS } = require('../constants')
+const { DEATH_TICKS, GOAL_SCORE } = require('../constants')
 const getSnakeName = require('../get_snake_names')
 const getSnakeImage = require('../image_search')
 
@@ -38,7 +38,7 @@ const addId = (randomKey, imageQueue) => (stored, currentId) => {
 					name: snakeName,
 					deathTicks: DEATH_TICKS,
 					score: 0,
-					goalScore: 10,
+					goalScore: GOAL_SCORE,
 				},
 				stored,
 		  )
