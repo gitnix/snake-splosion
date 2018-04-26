@@ -1,9 +1,12 @@
-const processFoodCollisions = ({ players, food, mines }) => {
+const processFoodCollisions = ({ players, food, mines, mineMods }) => {
 	const newFoodArray = [] // mutable
+	let mineIncrement = 0
 
 	const checkCollision = head => {
 		if (food[head]) {
 			newFoodArray.push({ [head]: { isCollided: true } })
+			mineIncrement += 1
+			console.log(mineIncrement)
 			return true
 		}
 		return false
@@ -21,12 +24,14 @@ const processFoodCollisions = ({ players, food, mines }) => {
 		}
 	})
 
-	const markedFood = Object.assign({}, food, ...newFoodArray)
-
 	return {
 		players: markedPlayers,
-		food: markedFood,
+		food: Object.assign({}, food, ...newFoodArray),
 		mines,
+		mineMods: {
+			...mineMods,
+			turnCounter: (mineMods.turnCounter += mineIncrement),
+		},
 	}
 }
 

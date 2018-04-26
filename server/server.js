@@ -59,8 +59,14 @@ wss.on('connection', (ws, req) => {
 		gameRunning = true
 		gameLoop({
 			players: [],
-			food: { '3_3': { score: 10, hasBeenCollided: false } },
-			mines: { '7_7': { hasBeenCollided: false } },
+			food: { '3_3': { score: 10 } },
+			mines: { '7_7': {} },
+			mineMods: {
+				turnCounter: 0,
+				minesToAdd: 3,
+				turnToAdd: 2,
+				mineMultiplier: 1,
+			},
 		})
 	}
 
@@ -104,7 +110,7 @@ function gameLoop(state) {
 	if (!gameRunning) return
 
 	const updatedPlayers = connectionUpdate(
-		{ players: state.players, food: state.food },
+		{ players: state.players, food: state.food, mines: state.mines },
 		connectionQueue,
 		imageQueue,
 	)
@@ -120,6 +126,7 @@ function gameLoop(state) {
 		players: playersAfterMove,
 		food: state.food,
 		mines: state.mines,
+		mineMods: state.mineMods,
 	})
 
 	broadcast(wss.clients, {

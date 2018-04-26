@@ -15,14 +15,14 @@ players = [
 food = {
 	X_Y: {
 		score: 5,
-		hasBeenCollided: true,
+		isCollided: true,
 	},
 }
 
 mines = {
 	X_Y: {
 		explosionRadius: 0,
-		hasBeenCollided: true,
+		isCollided: true,
 	},
 }
 
@@ -33,11 +33,11 @@ mineMods = {
 
 	// value that will increment based on MINE_MULTIPLIER
 	// if value is 1 and MINE_MULTIPLIER is 2 numMinesToAdd will be 1,3,5...etc
-	numMinesToAdd: 1,
+	minesToAdd: 1,
 
 	// turn on which new mines are created
-	mineModulus: 2,
+	turnToAdd: 2,
 
 	// how much the number of mines will increase
-	MINE_MULTIPLIER: 1,
+	mineMultiplier: 1,
 }

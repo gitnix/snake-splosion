@@ -45,14 +45,14 @@ const addId = (randomKey, imageQueue) => (stored, currentId) => {
 }
 
 const updatePlayersFromConnections = (
-	{ players, food },
+	{ players, food, mines },
 	{ connections, disconnections },
 	imageQueue,
 ) => {
 	if (equals(length(connections, disconnections), 0)) return players
 
 	const randomKey = getValidRandomKey(
-		getAllOccupiedPositions({ players, food }),
+		getAllOccupiedPositions({ players, food, mines }),
 	)
 
 	const updatedPlayers = reduce(

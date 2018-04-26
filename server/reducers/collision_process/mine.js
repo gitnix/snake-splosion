@@ -1,4 +1,4 @@
-const processMineCollisions = ({ players, food, mines }) => {
+const processMineCollisions = ({ players, food, mines, mineMods }) => {
 	const newMineArray = [] // mutable
 
 	const checkCollision = head => {
@@ -26,6 +26,7 @@ const processMineCollisions = ({ players, food, mines }) => {
 		players: markedPlayers,
 		food,
 		mines: markedMines,
+		mineMods,
 	}
 }
 

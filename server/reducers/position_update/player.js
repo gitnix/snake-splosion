@@ -4,7 +4,12 @@ const {
 	newBody,
 } = require('../../utils')
 
-const getStateAfterTeleportingPlayers = ({ players, food, mines }) => {
+const getStateAfterTeleportingPlayers = ({
+	players,
+	food,
+	mines,
+	mineMods,
+}) => {
 	const allPos = getAllOccupiedPositions({ players, food, mines }) // mutable
 
 	const teleportedPlayers = players.map(player => {
@@ -25,6 +30,7 @@ const getStateAfterTeleportingPlayers = ({ players, food, mines }) => {
 		players: teleportedPlayers,
 		food,
 		mines,
+		mineMods,
 	}
 }
 
