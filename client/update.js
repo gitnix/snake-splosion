@@ -1,7 +1,14 @@
 import { find, propEq } from 'ramda'
 
 import { idFor, updateDOM, scale, strToCoords, noop } from './utils'
-import { appleImage, snakeSkin } from './assets/images'
+import {
+	appleImage,
+	snakeSkin,
+	head_up,
+	head_down,
+	head_left,
+	head_right,
+} from './assets/images'
 import { eatAudio, collisionAudio } from './assets/audio'
 
 const drawUnit = (ctx, x, y, color) => {
@@ -69,13 +76,31 @@ const updateGame = (state, ctx, width, height) => {
 				// for future
 				// get location and set function in motion to draw a teleport thing over specified time
 			}
-			switch (player.state) {
-				case 'dead':
-					drawUnit(ctx, x, y, 'gray')
-					break
-				default:
-					ctx.drawImage(snakeSkin, scale(x), scale(y))
-					break
+
+			if (index === 0) {
+				switch (player.direction) {
+					case 'RIGHT':
+						ctx.drawImage(head_right, scale(x), scale(y))
+						break
+					case 'LEFT':
+						ctx.drawImage(head_left, scale(x), scale(y))
+						break
+					case 'UP':
+						ctx.drawImage(head_up, scale(x), scale(y))
+						break
+					case 'DOWN':
+						ctx.drawImage(head_down, scale(x), scale(y))
+						break
+				}
+			} else {
+				switch (player.state) {
+					case 'dead':
+						drawUnit(ctx, x, y, 'gray')
+						break
+					default:
+						ctx.drawImage(snakeSkin, scale(x), scale(y))
+						break
+				}
 			}
 		})
 	})
