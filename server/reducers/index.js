@@ -18,7 +18,7 @@ const reduceState = compose(
 )
 
 const move = require('./move')
-const connectionUpdate = require('./updatePlayersFromConnections')
+const connectionUpdate = require('./connection_update')
 
 module.exports = {
 	reduceState,

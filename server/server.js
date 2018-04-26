@@ -96,11 +96,11 @@ wss.on('connection', (ws, req) => {
 
 ////////////////////////
 // Main Loop
-function gameLoop(state) {
+function gameLoop({ players, food, mines, mineMods }) {
 	if (!gameRunning) return
 
 	const updatedPlayers = connectionUpdate(
-		{ players: state.players, food: state.food, mines: state.mines },
+		{ players, food, mines },
 		connectionQueue,
 		imageQueue,
 	)
@@ -114,15 +114,17 @@ function gameLoop(state) {
 
 	const updatedState = reduceState({
 		players: playersAfterMove,
-		food: state.food,
-		mines: state.mines,
-		mineMods: state.mineMods,
+		food,
+		mines,
+		mineMods,
 	})
 
 	broadcast(wss.clients, {
 		type: 'STATE_UPDATE',
 		state: updatedState,
 	})
+
+	// console.log('updatedState', updatedState)
 
 	imageQueue.forEach(img => {
 		broadcast(wss.clients, {

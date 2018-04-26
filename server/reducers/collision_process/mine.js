@@ -1,9 +1,9 @@
 const processMineCollisions = ({ players, food, mines, mineMods }) => {
-	const newMineArray = [] // mutable
+	const markedMineArray = [] // mutable
 
 	const checkCollision = head => {
 		if (mines[head]) {
-			newMineArray.push({ [head]: { isCollided: true } })
+			markedMineArray.push({ [head]: { isCollided: true } })
 			return true
 		}
 		return false
@@ -20,12 +20,10 @@ const processMineCollisions = ({ players, food, mines, mineMods }) => {
 		}
 	})
 
-	const markedMines = Object.assign({}, mines, ...newMineArray)
-
 	return {
 		players: markedPlayers,
 		food,
-		mines: markedMines,
+		mines: Object.assign({}, mines, ...markedMineArray),
 		mineMods,
 	}
 }
