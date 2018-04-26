@@ -1,29 +1,21 @@
 import fromEvent from 'xstream/extra/fromEvent'
 import dropRepeats from 'xstream/extra/dropRepeats'
+import { equals, ifElse, or } from 'ramda'
+import { KEY_MAP } from './constants'
+
+const shouldDrop = ifElse(
+	({ curr }) => KEY_MAP.has(curr),
+	({ curr, last }) => or(KEY_MAP.areOpposites(curr, last), equals(curr, last)),
+	() => true,
+)
 
 export default (startingKey, socket, playerId) => {
 	const keyPress$ = fromEvent(document, 'keydown')
 		.startWith({ key: startingKey })
 		.compose(
-			dropRepeats((current, last) => {
-				// if anything evaluates to true - ignore it
-				switch (current.key) {
-					case 'ArrowLeft':
-						if (last.key === 'ArrowRight') return true
-						return last.key === current.key
-					case 'ArrowRight':
-						if (last.key === 'ArrowLeft') return true
-						return last.key === current.key
-					case 'ArrowUp':
-						if (last.key === 'ArrowDown') return true
-						return last.key === current.key
-					case 'ArrowDown':
-						if (last.key === 'ArrowUp') return true
-						return last.key === current.key
-					default:
-						return true
-				}
-			}),
+			dropRepeats((current, last) =>
+				shouldDrop({ curr: current.key, last: last.key }),
+			),
 		)
 
 	keyPress$.addListener({
@@ -33,7 +25,7 @@ export default (startingKey, socket, playerId) => {
 					JSON.stringify({
 						type: 'CHANGE_DIRECTION',
 						id: playerId,
-						direction: keyEvent.key.slice(5).toUpperCase(),
+						direction: KEY_MAP.toDirection(keyEvent.key),
 					}),
 				)
 			}

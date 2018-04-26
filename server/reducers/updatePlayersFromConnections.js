@@ -1,4 +1,4 @@
-const { findIndex, remove, append, reduce } = require('ramda')
+const { append, equals, findIndex, length, reduce, remove } = require('ramda')
 const {
 	getValidRandomKey,
 	getAllOccupiedPositions,
@@ -49,7 +49,7 @@ const updatePlayersFromConnections = (
 	{ connections, disconnections },
 	imageQueue,
 ) => {
-	if (connections.length === 0 && disconnections.length === 0) return players
+	if (equals(length(connections, disconnections), 0)) return players
 
 	const randomKey = getValidRandomKey(
 		getAllOccupiedPositions({ players, food }),
