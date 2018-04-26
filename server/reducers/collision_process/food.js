@@ -1,4 +1,4 @@
-const processFoodCollisions = ({ players, food }) => {
+const processFoodCollisions = ({ players, food, mines }) => {
 	const newFoodArray = [] // mutable
 
 	const checkCollision = head => {
@@ -26,6 +26,7 @@ const processFoodCollisions = ({ players, food }) => {
 	return {
 		players: markedPlayers,
 		food: markedFood,
+		mines,
 	}
 }
 

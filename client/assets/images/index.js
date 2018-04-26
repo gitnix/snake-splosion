@@ -2,6 +2,7 @@ import { UNIT_SIZE } from '../../constants'
 import { newImage } from '../../utils'
 
 export const appleImage = newImage('images/apple.png')
+export const mineImage = newImage('images/mine.png')
 export const snakeSkin = newImage('images/snakeSkin.jpg')
 
 export const head_up = newImage('images/head_up.png')

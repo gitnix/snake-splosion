@@ -4,6 +4,7 @@ import { scale, strToCoords } from './utils'
 import { idFor, updateDOM } from './dom'
 import {
 	appleImage,
+	mineImage,
 	snakeSkin,
 	head_up,
 	head_down,
@@ -68,6 +69,11 @@ const updateGame = (state, ctx, width, height) => {
 	Object.keys(state.food).forEach(key => {
 		const [x, y] = strToCoords(key)
 		ctx.drawImage(appleImage, scale(x), scale(y))
+	})
+
+	Object.keys(state.mines).forEach(key => {
+		const [x, y] = strToCoords(key)
+		ctx.drawImage(mineImage, scale(x), scale(y))
 	})
 
 	state.players.forEach(player => {

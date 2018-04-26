@@ -60,6 +60,7 @@ wss.on('connection', (ws, req) => {
 		gameLoop({
 			players: [],
 			food: { '3_3': { score: 10, hasBeenCollided: false } },
+			mines: { '7_7': { hasBeenCollided: false } },
 		})
 	}
 
@@ -118,6 +119,7 @@ function gameLoop(state) {
 	const updatedState = reduceState({
 		players: playersAfterMove,
 		food: state.food,
+		mines: state.mines,
 	})
 
 	broadcast(wss.clients, {
