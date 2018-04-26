@@ -1,6 +1,7 @@
 import { find, propEq } from 'ramda'
 
-import { idFor, updateDOM, scale, strToCoords, noop } from './utils'
+import { scale, strToCoords } from './utils'
+import { idFor, updateDOM } from './dom'
 import {
 	appleImage,
 	snakeSkin,

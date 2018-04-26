@@ -1,7 +1,8 @@
 import { localIp } from './client_dev'
 import { UNIT_SIZE } from './constants'
 import { playAudio, updateGame, updateUI } from './update'
-import { idFor, updateDOM, scale, strToCoords } from './utils'
+import { scale, strToCoords } from './utils'
+import { idFor, updateDOM } from './dom'
 import addKeyListener from './key_listener'
 
 import './snake.css'
