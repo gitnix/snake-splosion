@@ -1,8 +1,8 @@
 const {
-	gridColumns,
-	gridRows,
-	newBodyLength,
-	possibleDirections,
+	DIRECTIONS,
+	GRID_COLUMNS,
+	GRID_ROWS,
+	NEW_BODY_LENGTH,
 } = require('./constants')
 
 const WebSocket = require('ws')
@@ -26,9 +26,10 @@ const directionToKey = dir => {
 			return 'ArrowRight'
 	}
 }
+
 const getRandom = bounds => Math.floor(Math.random() * bounds)
 const getRandomKey = () =>
-	'' + getRandom(gridColumns) + '_' + getRandom(gridRows)
+	'' + getRandom(GRID_COLUMNS) + '_' + getRandom(GRID_ROWS)
 const getValidRandomKey = array => {
 	let randomKey = getRandomKey()
 	while (array.includes(randomKey)) {
@@ -49,11 +50,9 @@ const getAllOccupiedPositions = ({ players, food, mines }) =>
 	)
 
 const getRandomDirection = () =>
-	possibleDirections[
-		Math.round(Math.random() * (possibleDirections.length - 1))
-	]
+	DIRECTIONS[Math.round(Math.random() * (DIRECTIONS.length - 1))]
 
-const newBody = key => new Array(newBodyLength).fill(key)
+const newBody = key => new Array(NEW_BODY_LENGTH).fill(key)
 
 module.exports = {
 	broadcast,

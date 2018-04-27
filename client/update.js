@@ -11,7 +11,7 @@ import {
 	head_left,
 	head_right,
 } from './assets/images'
-import { eatAudio, collisionAudio } from './assets/audio'
+import { collisionAudio, eatAudio } from './assets/audio'
 
 const drawUnit = (ctx, x, y, color) => {
 	ctx.fillStyle = color

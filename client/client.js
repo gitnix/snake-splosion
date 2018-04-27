@@ -1,4 +1,4 @@
-// import { localIp } from './client_dev'
+import { protocol } from './client_dev'
 import { UNIT_SIZE } from './constants'
 import { playAudio, updateGame, updateUI } from './update'
 import { scale, strToCoords } from './utils'
@@ -28,8 +28,8 @@ const layer2 = canvasTop.getContext('2d')
 ////////////////////////
 // initialized on server connection
 let playerId = null
-let gridColumns = null
-let gridRows = null
+let GRID_COLUMNS = null
+let GRID_ROWS = null
 ////////////////////////
 
 let savedColorHash = null
@@ -48,7 +48,7 @@ const pickColor = (str, lightness) => {
 
 let state = {}
 
-const socket = new WebSocket(`wss://${location.host}`)
+const socket = new WebSocket(`${protocol}://${location.host}`)
 
 socket.addEventListener('open', () => {
 	console.log('successful connection')
@@ -65,8 +65,8 @@ socket.addEventListener('message', message => {
 			break
 		case 'GAME_CONNECTION':
 			playerId = msg.id
-			gridColumns = msg.gridColumns
-			gridRows = msg.gridRows
+			GRID_COLUMNS = msg.GRID_COLUMNS
+			GRID_ROWS = msg.GRID_ROWS
 			addKeyListener(msg.startingKey, socket, playerId)
 			break
 		case 'IMAGE_UPDATE':

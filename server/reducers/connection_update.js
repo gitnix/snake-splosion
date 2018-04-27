@@ -1,12 +1,12 @@
 const { append, findIndex, length, reduce, remove } = require('ramda')
 const {
-	getValidRandomKey,
 	getAllOccupiedPositions,
+	getValidRandomKey,
 	newBody,
 } = require('../utils')
 const { DEATH_TICKS, GOAL_SCORE } = require('../constants')
-const getSnakeName = require('../get_snake_names')
 const getSnakeImage = require('../image_search')
+const getSnakeName = require('../get_snake_names')
 
 const indexForId = (array, currentId) =>
 	findIndex(element => element.id === currentId)(array)

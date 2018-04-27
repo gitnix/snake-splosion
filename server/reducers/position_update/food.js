@@ -1,5 +1,5 @@
-const { compose, assoc, dissoc, filter, reduce } = require('ramda')
-const { getValidRandomKey, getAllOccupiedPositions } = require('../../utils')
+const { assoc, compose, dissoc, filter, reduce } = require('ramda')
+const { getAllOccupiedPositions, getValidRandomKey } = require('../../utils')
 
 const updateFoodPositions = ({ players, food, mines, mineMods }) => {
 	const allMarkedFood = filter(f => !!food[f].isCollided)(Object.keys(food))

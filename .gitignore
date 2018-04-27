@@ -1,5 +1,5 @@
-node_modules
-dist
 *.ds_store
-keys.js
 client_dev.js
+dist
+keys.js
+node_modules

@@ -19,7 +19,7 @@ const areOpposites = (curr, last) => keyMap[last][1].includes(curr)
 const has = key => !!keyMap[key]
 const toDirection = key => keyMap[key][0]
 
-export const KEY_MAP = {
+export default {
 	areOpposites,
 	has,
 	toDirection,

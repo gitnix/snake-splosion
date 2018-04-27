@@ -16,9 +16,9 @@ const wss = new WebSocket.Server({ server })
 ////////////////////////
 // app dependencies
 const { compose } = require('ramda')
-const { reduceState, move, connectionUpdate } = require('./reducers')
+const { connectionUpdate, move, reduceState } = require('./reducers')
 const { broadcast, directionToKey, getRandomDirection } = require('./utils')
-const { gridColumns, gridRows, LOOP_REPEAT_INTERVAL } = require('./constants')
+const { GRID_COLUMNS, GRID_ROWS, LOOP_REPEAT_INTERVAL } = require('./constants')
 const initialGameState = require('./initial_game_state')
 ////////////////////////
 // server specific state
@@ -44,15 +44,15 @@ wss.on('connection', (ws, req) => {
 	connectionQueue.connections.push(ws.id)
 	const startingDirection = getRandomDirection()
 	directionQueue[ws.id] = [startingDirection]
-	const startingArrowKey = directionToKey(startingDirection)
+	const startingKey = directionToKey(startingDirection)
 
 	ws.send(
 		JSON.stringify({
 			type: 'GAME_CONNECTION',
 			id: ws.id,
-			startingKey: startingArrowKey,
-			gridColumns,
-			gridRows,
+			startingKey,
+			GRID_COLUMNS,
+			GRID_ROWS,
 		}),
 	)
 
@@ -101,6 +101,8 @@ wss.on('connection', (ws, req) => {
 function gameLoop({ players, food, mines, mineMods }) {
 	if (!gameRunning) return
 
+	////////////////////////
+	// state reduction
 	const updatedPlayers = connectionUpdate(
 		{ players, food, mines },
 		connectionQueue,
@@ -110,8 +112,8 @@ function gameLoop({ players, food, mines, mineMods }) {
 	const playersAfterMove = move(
 		updatedPlayers,
 		directionQueue,
-		gridColumns,
-		gridRows,
+		GRID_COLUMNS,
+		GRID_ROWS,
 	)
 
 	const updatedState = reduceState({
@@ -120,6 +122,7 @@ function gameLoop({ players, food, mines, mineMods }) {
 		mines,
 		mineMods,
 	})
+	////////////////////////
 
 	broadcast(wss.clients, {
 		type: 'STATE_UPDATE',

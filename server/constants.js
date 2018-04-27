@@ -1,9 +1,9 @@
 module.exports = {
-	gridRows: 30,
-	gridColumns: 40,
-	newBodyLength: 3,
-	possibleDirections: ['RIGHT', 'LEFT', 'UP', 'DOWN'],
-	LOOP_REPEAT_INTERVAL: 72,
 	DEATH_TICKS: 2,
+	DIRECTIONS: ['RIGHT', 'LEFT', 'UP', 'DOWN'],
 	GOAL_SCORE: 10,
+	GRID_COLUMNS: 40,
+	GRID_ROWS: 30,
+	LOOP_REPEAT_INTERVAL: 72,
+	NEW_BODY_LENGTH: 3,
 }
