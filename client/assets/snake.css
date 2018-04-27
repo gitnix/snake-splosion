@@ -3,6 +3,7 @@
 body {
 	font-family: 'Do Hyeon', cursive;
 	background: #2b2a2a;
+	margin: 13px;
 }
 
 #canvas-wrappper {
@@ -14,7 +15,7 @@ body {
 #bottom-scene {
 	border: 2px solid #2a5f3a;
 	border-radius: 13px;
-	background: url('assets/backgrounds/sand.jpg');
+	background: url('backgrounds/sand.jpg');
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	position: absolute;
@@ -40,7 +41,7 @@ body {
 	border-radius: 5px;
 	padding: 40px 20px;
 	box-shadow: 6px 11px 44px -2px;
-	background: url('assets/backgrounds/metal.jpg');
+	background: url('backgrounds/metal.jpg');
 	background-size: 100% 100%;
 }
 
@@ -71,7 +72,7 @@ body {
 	margin: 0;
 }
 
-img {
+.player-block-img {
 	max-width: 120px;
 	max-height: 120px;
 	border-radius: 8px;
@@ -82,7 +83,7 @@ img {
 	filter: grayscale(100%);
 }
 
-.title {
+.banner {
 	position: absolute;
 	margin-left: 5px;
 	top: 610px;
@@ -90,12 +91,32 @@ img {
 	border-radius: 10px;
 	border: 2px solid;
 	box-shadow: 4px 12px 20px -6px;
-	background: url('assets/backgrounds/metal.jpg');
+	background: url('backgrounds/metal.jpg');
 }
 
-.title > h1 {
+#banner-snake-img {
+	height: 62px;
+	width: 150px;
+	position: absolute;
+	top: 0px;
+	left: 97px;
+	opacity: 0.85;
+	border-radius: 30px;
+}
+
+#banner-fire-img {
+	height: 62px;
+	width: 274px;
+	position: absolute;
+	top: 0px;
+	left: 517px;
+	opacity: 0.6;
+}
+
+.banner > h1 {
 	color: #e2dda3f7;
-	margin: 4px 0;
+	margin: 11px 0;
+	font-size: 2.2em;
 	text-align: center;
 }
 

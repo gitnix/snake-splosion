@@ -5,8 +5,6 @@ import { scale, strToCoords } from './utils'
 import { idFor, updateDOM } from './dom'
 import addKeyListener from './key_listener'
 
-import './snake.css'
-
 // canvas where main game is drawn
 const canvasBottom = document.getElementById('bottom-scene')
 const layer1 = canvasBottom.getContext('2d')
