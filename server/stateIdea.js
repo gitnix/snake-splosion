@@ -26,7 +26,7 @@ mines = {
 	},
 }
 
-mineMods = {
+mineState = {
 	// every time apple is eaten increase counter - use counter mod mineModulus to get turns
 	// where new mines are created
 	turnCounter: 1,

@@ -1,4 +1,4 @@
-const processFoodCollisions = ({ players, food, mines, mineMods }) => {
+const processFoodCollisions = ({ players, food, mines, mineState }) => {
 	const newFoodArray = [] // mutable
 	let mineIncrement = 0
 
@@ -27,9 +27,9 @@ const processFoodCollisions = ({ players, food, mines, mineMods }) => {
 		players: markedPlayers,
 		food: Object.assign({}, food, ...newFoodArray),
 		mines,
-		mineMods: {
-			...mineMods,
-			turnCounter: (mineMods.turnCounter += mineIncrement),
+		mineState: {
+			...mineState,
+			turnCounter: (mineState.turnCounter += mineIncrement),
 		},
 	}
 }

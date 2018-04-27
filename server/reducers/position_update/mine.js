@@ -1,7 +1,7 @@
 const { dissoc, filter, gte, merge, reduce } = require('ramda')
 const { getAllOccupiedPositions, getValidRandomKey } = require('../../utils')
 
-const updateMinePositions = ({ players, food, mines, mineMods }) => {
+const updateMinePositions = ({ players, food, mines, mineState }) => {
 	const allMarkedMines = filter(f => !!mines[f].isCollided)(Object.keys(mines))
 
 	const allPos = getAllOccupiedPositions({ players, food, mines }) // mutable
@@ -15,10 +15,10 @@ const updateMinePositions = ({ players, food, mines, mineMods }) => {
 	)
 
 	const newMines = {} // mutable
-	const { turnCounter, turnToAdd } = mineMods
+	const { turnCounter, turnToAdd } = mineState
 	const shouldUpdate = gte(turnCounter, turnToAdd)
 	if (shouldUpdate) {
-		let { minesToAdd } = mineMods
+		let { minesToAdd } = mineState
 		while (minesToAdd) {
 			const randomKey = getValidRandomKey(allPos)
 			allPos.push(randomKey)
@@ -31,7 +31,7 @@ const updateMinePositions = ({ players, food, mines, mineMods }) => {
 		players,
 		food,
 		mines: merge(minesAfterExplosions, newMines),
-		mineMods: shouldUpdate ? { ...mineMods, turnCounter: 0 } : mineMods,
+		mineState: shouldUpdate ? { ...mineState, turnCounter: 0 } : mineState,
 	}
 }
 

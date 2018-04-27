@@ -98,7 +98,7 @@ wss.on('connection', (ws, req) => {
 
 ////////////////////////
 // Main Loop
-function gameLoop({ players, food, mines, mineMods }) {
+function gameLoop({ players, food, mines, mineState }) {
 	if (!gameRunning) return
 
 	////////////////////////
@@ -120,7 +120,7 @@ function gameLoop({ players, food, mines, mineMods }) {
 		players: playersAfterMove,
 		food,
 		mines,
-		mineMods,
+		mineState,
 	})
 	////////////////////////
 
