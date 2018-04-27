@@ -4,8 +4,8 @@ module.exports = {
 	mines: { '7_7': {} },
 	mineMods: {
 		turnCounter: 0,
-		minesToAdd: 5,
-		turnToAdd: 1,
+		minesToAdd: 3,
+		turnToAdd: 3,
 		mineMultiplier: 1,
 	},
 }

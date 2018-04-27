@@ -62,6 +62,7 @@ module.exports = {
 	getAllFoodPositions,
 	getAllPlayerPositions,
 	getAllOccupiedPositions,
+	getRandom,
 	getRandomDirection,
 	newBody,
 }

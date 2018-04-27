@@ -31,6 +31,7 @@ let connectionQueue = {
 let imageQueue = [
 	// ['test', 'https://media.giphy.com/media/WmQY7DwQcbPfG/giphy.gif'],
 ]
+let prevImageQueueLength = 0
 ////////////////////////
 
 ////////////////////////
@@ -84,6 +85,7 @@ wss.on('connection', (ws, req) => {
 	ws.on('close', () => {
 		console.log(`Closing connection for ${ws.id}`)
 		connectionQueue.disconnections.push(ws.id)
+		prevImageQueueLength--
 		if (wss.clients.size == 0) {
 			console.log('All clients have left', 'STOPPING GAME')
 			connectionQueue.connections = []
@@ -125,21 +127,25 @@ function gameLoop({ players, food, mines, mineMods }) {
 	})
 
 	// console.log('updatedState', updatedState)
-
-	imageQueue.forEach(img => {
-		broadcast(wss.clients, {
-			type: 'IMAGE_UPDATE',
-			images: imageQueue,
+	if (imageQueue.length != prevImageQueueLength) {
+		console.log('sending IMAGE_UPDATE message')
+		console.log(
+			`current imageQueue length: ${
+				imageQueue.length
+			}, previous imageQueue length: ${prevImageQueueLength}`,
+		)
+		prevImageQueueLength++
+		imageQueue.forEach(img => {
+			broadcast(wss.clients, {
+				type: 'IMAGE_UPDATE',
+				images: imageQueue,
+			})
 		})
-	})
-
-	while (imageQueue.length) {
-		imageQueue.pop()
 	}
 	setTimeout(() => gameLoop(updatedState), LOOP_REPEAT_INTERVAL)
 }
 ////////////////////////
 
-server.listen(8080, () => {
+server.listen(3000, () => {
 	console.log('SERVER STARTING --- Listening on %d', server.address().port)
 })

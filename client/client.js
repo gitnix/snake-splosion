@@ -1,4 +1,4 @@
-import { localIp } from './client_dev'
+// import { localIp } from './client_dev'
 import { UNIT_SIZE } from './constants'
 import { playAudio, updateGame, updateUI } from './update'
 import { scale, strToCoords } from './utils'
@@ -50,7 +50,7 @@ const pickColor = (str, lightness) => {
 
 let state = {}
 
-const socket = new WebSocket(`ws://${localIp}:8080`)
+const socket = new WebSocket(`ws://${location.host}`)
 
 socket.addEventListener('open', () => {
 	console.log('successful connection')
@@ -73,8 +73,11 @@ socket.addEventListener('message', message => {
 			break
 		case 'IMAGE_UPDATE':
 			msg.images.forEach(imgArray => {
-				document.getElementById('p1-image').src = imgArray[1]
-				document.getElementById('p2-image').src = imgArray[1]
+				// fix this to work for multiple players
+				if (imgArray[0] === playerId)
+					document.getElementById('p1-image').src = imgArray[1]
+				if (imgArray[0] !== playerId)
+					document.getElementById('p2-image').src = imgArray[1]
 			})
 			break
 	}
