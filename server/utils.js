@@ -6,7 +6,7 @@ const {
 } = require('./constants')
 
 const WebSocket = require('ws')
-const { chain, concat } = require('ramda')
+const { chain } = require('ramda')
 
 const broadcast = (clients, obj) => {
 	clients.forEach(client => {
@@ -42,12 +42,11 @@ const getAllFoodPositions = food => Object.keys(food)
 const getAllMinePositions = mines => Object.keys(mines)
 const getAllPlayerPositions = players => chain(player => player.body, players)
 
-const getAllOccupiedPositions = ({ players, food, mines }) =>
-	concat(
-		getAllPlayerPositions(players),
-		getAllFoodPositions(food),
-		getAllMinePositions(mines),
-	)
+const getAllOccupiedPositions = ({ players, food, mines }) => [
+	...getAllPlayerPositions(players),
+	...getAllFoodPositions(food),
+	...getAllMinePositions(mines),
+]
 
 const getRandomDirection = () =>
 	DIRECTIONS[Math.round(Math.random() * (DIRECTIONS.length - 1))]
