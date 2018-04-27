@@ -48,7 +48,7 @@ const pickColor = (str, lightness) => {
 
 let state = {}
 
-const socket = new WebSocket(`ws://${location.host}`)
+const socket = new WebSocket(`wss://${location.host}`)
 
 socket.addEventListener('open', () => {
 	console.log('successful connection')
