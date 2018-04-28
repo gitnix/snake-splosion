@@ -2,18 +2,20 @@ import { protocol } from './client_dev'
 import { UNIT_SIZE } from './constants'
 import { playAudio, updateGame, updateUI } from './update'
 import { scale, strToCoords } from './utils'
-import { idFor, updateDOM } from './dom'
 import addKeyListener from './key_listener'
 
+import './assets/snake.css'
+
 // canvas where main game is drawn
-const canvasBottom = document.getElementById('bottom-scene')
-const layer1 = canvasBottom.getContext('2d')
-const WIDTH = canvasBottom.width
-const HEIGHT = canvasBottom.height
+const canvas1 = document.getElementById('layer-1')
+const layer1 = canvas1.getContext('2d')
+// canvas internal width/height (differnet from css)
+const WIDTH = canvas1.width
+const HEIGHT = canvas1.height
 
 // canvas where extra effects are drawn
-const canvasTop = document.getElementById('top-scene')
-const layer2 = canvasTop.getContext('2d')
+// const canvasTop = document.getElementById('layer-2')
+// const layer2 = canvasTop.getContext('2d')
 
 // test blob for second canvas
 // const drawOtherStuff = (x, y, color) => {

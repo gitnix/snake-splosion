@@ -1,132 +1,222 @@
-@import url('https://fonts.googleapis.com/css?family=Do+Hyeon');
-
 body {
-	font-family: 'Do Hyeon', cursive;
 	background: #2b2a2a;
-	margin: 13px;
+	font-family: 'Do Hyeon', sans-serif;
+	margin: 1em;
 }
 
-#canvas-wrappper {
-	position: relative;
-	width: 500px;
-	height: 500px;
+#grid {
+	display: grid;
+	grid-row-gap: 1em;
+	grid-template-rows: 1fr 7fr 2fr;
+	max-height: 95vh;
 }
 
-#bottom-scene {
-	border: 2px solid #2a5f3a;
-	border-radius: 13px;
-	background: url('backgrounds/sand.jpg');
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	z-index: 1;
-}
-
-#top-scene {
-	background-color: transparent;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	z-index: 2;
-}
-
-.player-list {
-	display: inline-flex;
-	flex-direction: column;
-	text-align: center;
-	margin-left: 810px;
-	border: 2px solid rgba(0, 0, 0, 0.3);
-	border-radius: 5px;
-	padding: 40px 20px;
+#banner {
+	background-image: url('backgrounds/metal.png');
+	background-size: auto 240%;
+	border-radius: 10px;
+	border: 2px solid;
 	box-shadow: 6px 11px 44px -2px;
-	background: url('backgrounds/metal.jpg');
-	background-size: 100% 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	text-align: center;
 }
 
-.player-info {
-	background: rgba(255, 254, 254, 0.9);
-	padding: 12px;
-	border-radius: 20%;
-	box-shadow: 7px 10px 22px 10px #252424;
-}
-
-.name {
-	font-size: 19px;
-	background: rgba(182, 181, 181, 0.9);
+#banner-snake {
+	align-self: center;
 	border-radius: 30px;
-	padding: 8px;
+	margin-left: 30%;
+	max-height: 100%;
+	opacity: 0.85;
 }
 
-.score {
-	font-size: 30px;
+#banner-title {
+	align-self: center;
+	background: #9e4646ed;
+	border-radius: 1em;
+	color: #fdebbef5;
+	font-size: 48px;
 }
 
-.player-block {
-	margin-bottom: 40px;
-	max-width: 155px;
+#banner-fire {
+	align-self: end;
+	height: 70%;
+	justify-self: center;
+	max-height: 100px;
+	opacity: 0.6;
+	width: 58%;
 }
 
-.player-block:last-of-type {
-	margin: 0;
+#multi-canvas-container {
+	position: relative;
 }
 
-.player-block-img {
-	max-width: 120px;
-	max-height: 120px;
-	border-radius: 8px;
-	border: 13px ridge #ead45dde;
+canvas {
+	background: url('backgrounds/sand.jpg');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	border-radius: 13px;
+	border: 2px solid #2a5f3a;
+	height: 100%;
+	left: 0;
+	margin-left: auto;
+	margin-right: auto;
+	position: absolute;
+	right: 0;
+	/* for canvas drawing quirk */
+	top: -4px;
 }
 
-.dead {
+#players-container {
+	background-image: url('backgrounds/metal.png');
+	border-radius: 5px;
+	border: 2px solid black;
+	display: flex;
+	justify-content: space-evenly;
+	margin-top: 15px;
+	max-height: 270px;
+	min-height: 195px;
+}
+
+.player-card {
+	background: rgba(255, 254, 254, 1);
+	border-radius: 20%;
+	box-shadow: 6px 16px 22px 8px #0e0e0e;
+	display: grid;
+	grid-template-rows: 2fr 3fr 1fr;
+	padding: 12px;
+	will-change: transform;
+
+	/* used to get cool overflow effect over parent container */
+	height: 97%;
+	margin-top: -10px;
+}
+
+.player-card.active {
+	animation: grow 0.4s ease-in-out;
+	will-change: transform;
+}
+
+.player-card:not(.active) {
+	display: none;
+}
+
+.player-card.dead {
+	animation: shake 0.4s ease-in-out;
+	background: gray;
+}
+
+.player-image-and-name-container {
+	display: grid;
+	grid-gap: 2em;
+	grid-template-columns: 100px 100px;
+	/* original implementation commented for reference */
+	/* below made player cards of players with longer */
+	/* names much wider in firefox */
+	/* grid-template-columns: 1fr minmax(auto, 100px);
+	grid-gap: 0.8em; */
+}
+
+.player-image {
+	align-self: center;
+	border-radius: 50%;
+	border: 6px solid #ead45dde;
+	max-width: 100px;
+}
+
+.player-image.dead {
 	filter: grayscale(100%);
 }
 
-.banner {
-	position: absolute;
-	margin-left: 5px;
-	top: 610px;
-	width: 790px;
-	border-radius: 10px;
-	border: 2px solid;
-	box-shadow: 4px 12px 20px -6px;
-	background: url('backgrounds/metal.jpg');
-}
-
-#banner-snake-img {
-	height: 62px;
-	width: 150px;
-	position: absolute;
-	top: 0px;
-	left: 97px;
-	opacity: 0.85;
+.player-name {
+	align-self: center;
+	background: rgba(182, 181, 181, 0.9);
 	border-radius: 30px;
-}
-
-#banner-fire-img {
-	height: 62px;
-	width: 274px;
-	position: absolute;
-	top: 0px;
-	left: 517px;
-	opacity: 0.6;
-}
-
-.banner > h1 {
-	color: #e2dda3f7;
-	margin: 11px 0;
-	font-size: 2.2em;
+	box-shadow: inset 1px 1px 20px 0px;
+	padding: 8px;
 	text-align: center;
 }
 
-.snake-representation {
-	height: 10px;
-	width: 100px;
-	margin-left: 15px;
-	background: green;
+.player-score {
+	align-self: center;
+	background: white;
+	border-radius: 20px;
+	box-shadow: inset 1px 1px 20px 0px;
+	font-size: 3.5em;
+	text-align: center;
 }
 
-#game-container {
-	position: relative;
+.player-color {
+	background: brown;
+	height: 0.4em;
+	justify-self: center;
+	margin-top: 0.3em;
+	width: 50%;
+}
+
+@keyframes grow {
+	0% {
+		display: none;
+		opacity: 0;
+	}
+	1% {
+		display: block;
+		opacity: 0;
+		transform: scale(0);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes shake {
+	10%,
+	90% {
+		transform: translate(-2px, 0);
+	}
+
+	20%,
+	80% {
+		transform: translate(2px, 0);
+	}
+
+	30%,
+	50%,
+	70% {
+		transform: translate(-10px, 0);
+	}
+
+	40%,
+	60% {
+		transform: translate(4px, 0);
+	}
+}
+
+@media (max-width: 51em) {
+	body {
+		-moz-transform: scale(0.5);
+		zoom: 0.5;
+	}
+}
+
+@media (max-width: 79em) {
+	body {
+		margin: 0;
+	}
+
+	#banner-snake {
+		max-height: 9vh;
+		max-width: 21vw;
+	}
+
+	#banner-title {
+		font-size: 20px;
+	}
+}
+
+@media (min-width: 79em) and (max-width: 100em) {
+	#banner-snake {
+		max-height: 9vh;
+	}
 }

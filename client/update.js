@@ -36,11 +36,15 @@ const updateImage = (id, state) => {
 		case 'dead': {
 			const pImage = idFor(id, 'image')
 			pImage.classList.add('dead')
+			const pCard = idFor(id, 'card')
+			pCard.classList.add('dead')
 			break
 		}
 		case 'teleported': {
 			const pImage = idFor(id, 'image')
 			pImage.classList.remove('dead')
+			const pCard = idFor(id, 'card')
+			pCard.classList.remove('dead')
 			break
 		}
 	}
