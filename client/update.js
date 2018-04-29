@@ -66,7 +66,7 @@ const updateUI = (players, playerId) => {
 	})
 }
 
-const updateGame = (state, ctx, width, height) => {
+const updateGame = (state, ctx, width, height, cols, rows) => {
 	ctx.clearRect(0, 0, width, height)
 
 	Object.keys(state.food).forEach(key => {
@@ -93,7 +93,9 @@ const updateGame = (state, ctx, width, height) => {
 					break
 				case player.body.length - 1:
 					ctx.drawImage(
-						TAIL_GREEN[getTailDirection(player.body, player.direction)],
+						TAIL_GREEN[
+							getTailDirection(player.body, player.direction, cols, rows)
+						],
 						scale(x),
 						scale(y),
 					)

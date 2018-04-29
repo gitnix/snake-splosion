@@ -62,7 +62,7 @@ socket.addEventListener('message', message => {
 		case 'STATE_UPDATE':
 			state = msg.state
 			playAudio(state.players, playerId)
-			updateGame(state, layer1, WIDTH, HEIGHT)
+			updateGame(state, layer1, WIDTH, HEIGHT, GRID_COLUMNS, GRID_ROWS)
 			updateUI(state.players, playerId)
 			break
 		case 'GAME_CONNECTION':
