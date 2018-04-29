@@ -1,4 +1,5 @@
 const { DEATH_TICKS } = require('../constants')
+const { newBodyDirections } = require('../utils')
 
 // accounts for negative modulus
 const mod = (n, m) => (n % m + m) % m
@@ -6,6 +7,17 @@ const mod = (n, m) => (n % m + m) % m
 const move = (playersArray, directionQueue, ...dimensions) => {
 	// console.log('playersArray in move', playersArray)
 	const returnArray = playersArray.map(player => {
+		const direction = directionQueue[player.id][0]
+		if (typeof direction !== 'string')
+			throw `direction ${direction} is not string`
+
+		// make sure there is always a direction to go
+		if (directionQueue[player.id].length > 1) {
+			directionQueue[player.id].shift() // side effect
+		}
+
+		//////////////////////////////////////////
+		// dead state
 		if (player.state === 'dead') {
 			if (player.body.length <= 0) {
 				return {
@@ -23,18 +35,11 @@ const move = (playersArray, directionQueue, ...dimensions) => {
 			return {
 				...player,
 				body: player.body.slice(0, player.body.length - 1),
+				bodyDirections: newBodyDirections(player, 'remove'),
 				deathTicks: DEATH_TICKS,
 			}
-		} // end dead
-
-		const direction = directionQueue[player.id][0]
-		if (typeof direction !== 'string')
-			throw `direction ${direction} is not string`
-
-		// make sure there is always a direction to go
-		if (directionQueue[player.id].length > 1) {
-			directionQueue[player.id].shift() // side effect
 		}
+		//////////////////////////////////////////
 
 		return {
 			...player,
@@ -44,6 +49,7 @@ const move = (playersArray, directionQueue, ...dimensions) => {
 			],
 			state: 'normal',
 			direction,
+			bodyDirections: newBodyDirections(player, { type: 'move', direction }),
 		}
 	})
 	// console.log('returnArray', returnArray)

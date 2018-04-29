@@ -1,4 +1,4 @@
-const { getAllPlayerPositions } = require('../../utils')
+const { getAllPlayerPositions, newBodyDirections } = require('../../utils')
 
 const processPlayerCollisions = ({ players, food, mines, mineState }) => {
 	const collisionArray = [] //mutable
@@ -28,6 +28,10 @@ const processPlayerCollisions = ({ players, food, mines, mineState }) => {
 			state: isCollided ? 'dead' : player.state,
 			score: isCollided ? 0 : player.score,
 			body: isCollided && shouldSlice ? player.body.slice(1) : player.body,
+			bodyDirections:
+				isCollided && shouldSlice
+					? newBodyDirections(player, { type: 'remove' })
+					: player.bodyDirections,
 		}
 	})
 

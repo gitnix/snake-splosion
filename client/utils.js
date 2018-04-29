@@ -65,4 +65,23 @@ const getTailDirection = (body, defaultDirection, cols, rows) => {
 	return defaultDirection
 }
 
-export { getTailDirection, newImage, scale, strToCoords }
+const bevelMap = {
+	DOWN_RIGHT: 'NE',
+	LEFT_UP: 'NE',
+	UP_LEFT: 'SW',
+	RIGHT_DOWN: 'SW',
+	UP_RIGHT: 'SE',
+	LEFT_DOWN: 'SE',
+	DOWN_LEFT: 'NW',
+	RIGHT_UP: 'NW',
+}
+
+const getBodyDirection = (bodyDirections, index) => {
+	if (!bodyDirections) return 'CENTER'
+	const prevDir = bodyDirections[index - 1]
+	const dir = bodyDirections[index]
+	const bevel = bevelMap[`${prevDir}_${dir}`]
+	return bevel ? bevel : 'CENTER'
+}
+
+export { getBodyDirection, getTailDirection, newImage, scale, strToCoords }

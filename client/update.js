@@ -1,6 +1,6 @@
 import { find, propEq } from 'ramda'
 
-import { getTailDirection, scale, strToCoords } from './utils'
+import { getBodyDirection, getTailDirection, scale, strToCoords } from './utils'
 import { idFor, updateDOM } from './dom'
 import {
 	APPLE,
@@ -106,7 +106,11 @@ const updateGame = (state, ctx, width, height, cols, rows) => {
 							drawUnit(ctx, x, y, 'gray')
 							break
 						default:
-							ctx.drawImage(BODY_GREEN, scale(x), scale(y))
+							ctx.drawImage(
+								BODY_GREEN[getBodyDirection(player.bodyDirections, index)],
+								scale(x),
+								scale(y),
+							)
 					}
 			}
 		})

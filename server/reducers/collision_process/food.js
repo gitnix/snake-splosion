@@ -1,3 +1,5 @@
+const { newBodyDirections } = require('../../utils')
+
 const processFoodCollisions = ({ players, food, mines, mineState }) => {
 	const newFoodArray = [] // mutable
 	let mineIncrement = 0
@@ -20,6 +22,9 @@ const processFoodCollisions = ({ players, food, mines, mineState }) => {
 			state: isCollided ? 'eating' : player.state,
 			score: isCollided ? player.score + food[head].score : player.score,
 			body: isCollided ? player.body.concat(tail) : player.body,
+			bodyDirections: isCollided
+				? newBodyDirections(player, { type: 'add' })
+				: player.bodyDirections,
 		}
 	})
 
