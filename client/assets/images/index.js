@@ -1,11 +1,20 @@
 import { UNIT_SIZE } from '../../constants'
 import { newImage } from '../../utils'
 
-export const appleImage = newImage('images/apple.png')
-export const mineImage = newImage('images/mine.png')
-export const snakeSkin = newImage('images/snakeSkin.jpg')
+export const APPLE = newImage('images/apple.png')
+export const MINE = newImage('images/mine.png')
+export const BODY_GREEN = newImage('images/snakeSkin.jpg')
 
-export const head_up = newImage('images/head_up.png')
-export const head_down = newImage('images/head_down.png')
-export const head_left = newImage('images/head_left.png')
-export const head_right = newImage('images/head_right.png')
+export const HEAD_GREEN = {
+	UP: newImage('images/head_green_up.png'),
+	DOWN: newImage('images/head_green_down.png'),
+	LEFT: newImage('images/head_green_left.png'),
+	RIGHT: newImage('images/head_green_right.png'),
+}
+
+export const TAIL_GREEN = {
+	UP: newImage('images/tail_green_up.png'),
+	DOWN: newImage('images/tail_green_down.png'),
+	LEFT: newImage('images/tail_green_left.png'),
+	RIGHT: newImage('images/tail_green_right.png'),
+}

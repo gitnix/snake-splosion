@@ -1,16 +1,15 @@
 import { find, propEq } from 'ramda'
 
-import { scale, strToCoords } from './utils'
+import { getTailDirection, scale, strToCoords } from './utils'
 import { idFor, updateDOM } from './dom'
 import {
-	appleImage,
-	mineImage,
-	snakeSkin,
-	head_up,
-	head_down,
-	head_left,
-	head_right,
+	APPLE,
+	MINE,
+	BODY_GREEN,
+	HEAD_GREEN,
+	TAIL_GREEN,
 } from './assets/images'
+
 import { collisionAudio, eatAudio } from './assets/audio'
 
 const drawUnit = (ctx, x, y, color) => {
@@ -72,12 +71,12 @@ const updateGame = (state, ctx, width, height) => {
 
 	Object.keys(state.food).forEach(key => {
 		const [x, y] = strToCoords(key)
-		ctx.drawImage(appleImage, scale(x), scale(y))
+		ctx.drawImage(APPLE, scale(x), scale(y))
 	})
 
 	Object.keys(state.mines).forEach(key => {
 		const [x, y] = strToCoords(key)
-		ctx.drawImage(mineImage, scale(x), scale(y))
+		ctx.drawImage(MINE, scale(x), scale(y))
 	})
 
 	state.players.forEach(player => {
@@ -88,30 +87,25 @@ const updateGame = (state, ctx, width, height) => {
 				// get location and set function in motion to draw a teleport thing over specified time
 			}
 
-			if (index === 0) {
-				switch (player.direction) {
-					case 'RIGHT':
-						ctx.drawImage(head_right, scale(x), scale(y))
-						break
-					case 'LEFT':
-						ctx.drawImage(head_left, scale(x), scale(y))
-						break
-					case 'UP':
-						ctx.drawImage(head_up, scale(x), scale(y))
-						break
-					case 'DOWN':
-						ctx.drawImage(head_down, scale(x), scale(y))
-						break
-				}
-			} else {
-				switch (player.state) {
-					case 'dead':
-						drawUnit(ctx, x, y, 'gray')
-						break
-					default:
-						ctx.drawImage(snakeSkin, scale(x), scale(y))
-						break
-				}
+			switch (index) {
+				case 0:
+					ctx.drawImage(HEAD_GREEN[player.direction], scale(x), scale(y))
+					break
+				case player.body.length - 1:
+					ctx.drawImage(
+						TAIL_GREEN[getTailDirection(player.body, player.direction)],
+						scale(x),
+						scale(y),
+					)
+					break
+				default:
+					switch (player.state) {
+						case 'dead':
+							drawUnit(ctx, x, y, 'gray')
+							break
+						default:
+							ctx.drawImage(BODY_GREEN, scale(x), scale(y))
+					}
 			}
 		})
 	})
