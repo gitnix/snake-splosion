@@ -49,7 +49,7 @@ const updatePlayersFromConnections = (
 	{ connections, disconnections },
 	imageQueue,
 ) => {
-	if (!!connections.length && !!disconnections.length) return players
+	if (!connections.length && !disconnections.length) return players
 
 	const randomKey = getValidRandomKey(
 		getAllOccupiedPositions({ players, food, mines }),
