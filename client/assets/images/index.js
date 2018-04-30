@@ -25,6 +25,13 @@ export const BODY = {
 		SE: newImage('images/body/blue/body_blue_se.png'),
 		NE: newImage('images/body/blue/body_blue_ne.png'),
 	},
+	PINK: {
+		CENTER: newImage('images/body/pink/body_pink.png'),
+		SW: newImage('images/body/pink/body_pink_sw.png'),
+		NW: newImage('images/body/pink/body_pink_nw.png'),
+		SE: newImage('images/body/pink/body_pink_se.png'),
+		NE: newImage('images/body/pink/body_pink_ne.png'),
+	},
 }
 
 export const HEAD = {
@@ -40,6 +47,12 @@ export const HEAD = {
 		LEFT: newImage('images/head/blue/head_blue_left.png'),
 		RIGHT: newImage('images/head/blue/head_blue_right.png'),
 	},
+	PINK: {
+		UP: newImage('images/head/pink/head_pink_up.png'),
+		DOWN: newImage('images/head/pink/head_pink_down.png'),
+		LEFT: newImage('images/head/pink/head_pink_left.png'),
+		RIGHT: newImage('images/head/pink/head_pink_right.png'),
+	},
 }
 
 export const TAIL = {
@@ -54,5 +67,11 @@ export const TAIL = {
 		DOWN: newImage('images/tail/blue/tail_blue_down.png'),
 		LEFT: newImage('images/tail/blue/tail_blue_left.png'),
 		RIGHT: newImage('images/tail/blue/tail_blue_right.png'),
+	},
+	PINK: {
+		UP: newImage('images/tail/pink/tail_pink_up.png'),
+		DOWN: newImage('images/tail/pink/tail_pink_down.png'),
+		LEFT: newImage('images/tail/pink/tail_pink_left.png'),
+		RIGHT: newImage('images/tail/pink/tail_pink_right.png'),
 	},
 }
