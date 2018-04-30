@@ -2,7 +2,7 @@ import { UNIT_SIZE } from '../../constants'
 import { newImage } from '../../utils'
 
 export const APPLE = newImage('images/food/apple.png')
-export const MINE = newImage('images/mine.png')
+export const MINE = newImage('images/mines/mine.png')
 export const BODY_GREEN = {
 	CENTER: newImage('images/body/green/body_green.png'),
 	SW: newImage('images/body/green/body_green_sw.png'),
@@ -27,10 +27,10 @@ export const TAIL_GREEN = {
 
 export const BODY_BLUE = {
 	CENTER: newImage('images/body/blue/body_blue.png'),
-	// SW: newImage('images/body/blue/body_blue_sw.png'),
-	// NW: newImage('images/body/blue/body_blue_nw.png'),
-	// SE: newImage('images/body/blue/body_blue_se.png'),
-	// NE: newImage('images/body/blue/body_blue_ne.png'),
+	SW: newImage('images/body/blue/body_blue_sw.png'),
+	NW: newImage('images/body/blue/body_blue_nw.png'),
+	SE: newImage('images/body/blue/body_blue_se.png'),
+	NE: newImage('images/body/blue/body_blue_ne.png'),
 }
 
 export const HEAD_BLUE = {
