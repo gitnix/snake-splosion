@@ -27,7 +27,7 @@ const { GRID_COLUMNS, GRID_ROWS, LOOP_REPEAT_INTERVAL } = require('./constants')
 const initialGameState = require('./initial_game_state')
 ////////////////////////
 // server specific state
-let backgroundImage = getRandomBackgroundImage()
+let backgroundImage
 let gameRunning = false
 let directionQueue = {}
 let connectionQueue = {
@@ -52,6 +52,12 @@ wss.on('connection', (ws, req) => {
 	directionQueue[ws.id] = [startingDirection]
 	const startingKey = directionToKey(startingDirection)
 
+	if (wss.clients.size == 1) {
+		backgroundImage = getRandomBackgroundImage()
+		gameRunning = true
+		gameLoop(initialGameState)
+	}
+
 	ws.send(
 		JSON.stringify({
 			type: 'GAME_CONNECTION',
@@ -62,11 +68,6 @@ wss.on('connection', (ws, req) => {
 			backgroundImage,
 		}),
 	)
-
-	if (wss.clients.size == 1) {
-		gameRunning = true
-		gameLoop(initialGameState)
-	}
 
 	ws.on('message', message => {
 		const { type, id, direction } = JSON.parse(message)
