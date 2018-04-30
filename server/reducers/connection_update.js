@@ -1,6 +1,7 @@
 const { append, findIndex, length, reduce, remove } = require('ramda')
 const {
 	getAllOccupiedPositions,
+	getRandomColor,
 	getValidRandomKey,
 	newBody,
 } = require('../utils')
@@ -28,12 +29,15 @@ const addId = (randomKey, imageQueue) => (stored, currentId) => {
 		})
 	}
 
+	const color = getRandomColor(stored)
+
 	return foundIndex > -1
 		? stored
 		: append(
 				{
 					id: currentId,
 					body: newBody(randomKey),
+					color,
 					state: 'normal',
 					name: snakeName,
 					deathTicks: DEATH_TICKS,

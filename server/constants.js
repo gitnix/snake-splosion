@@ -1,5 +1,6 @@
 module.exports = {
 	BACKGROUNDS: ['sand', 'calm_sand', 'gray_sand', 'night_sand'],
+	COLORS: ['GREEN', 'BLUE'],
 	DEATH_TICKS: 2,
 	DIRECTIONS: ['RIGHT', 'LEFT', 'UP', 'DOWN'],
 	GOAL_SCORE: 10,

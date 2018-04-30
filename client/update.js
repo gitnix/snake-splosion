@@ -2,13 +2,7 @@ import { find, propEq } from 'ramda'
 
 import { getBodyDirection, getTailDirection, scale, strToCoords } from './utils'
 import { idFor, updateDOM } from './dom'
-import {
-	APPLE,
-	MINE,
-	BODY_GREEN,
-	HEAD_GREEN,
-	TAIL_GREEN,
-} from './assets/images'
+import { FOOD, MINE, BODY, HEAD, TAIL } from './assets/images'
 
 import { collisionAudio, eatAudio } from './assets/audio'
 
@@ -80,7 +74,7 @@ const updateGame = (
 
 	Object.keys(state.food).forEach(key => {
 		const [x, y] = strToCoords(key)
-		ctx.drawImage(APPLE, scale(x), scale(y))
+		ctx.drawImage(FOOD['APPLE'], scale(x), scale(y))
 	})
 
 	Object.keys(state.mines).forEach(key => {
@@ -98,11 +92,15 @@ const updateGame = (
 
 			switch (index) {
 				case 0:
-					ctx.drawImage(HEAD_GREEN[player.direction], scale(x), scale(y))
+					ctx.drawImage(
+						HEAD[player.color][player.direction],
+						scale(x),
+						scale(y),
+					)
 					break
 				case player.body.length - 1:
 					ctx.drawImage(
-						TAIL_GREEN[
+						TAIL[player.color][
 							getTailDirection(player.body, player.direction, cols, rows)
 						],
 						scale(x),
@@ -116,7 +114,9 @@ const updateGame = (
 							break
 						default:
 							ctx.drawImage(
-								BODY_GREEN[getBodyDirection(player.bodyDirections, index)],
+								BODY[player.color][
+									getBodyDirection(player.bodyDirections, index)
+								],
 								scale(x),
 								scale(y),
 							)

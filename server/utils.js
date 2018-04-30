@@ -1,5 +1,6 @@
 const {
 	BACKGROUNDS,
+	COLORS,
 	DIRECTIONS,
 	GRID_COLUMNS,
 	GRID_ROWS,
@@ -52,6 +53,15 @@ const getAllOccupiedPositions = ({ players, food, mines }) => [
 const getRandomBackgroundImage = () =>
 	BACKGROUNDS[Math.round(Math.random() * (BACKGROUNDS.length - 1))]
 
+const getRandomColor = players => {
+	let currentColors = players.map(p => p.color)
+	let color = COLORS[Math.round(Math.random() * (COLORS.length - 1))]
+	while (currentColors.includes(color)) {
+		color = COLORS[Math.round(Math.random() * (COLORS.length - 1))]
+	}
+	return color
+}
+
 const getRandomDirection = () =>
 	DIRECTIONS[Math.round(Math.random() * (DIRECTIONS.length - 1))]
 
@@ -82,6 +92,7 @@ module.exports = {
 	getAllOccupiedPositions,
 	getRandom,
 	getRandomBackgroundImage,
+	getRandomColor,
 	getRandomDirection,
 	newBody,
 	newBodyDirections,

@@ -9,6 +9,7 @@ const {
 
 const mockedKey = '16_2'
 const mockedName = 'Viper'
+const mockedColor = 'GREEN'
 
 jest.mock('../get_snake_names', () => () => mockedName)
 jest.mock('../image_search', () => () => Promise.resolve('test_image_url.png'))
@@ -32,6 +33,7 @@ describe('reducer - move', () => {
 		const initialPlayers = [
 			{
 				body: ['16_1', '16_2', '16_3'],
+				color: mockedColor,
 				deathTicks: DEATH_TICKS,
 				goalScore: GOAL_SCORE,
 				id: p1_id,
@@ -41,6 +43,7 @@ describe('reducer - move', () => {
 			},
 			{
 				body: ['3_1', '2_1', '1_1'],
+				color: mockedColor,
 				deathTicks: DEATH_TICKS,
 				goalScore: GOAL_SCORE,
 				id: p2_id,
@@ -55,6 +58,7 @@ describe('reducer - move', () => {
 			{
 				body: ['15_1', '16_1', '16_2'],
 				bodyDirections: ['LEFT', 'LEFT', 'LEFT'],
+				color: mockedColor,
 				deathTicks: DEATH_TICKS,
 				direction: 'LEFT',
 				goalScore: GOAL_SCORE,
@@ -66,6 +70,7 @@ describe('reducer - move', () => {
 			{
 				body: ['3_0', '3_1', '2_1'],
 				bodyDirections: ['UP', 'UP', 'UP'],
+				color: mockedColor,
 				deathTicks: DEATH_TICKS,
 				direction: 'UP',
 				goalScore: GOAL_SCORE,
