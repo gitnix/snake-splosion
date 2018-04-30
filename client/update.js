@@ -30,6 +30,11 @@ const playAudio = (players, id) => {
 	}
 }
 
+const setBackgroundImage = backgroundString =>
+	(document.getElementById(
+		'layer-1',
+	).style.backgroundImage = `url(backgrounds/${backgroundString}.png)`)
+
 const updateImage = (id, state) => {
 	switch (state) {
 		case 'dead': {
@@ -66,7 +71,11 @@ const updateUI = (players, playerId) => {
 	})
 }
 
-const updateGame = (state, ctx, width, height, cols, rows) => {
+const updateGame = (
+	state,
+	ctx,
+	{ width, height, cols, rows, mineTypeToDraw },
+) => {
 	ctx.clearRect(0, 0, width, height)
 
 	Object.keys(state.food).forEach(key => {
@@ -76,7 +85,7 @@ const updateGame = (state, ctx, width, height, cols, rows) => {
 
 	Object.keys(state.mines).forEach(key => {
 		const [x, y] = strToCoords(key)
-		ctx.drawImage(MINE, scale(x), scale(y))
+		ctx.drawImage(MINE[mineTypeToDraw], scale(x), scale(y))
 	})
 
 	state.players.forEach(player => {
@@ -117,4 +126,4 @@ const updateGame = (state, ctx, width, height, cols, rows) => {
 	})
 }
 
-export { playAudio, updateGame, updateUI }
+export { playAudio, setBackgroundImage, updateGame, updateUI }

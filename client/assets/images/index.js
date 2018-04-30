@@ -2,7 +2,10 @@ import { UNIT_SIZE } from '../../constants'
 import { newImage } from '../../utils'
 
 export const APPLE = newImage('images/food/apple.png')
-export const MINE = newImage('images/mines/mine.png')
+export const MINE = {
+	DARK: newImage('images/mines/mine.png'),
+	LIGHT: newImage('images/mines/mine2_sunny.png'),
+}
 export const BODY_GREEN = {
 	CENTER: newImage('images/body/green/body_green.png'),
 	SW: newImage('images/body/green/body_green_sw.png'),

@@ -1,6 +1,6 @@
 import { protocol } from './client_dev'
 import { UNIT_SIZE } from './constants'
-import { playAudio, updateGame, updateUI } from './update'
+import { playAudio, setBackgroundImage, updateGame, updateUI } from './update'
 import { scale, strToCoords } from './utils'
 import addKeyListener from './key_listener'
 
@@ -32,6 +32,7 @@ const HEIGHT = canvas1.height
 let playerId = null
 let GRID_COLUMNS = null
 let GRID_ROWS = null
+let mineTypeToDraw = null
 ////////////////////////
 
 let savedColorHash = null
@@ -62,7 +63,13 @@ socket.addEventListener('message', message => {
 		case 'STATE_UPDATE':
 			state = msg.state
 			playAudio(state.players, playerId)
-			updateGame(state, layer1, WIDTH, HEIGHT, GRID_COLUMNS, GRID_ROWS)
+			updateGame(state, layer1, {
+				width: WIDTH,
+				height: HEIGHT,
+				cols: GRID_COLUMNS,
+				rows: GRID_ROWS,
+				mineTypeToDraw,
+			})
 			updateUI(state.players, playerId)
 			break
 		case 'GAME_CONNECTION':
@@ -70,6 +77,8 @@ socket.addEventListener('message', message => {
 			GRID_COLUMNS = msg.GRID_COLUMNS
 			GRID_ROWS = msg.GRID_ROWS
 			addKeyListener(msg.startingKey, socket, playerId)
+			setBackgroundImage(msg.backgroundImage)
+			mineTypeToDraw = msg.backgroundImage === 'night_sand' ? 'LIGHT' : 'DARK'
 			break
 		case 'IMAGE_UPDATE':
 			msg.images.forEach(imgArray => {

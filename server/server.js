@@ -17,11 +17,17 @@ const wss = new WebSocket.Server({ server })
 // app dependencies
 const { compose } = require('ramda')
 const { connectionUpdate, move, reduceState } = require('./reducers')
-const { broadcast, directionToKey, getRandomDirection } = require('./utils')
+const {
+	broadcast,
+	directionToKey,
+	getRandomBackgroundImage,
+	getRandomDirection,
+} = require('./utils')
 const { GRID_COLUMNS, GRID_ROWS, LOOP_REPEAT_INTERVAL } = require('./constants')
 const initialGameState = require('./initial_game_state')
 ////////////////////////
 // server specific state
+let backgroundImage = getRandomBackgroundImage()
 let gameRunning = false
 let directionQueue = {}
 let connectionQueue = {
@@ -53,6 +59,7 @@ wss.on('connection', (ws, req) => {
 			startingKey,
 			GRID_COLUMNS,
 			GRID_ROWS,
+			backgroundImage,
 		}),
 	)
 

@@ -1,4 +1,5 @@
 const {
+	BACKGROUNDS,
 	DIRECTIONS,
 	GRID_COLUMNS,
 	GRID_ROWS,
@@ -48,6 +49,9 @@ const getAllOccupiedPositions = ({ players, food, mines }) => [
 	...getAllMinePositions(mines),
 ]
 
+const getRandomBackgroundImage = () =>
+	BACKGROUNDS[Math.round(Math.random() * (BACKGROUNDS.length - 1))]
+
 const getRandomDirection = () =>
 	DIRECTIONS[Math.round(Math.random() * (DIRECTIONS.length - 1))]
 
@@ -77,6 +81,7 @@ module.exports = {
 	getAllPlayerPositions,
 	getAllOccupiedPositions,
 	getRandom,
+	getRandomBackgroundImage,
 	getRandomDirection,
 	newBody,
 	newBodyDirections,
