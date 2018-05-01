@@ -1,3 +1,5 @@
+const { NEW_BODY_LENGTH } = require('../../constants')
+
 const {
 	getValidRandomKey,
 	getAllOccupiedPositions,
@@ -21,6 +23,7 @@ const getStateAfterTeleportingPlayers = ({
 		return {
 			...player,
 			body: newBody(randomKey),
+			bodyDirections: new Array(NEW_BODY_LENGTH).fill(player.direction),
 			state: 'teleported',
 		}
 		allPos.push(randomKey)
