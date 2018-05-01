@@ -1,5 +1,6 @@
 *.ds_store
 client_dev.js
+coverage
 dist
 keys.js
 node_modules

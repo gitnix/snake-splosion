@@ -8,8 +8,6 @@ const move = (playersArray, directionQueue, ...dimensions) => {
 	// console.log('playersArray in move', playersArray)
 	const returnArray = playersArray.map(player => {
 		const direction = directionQueue[player.id][0]
-		if (typeof direction !== 'string')
-			throw `direction ${direction} is not string`
 
 		// make sure there is always a direction to go
 		if (directionQueue[player.id].length > 1) {
@@ -35,7 +33,7 @@ const move = (playersArray, directionQueue, ...dimensions) => {
 			return {
 				...player,
 				body: player.body.slice(0, player.body.length - 1),
-				bodyDirections: newBodyDirections(player, 'remove'),
+				bodyDirections: newBodyDirections(player, { type: 'remove' }),
 				deathTicks: DEATH_TICKS,
 			}
 		}

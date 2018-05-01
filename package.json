@@ -39,6 +39,8 @@
 		"webpack-dev-server": "^2.9.7"
 	},
 	"jest": {
-		"verbose": true
+		"verbose": false,
+		"collectCoverageFrom": ["**/*.js", "!**/node_modules/**"],
+		"moduleDirectories": ["<rootDir>", "node_modules"]
 	}
 }
