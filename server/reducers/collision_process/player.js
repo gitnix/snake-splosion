@@ -1,6 +1,12 @@
 const { getAllPlayerPositions, newBodyDirections } = require('../../utils')
 
-const processPlayerCollisions = ({ players, food, mines, mineState }) => {
+const processPlayerCollisions = ({
+	players,
+	food,
+	mines,
+	mineState,
+	gameInfo,
+}) => {
 	const collisionArray = [] //mutable
 
 	const markedPlayers = players.map(player => {
@@ -40,6 +46,7 @@ const processPlayerCollisions = ({ players, food, mines, mineState }) => {
 		food,
 		mines,
 		mineState,
+		gameInfo,
 	}
 }
 

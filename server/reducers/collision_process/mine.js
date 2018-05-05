@@ -1,4 +1,10 @@
-const processMineCollisions = ({ players, food, mines, mineState }) => {
+const processMineCollisions = ({
+	players,
+	food,
+	mines,
+	mineState,
+	gameInfo,
+}) => {
 	const markedMineArray = [] // mutable
 
 	const checkCollision = head => {
@@ -25,6 +31,7 @@ const processMineCollisions = ({ players, food, mines, mineState }) => {
 		food,
 		mines: Object.assign({}, mines, ...markedMineArray),
 		mineState,
+		gameInfo,
 	}
 }
 

@@ -106,7 +106,7 @@ wss.on('connection', (ws, req) => {
 
 ////////////////////////
 // Main Loop
-function gameLoop({ players, food, mines, mineState }) {
+function gameLoop({ players, food, mines, mineState, gameInfo }) {
 	if (!gameRunning) return
 
 	////////////////////////
@@ -120,8 +120,8 @@ function gameLoop({ players, food, mines, mineState }) {
 	const playersAfterMove = move(
 		updatedPlayers,
 		directionQueue,
-		GRID_COLUMNS,
-		GRID_ROWS,
+		[GRID_COLUMNS, GRID_ROWS],
+		gameInfo,
 	)
 
 	const updatedState = reduceState({
@@ -129,6 +129,7 @@ function gameLoop({ players, food, mines, mineState }) {
 		food,
 		mines,
 		mineState,
+		gameInfo,
 	})
 	////////////////////////
 

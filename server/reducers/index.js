@@ -8,7 +8,12 @@ const pu_food = require('./position_update/food')
 const pu_mine = require('./position_update/mine')
 const pu_player = require('./position_update/player')
 
+const process_winner = require('./winner')
+const move = require('./move')
+const connectionUpdate = require('./connection_update')
+
 const reduceState = compose(
+	process_winner,
 	pu_player,
 	cp_player,
 	pu_mine,
@@ -16,9 +21,6 @@ const reduceState = compose(
 	pu_food,
 	cp_food,
 )
-
-const move = require('./move')
-const connectionUpdate = require('./connection_update')
 
 module.exports = {
 	reduceState,

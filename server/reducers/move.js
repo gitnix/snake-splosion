@@ -4,7 +4,7 @@ const { newBodyDirections } = require('../utils')
 // accounts for negative modulus
 const mod = (n, m) => (n % m + m) % m
 
-const move = (playersArray, directionQueue, ...dimensions) => {
+const move = (playersArray, directionQueue, dimensions, gameInfo) => {
 	// console.log('playersArray in move', playersArray)
 	const returnArray = playersArray.map(player => {
 		const direction = directionQueue[player.id][0]
@@ -12,6 +12,19 @@ const move = (playersArray, directionQueue, ...dimensions) => {
 		// make sure there is always a direction to go
 		if (directionQueue[player.id].length > 1) {
 			directionQueue[player.id].shift() // side effect
+		}
+
+		if (player.state === 'frozen') {
+			return player
+		}
+
+		// called when reset timer hit 0 and new game is starting
+		if (player.state === 'reset') {
+			return {
+				...player,
+				state: 'teleportReady',
+				deathTicks: DEATH_TICKS,
+			}
 		}
 
 		//////////////////////////////////////////

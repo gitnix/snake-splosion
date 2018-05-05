@@ -68,7 +68,7 @@ const updateUI = (players, playerId) => {
 const updateGame = (
 	state,
 	ctx,
-	{ width, height, cols, rows, mineTypeToDraw },
+	{ width, height, cols, rows, mineTypeToDraw, info },
 ) => {
 	ctx.clearRect(0, 0, width, height)
 
@@ -100,9 +100,7 @@ const updateGame = (
 					break
 				case player.body.length - 1:
 					ctx.drawImage(
-						TAIL[player.color][
-							getTailDirection(player.body, player.direction, cols, rows)
-						],
+						TAIL[player.color][player.bodyDirections[player.body.length - 2]],
 						scale(x),
 						scale(y),
 					)
@@ -124,6 +122,16 @@ const updateGame = (
 			}
 		})
 	})
+	if (info.winner) {
+		ctx.fillStyle = 'red'
+		ctx.font = '52px Do Hyeon'
+		ctx.textAlign = 'center'
+		ctx.fillText(`${info.winner.name}`, width / 2, height / 2 - 60)
+		ctx.fillText(`Wins!`, width / 2, height / 2)
+		ctx.font = '48px Do Hyeon'
+		ctx.fillText(`Restarting in ...`, width / 2, height / 2 + 60)
+		ctx.fillText(`${info.ticksUntilReset}`, width / 2, height / 2 + 120)
+	}
 }
 
 export { playAudio, setBackgroundImage, updateGame, updateUI }

@@ -69,6 +69,7 @@ socket.addEventListener('message', message => {
 				cols: GRID_COLUMNS,
 				rows: GRID_ROWS,
 				mineTypeToDraw,
+				info: state.gameInfo,
 			})
 			updateUI(state.players, playerId)
 			break
