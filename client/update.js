@@ -127,6 +127,16 @@ const updateGame = (
 			}
 		})
 	})
+
+	ctx.fillStyle = 'red'
+	ctx.font = '24px Do Hyeon'
+	ctx.textAlign = 'center'
+	ctx.fillText(
+		`Mines: ${Object.keys(state.mines).length}`,
+		width / 2,
+		height - 8,
+	)
+
 	if (info.winner) {
 		ctx.fillStyle = 'red'
 		ctx.font = '52px Do Hyeon'
