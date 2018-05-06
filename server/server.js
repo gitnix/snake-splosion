@@ -43,6 +43,27 @@ let prevImageQueueLength = 0
 ////////////////////////
 // WebSocket
 wss.on('connection', (ws, req) => {
+	// disconnections or unsuccessful connections throw errors
+	// will fail without err callback
+	ws.on('error', err => {
+		switch (err.code) {
+			case 'ECONNRESET':
+				console.log('A connection is set to be closed')
+				break
+			default:
+				console.log('WEBSOCKET ERROR ------', err)
+		}
+	})
+	if (wss.clients.size > 2) {
+		console.log('Server is full. Denying requested connection.')
+		ws.send(
+			JSON.stringify({
+				type: 'CONNECTION_DENIED',
+			}),
+		)
+		return
+	}
+
 	ws.id = uuid.v4()
 	console.log(`Client ${ws.id} has connected`)
 	console.log(`There are currently ${wss.clients.size} connected clients`)
@@ -75,18 +96,6 @@ wss.on('connection', (ws, req) => {
 			case 'CHANGE_DIRECTION':
 				directionQueue[id].push(direction)
 				break
-		}
-	})
-
-	// disconnections throw errors
-	// will fail without err callback
-	ws.on('error', err => {
-		switch (err.code) {
-			case 'ECONNRESET':
-				console.log('A connection is set to be closed')
-				break
-			default:
-				console.log('WEBSOCKET ERROR ------', err)
 		}
 	})
 

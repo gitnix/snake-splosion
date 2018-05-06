@@ -1,6 +1,12 @@
 import { protocol } from './client_dev'
 import { UNIT_SIZE } from './constants'
-import { playAudio, setBackgroundImage, updateGame, updateUI } from './update'
+import {
+	displayServerFullText,
+	playAudio,
+	setBackgroundImage,
+	updateGame,
+	updateUI,
+} from './update'
 import { scale, strToCoords } from './utils'
 import addKeyListener from './key_listener'
 
@@ -102,6 +108,8 @@ socket.addEventListener('message', message => {
 					document.getElementById('p2-image').src = imgArray[1]
 			})
 			break
+		case 'CONNECTION_DENIED':
+			displayServerFullText(layer1, WIDTH, HEIGHT)
 	}
 })
 

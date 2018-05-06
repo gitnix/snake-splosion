@@ -139,4 +139,18 @@ const updateGame = (
 	}
 }
 
-export { playAudio, setBackgroundImage, updateGame, updateUI }
+const displayServerFullText = (ctx, width, height) => {
+	ctx.fillStyle = 'red'
+	ctx.font = '48px Do Hyeon'
+	ctx.textAlign = 'center'
+	ctx.fillText('The server is currently full of snakes.', width / 2, height / 2)
+	ctx.fillText('Check back again later.', width / 2, height / 2 + 60)
+}
+
+export {
+	displayServerFullText,
+	playAudio,
+	setBackgroundImage,
+	updateGame,
+	updateUI,
+}
