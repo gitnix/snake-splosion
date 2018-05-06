@@ -21,9 +21,11 @@ const addId = (randomKey, imageQueue) => (stored, currentId) => {
 	const foundIndex = indexForId(stored, currentId)
 
 	let snakeName
+	const playerNames = stored.map(p => p.name)
 
 	if (foundIndex < 0) {
 		snakeName = getSnakeName()
+		while (playerNames.includes(snakeName)) snakeName = getSnakeName()
 		getSnakeImage(snakeName).then(url => {
 			imageQueue.push([currentId, url]) // side effect
 		})
