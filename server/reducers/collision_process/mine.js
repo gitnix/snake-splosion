@@ -9,7 +9,7 @@ const processMineCollisions = ({
 
 	const checkCollision = head => {
 		if (mines[head]) {
-			markedMineArray.push({ [head]: { isCollided: true } })
+			markedMineArray.push(head)
 			return true
 		}
 		return false
@@ -29,7 +29,8 @@ const processMineCollisions = ({
 	return {
 		players: markedPlayers,
 		food,
-		mines: Object.assign({}, mines, ...markedMineArray),
+		mines,
+		markedMines: markedMineArray,
 		mineState,
 		gameInfo,
 	}

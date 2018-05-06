@@ -10,6 +10,7 @@ const getStateAfterTeleportingPlayers = ({
 	players,
 	food,
 	mines,
+	markedMines,
 	mineState,
 	gameInfo,
 }) => {
@@ -34,6 +35,7 @@ const getStateAfterTeleportingPlayers = ({
 		players: teleportedPlayers,
 		food,
 		mines,
+		markedMines,
 		mineState,
 		gameInfo,
 	}

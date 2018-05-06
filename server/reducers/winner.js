@@ -1,7 +1,14 @@
 const initialState = require('../initial_game_state')
 const { TICKS_UNTIL_RESET } = require('../constants')
 
-const processWinner = ({ players, food, mines, mineState, gameInfo }) => {
+const processWinner = ({
+	players,
+	food,
+	mines,
+	markedMines,
+	mineState,
+	gameInfo,
+}) => {
 	if (gameInfo.winner) {
 		if (gameInfo.ticksUntilReset <= 0) {
 			return {
@@ -23,6 +30,7 @@ const processWinner = ({ players, food, mines, mineState, gameInfo }) => {
 		players,
 		food,
 		mines,
+		markedMines,
 		mineState,
 		gameInfo,
 	}

@@ -5320,6 +5320,10 @@ process@~0.5.1:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/process/-/process-0.5.2.tgz#1638d8a8e34c2f440a91db95ab9aeb677fc185cf"
 
+proton-js@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/proton-js/-/proton-js-3.1.2.tgz#dd78740ee9584b951da9b4feeb38b43f063e85b4"
+
 proxy-addr@~2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-2.0.3.tgz#355f262505a621646b3130a728eb647e22055341"

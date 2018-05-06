@@ -16,6 +16,7 @@
 		"express": "^4.16.2",
 		"google-images": "^2.1.0",
 		"node-vibrant": "^3.0.0",
+		"proton-js": "^3.1.2",
 		"ramda": "^0.25.0",
 		"ws": "^3.3.2",
 		"xstream": "^11.2.0"
@@ -40,7 +41,13 @@
 	},
 	"jest": {
 		"verbose": false,
-		"collectCoverageFrom": ["**/*.js", "!**/node_modules/**"],
-		"moduleDirectories": ["<rootDir>", "node_modules"]
+		"collectCoverageFrom": [
+			"**/*.js",
+			"!**/node_modules/**"
+		],
+		"moduleDirectories": [
+			"<rootDir>",
+			"node_modules"
+		]
 	}
 }

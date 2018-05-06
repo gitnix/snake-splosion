@@ -6,6 +6,12 @@ import addKeyListener from './key_listener'
 
 import './assets/snake.css'
 
+import setupParticles from './setup_particles'
+import { explosionAudio } from './assets/audio'
+
+let state = {}
+let protonArray = []
+
 // canvas where main game is drawn
 const canvas1 = document.getElementById('layer-1')
 const layer1 = canvas1.getContext('2d')
@@ -14,18 +20,26 @@ const WIDTH = canvas1.width
 const HEIGHT = canvas1.height
 
 // canvas where extra effects are drawn
-// const canvasTop = document.getElementById('layer-2')
-// const layer2 = canvasTop.getContext('2d')
+const canvas2 = document.getElementById('layer-2')
+const layer2 = canvas2.getContext('2d')
 
 // test blob for second canvas
-// const drawOtherStuff = (x, y, color) => {
-// 	layer2.clearRect(0, 0, WIDTH, HEIGHT)
-// 	layer2.fillStyle = 'blue'
-// 	layer2.fillRect(30, 30, 100, 100)
-// 	layer2.stroke()
-// 	window.requestAnimationFrame(drawOtherStuff)
-// }
-// window.requestAnimationFrame(drawOtherStuff)
+const drawEffects = (x, y, color) => {
+	layer2.clearRect(0, 0, WIDTH, HEIGHT)
+	if (!!state.markedMines && state.markedMines.length > 0) {
+		explosionAudio.play()
+		state.markedMines.forEach(m => {
+			const proton = setupParticles(canvas2, m)
+			protonArray.push(proton)
+		})
+		state.markedMines = null
+	}
+	protonArray.forEach(p => p.update())
+	// remove expired protons
+	if (protonArray.length > 7) protonArray.splice(0, 3)
+	window.requestAnimationFrame(drawEffects)
+}
+window.requestAnimationFrame(drawEffects)
 
 ////////////////////////
 // initialized on server connection
@@ -48,8 +62,6 @@ const hashCode = (str, savedColorHash) => {
 const pickColor = (str, lightness) => {
 	return `hsl(${hashCode(str) % 360}, 100%, ${lightness}%)`
 }
-
-let state = {}
 
 const socket = new WebSocket(`${protocol}://${location.host}`)
 

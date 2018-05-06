@@ -4,6 +4,7 @@ const processPlayerCollisions = ({
 	players,
 	food,
 	mines,
+	markedMines,
 	mineState,
 	gameInfo,
 }) => {
@@ -45,6 +46,7 @@ const processPlayerCollisions = ({
 		players: markedPlayers,
 		food,
 		mines,
+		markedMines,
 		mineState,
 		gameInfo,
 	}

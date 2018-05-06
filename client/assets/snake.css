@@ -51,9 +51,7 @@ body {
 	position: relative;
 }
 
-#layer-1 {
-	background-repeat: no-repeat;
-	background-size: 100% 100%;
+canvas {
 	border-radius: 13px;
 	border: 2px solid #2a5f3a;
 	height: 100%;
@@ -64,6 +62,15 @@ body {
 	right: 0;
 	/* for canvas drawing quirk */
 	top: -4px;
+}
+
+#layer-1 {
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+#layer-2 {
+	z-index: 2;
 }
 
 #players-container {
