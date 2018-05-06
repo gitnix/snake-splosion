@@ -73,6 +73,44 @@ canvas {
 	z-index: 2;
 }
 
+#chat-panel {
+	display: block;
+}
+
+#message-list {
+	list-style-type: none;
+	width: 14vw;
+	max-height: 38vh;
+	overflow: hidden;
+}
+
+#message-list > li {
+	margin-bottom: 0.5em;
+}
+
+.chat-message {
+	color: #fae5b9;
+	font-size: 13px;
+	font-family: 'Arial', sans-serif;
+	padding-left: 0.5em;
+}
+
+#chat-form {
+	position: absolute;
+	bottom: 0;
+	color: #fae5b9;
+	padding-left: 0.4em;
+}
+
+#chat-input {
+	border-radius: 10px;
+	margin-left: 0.5em;
+}
+
+#chat-help {
+	margin-top: 0.5em;
+}
+
 #players-container {
 	background-image: url('backgrounds/metal.png');
 	border-radius: 5px;
@@ -199,7 +237,7 @@ canvas {
 	}
 }
 
-@media (max-width: 51em) {
+@media (max-width: 74em) {
 	body {
 		-moz-transform: scale(0.5);
 		zoom: 0.5;
@@ -207,22 +245,42 @@ canvas {
 }
 
 @media (max-width: 79em) {
-	body {
-		margin: 0;
-	}
-
 	#banner-snake {
 		max-height: 9vh;
 		max-width: 21vw;
 	}
 
 	#banner-title {
-		font-size: 20px;
+		font-size: 2em;
 	}
 }
 
 @media (min-width: 79em) and (max-width: 100em) {
 	#banner-snake {
 		max-height: 9vh;
+	}
+}
+
+@media (min-width: 74em) and (max-width: 79em) {
+	#banner-snake {
+		margin-left: 15%;
+	}
+}
+
+@media (min-width: 79em) and (max-width: 100em) and (min-height: 80em) {
+	#banner-snake {
+		margin-left: 15%;
+	}
+}
+
+@media (max-width: 42em) {
+	#chat-panel {
+		display: none;
+	}
+}
+
+@media (max-width: 115em) and (min-height: 80em) {
+	#chat-panel {
+		display: none;
 	}
 }

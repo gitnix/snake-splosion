@@ -128,7 +128,7 @@ const updateGame = (
 		})
 	})
 
-	ctx.fillStyle = 'red'
+	ctx.fillStyle = '#9e4646ed'
 	ctx.font = '24px Do Hyeon'
 	ctx.textAlign = 'center'
 	ctx.fillText(

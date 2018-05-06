@@ -1,5 +1,5 @@
 import { protocol } from './client_dev'
-import { UNIT_SIZE } from './constants'
+import { UNIT_SIZE, COLOR_MAP } from './constants'
 import {
 	displayServerFullText,
 	playAudio,
@@ -9,6 +9,7 @@ import {
 } from './update'
 import { scale, strToCoords } from './utils'
 import addKeyListener from './key_listener'
+import { setMovementStatus } from './globals'
 
 import './assets/snake.css'
 
@@ -28,6 +29,17 @@ const HEIGHT = canvas1.height
 // canvas where extra effects are drawn
 const canvas2 = document.getElementById('layer-2')
 const layer2 = canvas2.getContext('2d')
+
+document.addEventListener('keydown', e => {
+	if (e.key === 'c') {
+		document.getElementById('chat-input').focus()
+	}
+})
+
+document.getElementById('chat-input').addEventListener('focus', e => {
+	setMovementStatus(false)
+	setTimeout(() => (document.getElementById('chat-input').value = ''), 1)
+})
 
 // test blob for second canvas
 const drawEffects = (x, y, color) => {
@@ -71,6 +83,24 @@ const pickColor = (str, lightness) => {
 
 const socket = new WebSocket(`${protocol}://${location.host}`)
 
+document.getElementById('chat-form').addEventListener('submit', e => {
+	e.preventDefault()
+	const chatInput = document.getElementById('chat-input')
+	const { color, name } = state.players.find(p => p.id === playerId)
+	socket.send(
+		JSON.stringify({
+			type: 'CHAT_MESSAGE',
+			id: playerId,
+			name,
+			color,
+			message: chatInput.value,
+		}),
+	)
+	chatInput.value = ''
+	chatInput.blur()
+	setMovementStatus(true)
+})
+
 socket.addEventListener('open', () => {
 	console.log('successful connection')
 })
@@ -110,6 +140,15 @@ socket.addEventListener('message', message => {
 			break
 		case 'CONNECTION_DENIED':
 			displayServerFullText(layer1, WIDTH, HEIGHT)
+			break
+		case 'CHAT_MESSAGE':
+			const msgList = document.getElementById('message-list')
+			const msgItem = document.createElement('li')
+			msgItem.innerHTML = `<div style="color:${COLOR_MAP[msg.color]}">${
+				msg.name
+			}:</div><div class="chat-message">${msg.message}</div>`
+			msgList.appendChild(msgItem)
+			msgList.scrollTop = msgList.scrollHeight
 	}
 })
 

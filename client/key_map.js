@@ -1,7 +1,7 @@
-const LEFT = ['ArrowLeft', 'a']
-const RIGHT = ['ArrowRight', 'd']
-const UP = ['ArrowUp', 'w']
-const DOWN = ['ArrowDown', 's']
+const LEFT = ['ArrowLeft', 'a', 'j']
+const RIGHT = ['ArrowRight', 'd', 'l']
+const UP = ['ArrowUp', 'w', 'i']
+const DOWN = ['ArrowDown', 's', 'k']
 
 // [direction, opposites]
 const keyMap = {
@@ -13,6 +13,10 @@ const keyMap = {
 	d: ['RIGHT', LEFT],
 	w: ['UP', DOWN],
 	s: ['DOWN', UP],
+	j: ['LEFT', RIGHT],
+	l: ['RIGHT', LEFT],
+	i: ['UP', DOWN],
+	k: ['DOWN', UP],
 }
 
 const areOpposites = (curr, last) => keyMap[last][1].includes(curr)

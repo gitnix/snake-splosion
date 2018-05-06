@@ -1,7 +1,9 @@
 import fromEvent from 'xstream/extra/fromEvent'
 import dropRepeats from 'xstream/extra/dropRepeats'
+import xs from 'xstream'
 import { equals, ifElse, or } from 'ramda'
 import KEY_MAP from './key_map'
+import { getMovementStatus } from './globals'
 
 const shouldDrop = ifElse(
 	({ curr }) => KEY_MAP.has(curr),
@@ -9,9 +11,10 @@ const shouldDrop = ifElse(
 	() => true,
 )
 
-export default (startingKey, socket, playerId) => {
+export default (startingKey, socket, playerId, extraProps) => {
 	const keyPress$ = fromEvent(document, 'keydown')
 		.startWith({ key: startingKey })
+		.filter(() => getMovementStatus())
 		.compose(
 			dropRepeats((current, last) =>
 				shouldDrop({ curr: current.key, last: last.key }),

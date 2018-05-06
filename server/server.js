@@ -91,11 +91,19 @@ wss.on('connection', (ws, req) => {
 	)
 
 	ws.on('message', message => {
-		const { type, id, direction } = JSON.parse(message)
+		const msg = JSON.parse(message)
+		const { type, id, direction } = msg
 		switch (type) {
 			case 'CHANGE_DIRECTION':
 				directionQueue[id].push(direction)
 				break
+			case 'CHAT_MESSAGE':
+				broadcast(wss.clients, {
+					type: 'CHAT_MESSAGE',
+					message: msg.message,
+					name: msg.name,
+					color: msg.color,
+				})
 		}
 	})
 
