@@ -1,5 +1,6 @@
 import { find, propEq } from 'ramda'
 
+import { COLOR_MAP } from './constants'
 import { getBodyDirection, getTailDirection, scale, strToCoords } from './utils'
 import { idFor, updateDOM } from './dom'
 import { FOOD, MINE, BODY, HEAD, TAIL } from './assets/images'
@@ -55,6 +56,8 @@ const updateUI = (players, playerId) => {
 	updateDOM(1, 'score', p1.score, ' pts')
 	updateDOM(1, 'name', p1.name)
 	updateImage(1, p1.state)
+	const playerColorDiv = idFor(1, 'color')
+	playerColorDiv.style.background = COLOR_MAP[p1.color]
 
 	otherPlayers.forEach((player, index) => {
 		// first other player is 2 (0 + 2)
@@ -62,6 +65,8 @@ const updateUI = (players, playerId) => {
 		updateDOM(i, 'score', player.score, ' pts')
 		updateDOM(i, 'name', player.name)
 		updateImage(i, player.state)
+		const playerColorDiv = idFor(i, 'color')
+		playerColorDiv.style.background = COLOR_MAP[player.color]
 	})
 }
 

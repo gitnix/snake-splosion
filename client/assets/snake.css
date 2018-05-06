@@ -153,8 +153,8 @@ canvas {
 }
 
 .player-color {
-	background: brown;
-	height: 0.4em;
+	background: black;
+	height: 0.8em;
 	justify-self: center;
 	margin-top: 0.3em;
 	width: 50%;
