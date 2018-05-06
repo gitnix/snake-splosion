@@ -1,7 +1,13 @@
 import { find, propEq } from 'ramda'
 
-import { COLOR_MAP } from './constants'
-import { getBodyDirection, getTailDirection, scale, strToCoords } from './utils'
+import { COLOR_MAP, UNIT_SIZE } from './constants'
+import {
+	getBodyDirection,
+	getTailDirection,
+	roundRect,
+	scale,
+	strToCoords,
+} from './utils'
 import { idFor, updateDOM } from './dom'
 import { FOOD, MINE, BODY, HEAD, TAIL } from './assets/images'
 
@@ -138,14 +144,56 @@ const updateGame = (
 	)
 
 	if (info.winner) {
+		const winnerColor = state.players.find(p => p.id === info.winner.id).color
 		ctx.fillStyle = 'red'
 		ctx.font = '52px Do Hyeon'
 		ctx.textAlign = 'center'
 		ctx.fillText(`${info.winner.name}`, width / 2, height / 2 - 60)
 		ctx.fillText(`Wins!`, width / 2, height / 2)
 		ctx.font = '48px Do Hyeon'
-		ctx.fillText(`Restarting in ...`, width / 2, height / 2 + 60)
-		ctx.fillText(`${info.ticksUntilReset}`, width / 2, height / 2 + 120)
+		ctx.fillText(`Restarting...`, width / 2, height / 2 + 60)
+		ctx.fillStyle = '#F6F6F6'
+
+		const centerWidth = width / 2
+		const centerHeight = height / 2
+		const barOffset = 305
+		const drawOffset = 305
+		const tailOffset = drawOffset + 20
+		const loadingHeight = 85
+
+		roundRect(
+			ctx,
+			centerWidth - barOffset,
+			centerHeight + loadingHeight,
+			info.maxTicksUntilReset / 3 * UNIT_SIZE,
+			20,
+			10,
+		)
+
+		const maxVal =
+			Math.round((info.maxTicksUntilReset - info.ticksUntilReset) / 3) - 1
+
+		ctx.drawImage(
+			TAIL[winnerColor]['RIGHT'],
+			centerWidth - tailOffset,
+			centerHeight + loadingHeight,
+		)
+
+		for (let i = maxVal; i >= 0; i--) {
+			if (i === maxVal) {
+				ctx.drawImage(
+					HEAD[winnerColor]['RIGHT'],
+					centerWidth - drawOffset + i * UNIT_SIZE,
+					centerHeight + loadingHeight,
+				)
+			} else {
+				ctx.drawImage(
+					BODY[winnerColor]['CENTER'],
+					centerWidth - drawOffset + i * UNIT_SIZE,
+					centerHeight + loadingHeight,
+				)
+			}
+		}
 	}
 }
 

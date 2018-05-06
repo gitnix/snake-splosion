@@ -14,7 +14,11 @@ const processWinner = ({
 			return {
 				...initialState,
 				players: players.map(p => ({ ...p, score: 0, state: 'reset' })),
-				gameInfo: { winner: null, ticksUntilReset: TICKS_UNTIL_RESET },
+				gameInfo: {
+					...gameInfo,
+					winner: null,
+					ticksUntilReset: TICKS_UNTIL_RESET,
+				},
 			}
 		}
 		return {

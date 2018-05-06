@@ -10,5 +10,9 @@ module.exports = {
 		turnToAdd: 1,
 		mineMultiplier: 1,
 	},
-	gameInfo: { winner: null, ticksUntilReset: TICKS_UNTIL_RESET },
+	gameInfo: {
+		winner: null,
+		ticksUntilReset: TICKS_UNTIL_RESET,
+		maxTicksUntilReset: TICKS_UNTIL_RESET,
+	},
 }
