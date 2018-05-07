@@ -9,7 +9,7 @@ import {
 } from './update'
 import { scale, strToCoords } from './utils'
 import addKeyListener from './key_listener'
-import { setMovementStatus } from './globals'
+import { setMovementStatus, setPlayerMap } from './globals'
 
 import './assets/snake.css'
 
@@ -110,6 +110,7 @@ socket.addEventListener('message', message => {
 	switch (msg.type) {
 		case 'STATE_UPDATE':
 			state = msg.state
+			state.players.forEach(p => setPlayerMap(p.id, p))
 			playAudio(state.players, playerId)
 			updateGame(state, layer1, {
 				width: WIDTH,

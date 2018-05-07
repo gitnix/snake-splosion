@@ -3,21 +3,25 @@ import dropRepeats from 'xstream/extra/dropRepeats'
 import xs from 'xstream'
 import { equals, ifElse, or } from 'ramda'
 import KEY_MAP from './key_map'
-import { getMovementStatus } from './globals'
+import { getMovementStatus, getPlayerMap } from './globals'
 
-const shouldDrop = ifElse(
-	({ curr }) => KEY_MAP.has(curr),
-	({ curr, last }) => or(KEY_MAP.areOpposites(curr, last), equals(curr, last)),
-	() => true,
-)
+const shouldDrop = id =>
+	ifElse(
+		({ curr }) => KEY_MAP.has(curr),
+		({ curr, last }) =>
+			getPlayerMap(id).state === 'readyToMove'
+				? false
+				: or(KEY_MAP.areOpposites(curr, last), equals(curr, last)),
+		() => true,
+	)
 
-export default (startingKey, socket, playerId, extraProps) => {
+export default (startingKey, socket, playerId) => {
 	const keyPress$ = fromEvent(document, 'keydown')
 		.startWith({ key: startingKey })
 		.filter(() => getMovementStatus())
 		.compose(
 			dropRepeats((current, last) =>
-				shouldDrop({ curr: current.key, last: last.key }),
+				shouldDrop(playerId)({ curr: current.key, last: last.key }),
 			),
 		)
 

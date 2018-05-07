@@ -13,6 +13,12 @@ import { FOOD, MINE, BODY, HEAD, TAIL } from './assets/images'
 
 import { collisionAudio, eatAudio } from './assets/audio'
 
+let blinkTurn = {
+	GREEN: 1,
+	PINK: 1,
+	BLUE: 1,
+}
+
 const drawUnit = (ctx, x, y, color) => {
 	ctx.fillStyle = color
 	ctx.fillRect(scale(x), scale(y), scale(), scale())
@@ -100,6 +106,15 @@ const updateGame = (
 				// get location and set function in motion to draw a teleport thing over specified time
 			}
 
+			if (player.state === 'readyToMove') {
+				blinkTurn[player.color]++
+				if (blinkTurn[player.color] % 10 > 5) {
+					return
+				}
+				drawUnit(ctx, x, y, COLOR_MAP[player.color])
+				return
+			}
+
 			switch (index) {
 				case 0:
 					ctx.drawImage(
@@ -160,7 +175,6 @@ const updateGame = (
 		const tailOffset = drawOffset + 20
 		const loadingHeight = 85
 
-		console.log('going to draw reoundRect')
 		roundRect(
 			ctx,
 			centerWidth - barOffset,

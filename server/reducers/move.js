@@ -7,6 +7,23 @@ const mod = (n, m) => (n % m + m) % m
 const move = (playersArray, directionQueue, dimensions) => {
 	// console.log('playersArray in move', playersArray)
 	const returnArray = playersArray.map(player => {
+		if (player.state === 'teleported') {
+			directionQueue[player.id].splice(0) // side effect
+			return {
+				...player,
+				state: 'readyToMove',
+			}
+		}
+
+		if (player.state === 'readyToMove') {
+			if (directionQueue[player.id].length < 1) {
+				return {
+					...player,
+					state: 'readyToMove',
+				}
+			}
+		}
+
 		const direction = directionQueue[player.id][0]
 
 		// make sure there is always a direction to go

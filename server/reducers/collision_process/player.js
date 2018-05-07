@@ -24,7 +24,10 @@ const processPlayerCollisions = ({
 		let shouldSlice = true
 
 		const head = player.body[0]
-		const isCollided = selfPositions.concat(otherPositions).includes(head)
+		const isCollided =
+			player.state === 'readyToMove'
+				? false
+				: selfPositions.concat(otherPositions).includes(head)
 
 		if (isCollided) {
 			if (collisionArray.includes(player.body[0])) shouldSlice = false
