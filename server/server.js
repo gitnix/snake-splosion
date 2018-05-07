@@ -134,12 +134,10 @@ function gameLoop({ players, food, mines, mineState, gameInfo }) {
 		imageQueue,
 	)
 
-	const playersAfterMove = move(
-		updatedPlayers,
-		directionQueue,
-		[GRID_COLUMNS, GRID_ROWS],
-		gameInfo,
-	)
+	const playersAfterMove = move(updatedPlayers, directionQueue, [
+		GRID_COLUMNS,
+		GRID_ROWS,
+	])
 
 	const updatedState = reduceState({
 		players: playersAfterMove,

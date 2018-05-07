@@ -4,7 +4,7 @@ const { newBodyDirections } = require('../utils')
 // accounts for negative modulus
 const mod = (n, m) => (n % m + m) % m
 
-const move = (playersArray, directionQueue, dimensions, gameInfo) => {
+const move = (playersArray, directionQueue, dimensions) => {
 	// console.log('playersArray in move', playersArray)
 	const returnArray = playersArray.map(player => {
 		const direction = directionQueue[player.id][0]

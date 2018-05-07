@@ -16,7 +16,6 @@ import { collisionAudio, eatAudio } from './assets/audio'
 const drawUnit = (ctx, x, y, color) => {
 	ctx.fillStyle = color
 	ctx.fillRect(scale(x), scale(y), scale(), scale())
-	ctx.stroke()
 }
 
 const playAudio = (players, id) => {
@@ -161,14 +160,16 @@ const updateGame = (
 		const tailOffset = drawOffset + 20
 		const loadingHeight = 85
 
+		console.log('going to draw reoundRect')
 		roundRect(
 			ctx,
 			centerWidth - barOffset,
 			centerHeight + loadingHeight,
-			info.maxTicksUntilReset / 3 * UNIT_SIZE,
+			Math.round(info.maxTicksUntilReset / 3 * UNIT_SIZE),
 			20,
-			10,
+			20,
 		)
+		ctx.fill()
 
 		const maxVal =
 			Math.round((info.maxTicksUntilReset - info.ticksUntilReset) / 3) - 1
