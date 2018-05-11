@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Do+Hyeon');
+
 body {
 	background: #2b2a2a;
 	font-family: 'Do Hyeon', sans-serif;
 	margin: 1em;
 }
 
-#grid {
+#container {
 	display: grid;
 	grid-row-gap: 1em;
 	grid-template-rows: 1fr 7fr 2fr;
@@ -131,19 +133,22 @@ canvas {
 	padding: 12px;
 	will-change: transform;
 
+	animation: grow 0.4s ease-in-out;
+	will-change: transform;
+
 	/* used to get cool overflow effect over parent container */
 	height: 97%;
 	margin-top: -10px;
 }
 
-.player-card.active {
+/* .player-card.active {
 	animation: grow 0.4s ease-in-out;
 	will-change: transform;
-}
+} */
 
-.player-card:not(.active) {
+/* .player-card:not(.active) {
 	display: none;
-}
+} */
 
 .player-card.dead {
 	animation: shake 0.4s ease-in-out;

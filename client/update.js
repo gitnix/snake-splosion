@@ -26,6 +26,7 @@ const drawUnit = (ctx, x, y, color) => {
 
 const playAudio = (players, id) => {
 	const currentPlayer = find(propEq('id', id))(players)
+	if (!currentPlayer) return
 	switch (currentPlayer.state) {
 		case 'eating':
 			eatAudio.play()
@@ -81,11 +82,7 @@ const updateUI = (players, playerId) => {
 	})
 }
 
-const updateGame = (
-	state,
-	ctx,
-	{ width, height, cols, rows, mineTypeToDraw, info },
-) => {
+const updateGame = (state, ctx, { width, height, mineTypeToDraw, info }) => {
 	ctx.clearRect(0, 0, width, height)
 
 	Object.keys(state.food).forEach(key => {

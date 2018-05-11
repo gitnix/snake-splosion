@@ -84,8 +84,6 @@ wss.on('connection', (ws, req) => {
 			type: 'GAME_CONNECTION',
 			id: ws.id,
 			startingKey,
-			GRID_COLUMNS,
-			GRID_ROWS,
 			backgroundImage,
 		}),
 	)
@@ -100,9 +98,11 @@ wss.on('connection', (ws, req) => {
 			case 'CHAT_MESSAGE':
 				broadcast(wss.clients, {
 					type: 'CHAT_MESSAGE',
-					message: msg.message,
-					name: msg.name,
-					color: msg.color,
+					message: {
+						contents: msg.contents,
+						sender: msg.sender,
+						color: msg.color,
+					},
 				})
 		}
 	})

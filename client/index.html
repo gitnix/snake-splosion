@@ -1,80 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Snake 'Splosion</title>
-	<link rel="icon" type="image/png" href="favicon.png" />
-	<link rel="stylesheet" type="text/css" href="normalize.css">
-	<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
-	<!-- <link rel="stylesheet" type="text/css" href="snake.css"> -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Snake Splosion</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-	<div id="grid">
-		<div id="banner">
-			<image id="banner-snake" src="images/banner_snake.png" />
-			<div id="banner-title">
-				Snake 'Splosion
-			</div>
-			<image id="banner-fire" src="images/banner_fire.png" />
-		</div>
-		<div id="multi-canvas-container">
-			<canvas id="layer-1" width="800" height="600"></canvas>
-			<canvas id="layer-2" width="800" height="600"></canvas>
-			<div id="chat-panel">
-				<ul id="message-list"></ul>
-				<form id="chat-form">
-					Chat:
-					<input id="chat-input" maxlength="110" type="text">
-					<div id="chat-help">
-						<div>Press c to focus chat.</div>
-						<div>Game will be refocused after message is sent.</div>
-					</div>
-				</form>
-			</div>
-		</div>
-		<div id="players-container">
-
-			<div class="player-card active" id="p1-card">
-				<div class="player-image-and-name-container">
-					<image class="player-image" id="p1-image" src="images/venomous_brown_tree_snake.jpg" />
-					<div class="player-name" id="p1-name">Player 1</div>
-				</div>
-				<div class="player-score" id="p1-score">0 pts</div>
-				<div class="player-color" id="p1-color"></div>
-			</div>
-
-			<div class="player-card active" id="p2-card">
-				<div class="player-image-and-name-container">
-					<image class="player-image" id="p2-image" src="images/venomous_brown_tree_snake.jpg" />
-					<div class="player-name" id="p2-name">Player 2</div>
-				</div>
-				<div class="player-score" id="p2-score">0 pts</div>
-				<div class="player-color" id="p2-color"></div>
-			</div>
-
-			<div class="player-card" id="p3-card">
-				<div class="player-image-and-name-container">
-					<image class="player-image" id="p3-image" src="images/venomous_brown_tree_snake.jpg" />
-					<div class="player-name" id="p3-name">Player 3</div>
-				</div>
-				<div class="player-score">0 pts</div>
-				<div class="player-color" id="p3-color"></div>
-			</div>
-
-			<div class="player-card" id="p4-card">
-				<div class="player-image-and-name-container">
-					<image class="player-image" id="p4-image" src="images/venomous_brown_tree_snake.jpg" />
-					<div class="player-name">Player 4</div>
-				</div>
-				<div class="player-score">0 pts</div>
-				<div class="player-color" id="p4-color"></div>
-			</div>
-
-
-		</div>
-	</div>
+	<div id="container"></div>
 </body>
 
 </html>
