@@ -13,6 +13,7 @@ const Bottom = props => {
 					key={p.name}
 					name={p.name}
 					score={p.score}
+					state={p.state}
 				/>
 			))}
 		</div>

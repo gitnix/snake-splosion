@@ -1,9 +1,10 @@
 import React from 'react'
 
 const PlayerCard = props => {
-	const { color, imgSrc, name, score } = props
+	const { color, imgSrc, name, score, state } = props
+	const isDead = state === 'dead' ? true : false
 	return (
-		<div className="player-card">
+		<div className={`player-card ${isDead ? 'dead' : ''}`}>
 			<div className="player-image-and-name-container">
 				<img className="player-image" src={imgSrc} />
 				<div className="player-name">{name}</div>
