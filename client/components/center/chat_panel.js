@@ -34,6 +34,11 @@ class ChatPanel extends Component {
 
 	onSubmit(e) {
 		e.preventDefault()
+		if (this.state.value === '') {
+			this.inputDOM.blur()
+			setMovementStatus(true)
+			return
+		}
 		this.props.socket.send(
 			JSON.stringify({
 				type: 'CHAT_MESSAGE',
