@@ -4,6 +4,7 @@ const {
 	DIRECTIONS,
 	GRID_COLUMNS,
 	GRID_ROWS,
+	MINE_SPAWN_DISTANCE,
 	NEW_BODY_LENGTH,
 } = require('./constants')
 
@@ -29,15 +30,65 @@ const directionToKey = dir => {
 	}
 }
 
-const getRandom = bounds => Math.floor(Math.random() * bounds)
-const getRandomKey = () =>
-	'' + getRandom(GRID_COLUMNS) + '_' + getRandom(GRID_ROWS)
-const getValidRandomKey = array => {
-	let randomKey = getRandomKey()
-	while (array.includes(randomKey)) {
-		randomKey = getRandomKey()
+const getCoordsAroundPoint = (x, y) => {
+	return [
+		keysToString(x, y - 1),
+		keysToString(x, y + 1),
+		keysToString(x - 1, y),
+		keysToString(x + 1, y),
+	]
+}
+
+const getCoordSet = (x, y, distance = 2) => {
+	let coordSet = new Set()
+	for (let i = 0; i < distance; i++) {
+		if (i == 0) {
+			getCoordsAroundPoint(x, y).forEach(coord => coordSet.add(coord))
+		} else {
+			getCoordsAroundPoint(x + i, y).forEach(coord => coordSet.add(coord))
+			getCoordsAroundPoint(x - i, y).forEach(coord => coordSet.add(coord))
+			getCoordsAroundPoint(x, y + i).forEach(coord => coordSet.add(coord))
+			getCoordsAroundPoint(x, y - i).forEach(coord => coordSet.add(coord))
+		}
 	}
-	return randomKey
+	return coordSet
+}
+
+const getCollisionStatusAndKey = (allPosArray, playersArray) => {
+	let randX = getRandom(GRID_COLUMNS)
+	let randY = getRandom(GRID_ROWS)
+	let randomKey = keysToString(randX, randY)
+	while (allPosArray.includes(randomKey)) {
+		randX = getRandom(GRID_COLUMNS)
+		randY = getRandom(GRID_ROWS)
+		randomKey = keysToString(randX, randY)
+	}
+
+	if (!playersArray || !playersArray.length) {
+		return [false, randomKey]
+	}
+
+	let perimeterSet = getCoordSet(randX, randY, MINE_SPAWN_DISTANCE)
+	playersArray.forEach(p => {
+		perimeterSet.forEach(coord => {
+			if (coord === p.body[0]) {
+				return [true, null]
+			}
+		})
+	})
+
+	return [false, randomKey]
+}
+
+const getRandom = bounds => Math.floor(Math.random() * bounds)
+const keysToString = (x, y) => '' + x + '_' + y
+const getValidRandomKey = (allPosArray, playersArray) => {
+	let distanceCheck = true
+	let key = null
+	while (distanceCheck) {
+		;[distanceCheck, key] = getCollisionStatusAndKey(allPosArray, playersArray)
+	}
+	return key
 }
 
 const getAllFoodPositions = food => Object.keys(food)
