@@ -17,6 +17,7 @@ let blinkTurn = {
 	GREEN: 1,
 	PINK: 1,
 	BLUE: 1,
+	GOLD: 1,
 }
 
 const drawUnit = (ctx, x, y, color) => {
@@ -64,10 +65,13 @@ const updateGame = (
 
 			if (player.state === 'readyToMove') {
 				blinkTurn[player.color]++
-				if (blinkTurn[player.color] % 10 > 5) {
+				if (blinkTurn[player.color] <= 10) {
 					return
 				}
-				drawUnit(ctx, x, y, COLOR_MAP[player.color])
+				if (blinkTurn[player.color] > 10) {
+					if (blinkTurn[player.color] >= 16) blinkTurn[player.color] = 1
+					drawUnit(ctx, x, y, COLOR_MAP[player.color])
+				}
 				return
 			}
 
@@ -94,7 +98,7 @@ const updateGame = (
 						default:
 							ctx.drawImage(
 								BODY[player.color][
-									getBodyDirection(player.bodyDirections, index)
+									getBodyDirection(player.bodyDirections, index, player.color)
 								],
 								scale(x),
 								scale(y),
