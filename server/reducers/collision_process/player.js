@@ -40,7 +40,9 @@ const processPlayerCollisions = ({
 			body: isCollided && shouldSlice ? player.body.slice(1) : player.body,
 			bodyDirections:
 				isCollided && shouldSlice
-					? newBodyDirections(player, { type: 'remove' })
+					? newBodyDirections(player.bodyDirections.slice(1), {
+							type: 'remove',
+					  })
 					: player.bodyDirections,
 		}
 	})

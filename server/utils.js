@@ -67,19 +67,16 @@ const getRandomDirection = () =>
 
 const newBody = key => new Array(NEW_BODY_LENGTH).fill(key)
 
-const newBodyDirections = (player, { type, direction }) => {
+const newBodyDirections = (bodyDirections, { type, direction }) => {
 	switch (type) {
 		case 'move':
-			return player.bodyDirections
-				? [
-						direction,
-						...player.bodyDirections.slice(0, player.bodyDirections.length - 1),
-				  ]
+			return bodyDirections
+				? [direction, ...bodyDirections.slice(0, bodyDirections.length - 1)]
 				: new Array(NEW_BODY_LENGTH).fill(direction)
 		case 'add':
-			return player.bodyDirections.concat(player.direction)
+			return bodyDirections.concat(direction)
 		case 'remove':
-			return player.bodyDirections.slice(0, player.bodyDirections.length - 1)
+			return bodyDirections.slice(0, bodyDirections.length - 1)
 	}
 }
 

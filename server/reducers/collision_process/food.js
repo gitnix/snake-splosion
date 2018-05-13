@@ -52,7 +52,10 @@ const processFoodCollisions = ({
 			bodyDirections: isWinner
 				? player.bodyDirections
 				: isCollided
-					? newBodyDirections(player, { type: 'add' })
+					? newBodyDirections(player.bodyDirections, {
+							type: 'add',
+							direction: player.direction,
+					  })
 					: player.bodyDirections,
 		}
 	})

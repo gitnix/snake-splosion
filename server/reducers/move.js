@@ -63,7 +63,9 @@ const move = (playersArray, directionQueue, dimensions, imageMap) => {
 			return {
 				...player,
 				body: player.body.slice(0, player.body.length - 1),
-				bodyDirections: newBodyDirections(player, { type: 'remove' }),
+				bodyDirections: newBodyDirections(player.bodyDirections, {
+					type: 'remove',
+				}),
 				deathTicks: DEATH_TICKS,
 			}
 		}
@@ -78,7 +80,10 @@ const move = (playersArray, directionQueue, dimensions, imageMap) => {
 			state: 'normal',
 			direction,
 			img: imageMap.get(player.id),
-			bodyDirections: newBodyDirections(player, { type: 'move', direction }),
+			bodyDirections: newBodyDirections(player.bodyDirections, {
+				type: 'move',
+				direction,
+			}),
 		}
 	})
 	// console.log('returnArray', returnArray)
