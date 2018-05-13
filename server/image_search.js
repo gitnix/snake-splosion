@@ -7,6 +7,7 @@ const getImage = async snakeName => {
 	try {
 		// const snakeImages = await client.search(snakeName + ' snake')
 		// const snakeImage = snakeImages[getRandom(snakeImages.length)].url
+		// console.log('fetching snake image ----', snakeImage)
 		// return snakeImage
 
 		// hard code for development

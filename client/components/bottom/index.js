@@ -9,7 +9,7 @@ const Bottom = props => {
 			{props.players.map(p => (
 				<PlayerCard
 					color={COLOR_MAP[p.color]}
-					imgSrc="images/venomous_brown_tree_snake.jpg"
+					imgSrc={p.img}
 					key={p.name}
 					name={p.name}
 					score={p.score}

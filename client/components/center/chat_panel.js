@@ -44,7 +44,7 @@ class ChatPanel extends Component {
 				this.props.socket.send(
 					JSON.stringify({
 						type: 'CHAT_MESSAGE',
-						sender: this.props.clientId,
+						sender: `Spectator ${this.props.clientId.substring(0, 5)}`,
 						color: 'ORANGE',
 						contents: this.state.value,
 					}),

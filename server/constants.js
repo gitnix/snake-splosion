@@ -9,5 +9,6 @@ module.exports = {
 	LOOP_REPEAT_INTERVAL: 100,
 	MAX_PLAYERS: 1,
 	NEW_BODY_LENGTH: 3,
+	SNAKE_LOADING_IMAGE: 'images/venomous_brown_tree_snake.jpg',
 	TICKS_UNTIL_RESET: 90,
 }

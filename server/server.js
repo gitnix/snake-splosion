@@ -41,6 +41,7 @@ let connectionQueue = {
 	connections: [],
 	disconnections: [],
 }
+let playerImageMap = new Map()
 ////////////////////////
 
 ////////////////////////
@@ -121,6 +122,7 @@ wss.on('connection', (ws, req) => {
 			connectionQueue.disconnections = []
 			spectating = false
 			playerSet.clear()
+			playerImageMap.clear()
 			gameRunning = false
 			if (wss.clients.size > 0) {
 				broadcast(wss.clients, {
@@ -143,12 +145,15 @@ function gameLoop({ players, food, mines, mineState, gameInfo }) {
 	const updatedPlayers = connectionUpdate(
 		{ players, food, mines },
 		connectionQueue,
+		playerImageMap,
 	)
 
-	const playersAfterMove = move(updatedPlayers, directionQueue, [
-		GRID_COLUMNS,
-		GRID_ROWS,
-	])
+	const playersAfterMove = move(
+		updatedPlayers,
+		directionQueue,
+		[GRID_COLUMNS, GRID_ROWS],
+		playerImageMap,
+	)
 
 	const updatedState = reduceState({
 		players: playersAfterMove,

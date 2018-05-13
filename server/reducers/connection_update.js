@@ -5,7 +5,7 @@ const {
 	getValidRandomKey,
 	newBody,
 } = require('../utils')
-const { DEATH_TICKS, GOAL_SCORE } = require('../constants')
+const { DEATH_TICKS, GOAL_SCORE, SNAKE_LOADING_IMAGE } = require('../constants')
 const getSnakeImage = require('../image_search')
 const getSnakeName = require('../get_snake_names')
 
@@ -17,20 +17,20 @@ const removeId = (stored, currentId) => {
 	return foundIndex > -1 ? remove(foundIndex, 1, stored) : stored
 }
 
-const addId = randomKey => (stored, currentId) => {
+const addId = (randomKey, imageMap) => (stored, currentId) => {
 	const foundIndex = indexForId(stored, currentId)
 
 	let snakeName
-	// let snakeImage
+	let snakeImage
 	const playerNames = stored.map(p => p.name)
 
 	if (foundIndex < 0) {
+		imageMap.set(currentId, SNAKE_LOADING_IMAGE)
 		snakeName = getSnakeName()
 		while (playerNames.includes(snakeName)) snakeName = getSnakeName()
-		// snakeImage = getSnakeImage(snakeName)
-		// 	getSnakeImage(snakeName).then(url => {
-		// 	// imageQueue.push([currentId, url]) // side effect
-		// })
+		snakeImage = getSnakeImage(snakeName).then(url => {
+			imageMap.set(currentId, url)
+		})
 	}
 
 	const color = getRandomColor(stored)
@@ -55,6 +55,7 @@ const addId = randomKey => (stored, currentId) => {
 const updatePlayersFromConnections = (
 	{ players, food, mines },
 	{ connections, disconnections },
+	imageMap,
 ) => {
 	if (!connections.length && !disconnections.length) {
 		return players
@@ -65,7 +66,7 @@ const updatePlayersFromConnections = (
 	)
 
 	const updatedPlayers = reduce(
-		addId(randomKey),
+		addId(randomKey, imageMap),
 		reduce(removeId, players, disconnections),
 		connections,
 	)

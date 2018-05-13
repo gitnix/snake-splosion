@@ -4,7 +4,7 @@ const { newBodyDirections } = require('../utils')
 // accounts for negative modulus
 const mod = (n, m) => (n % m + m) % m
 
-const move = (playersArray, directionQueue, dimensions) => {
+const move = (playersArray, directionQueue, dimensions, imageMap) => {
 	// console.log('playersArray in move', playersArray)
 	const returnArray = playersArray.map(player => {
 		if (player.state === 'teleported') {
@@ -77,6 +77,7 @@ const move = (playersArray, directionQueue, dimensions) => {
 			],
 			state: 'normal',
 			direction,
+			img: imageMap.get(player.id),
 			bodyDirections: newBodyDirections(player, { type: 'move', direction }),
 		}
 	})
