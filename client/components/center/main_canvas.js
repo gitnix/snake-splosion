@@ -11,7 +11,9 @@ class MainCanvas extends Component {
 				id="layer-1"
 				width="800"
 				height="600"
-				style={{ backgroundImage: `url(backgrounds/sand.png)` }}
+				style={{
+					backgroundImage: `url(backgrounds/${this.props.backgroundImage}.png)`,
+				}}
 				ref={node => {
 					this._ctx = node ? node.getContext('2d') : null
 					this._canvasRef = node
@@ -26,6 +28,8 @@ class MainCanvas extends Component {
 			height: this._canvasRef.height,
 			mineTypeToDraw: this.props.mineTypeToDraw,
 			info: this.props.gameState.gameInfo,
+			spectating: this.props.spectating,
+			gameStop: this.props.gameStop,
 		})
 	}
 

@@ -23,10 +23,17 @@ const {
 	getRandomBackgroundImage,
 	getRandomDirection,
 } = require('./utils')
-const { GRID_COLUMNS, GRID_ROWS, LOOP_REPEAT_INTERVAL } = require('./constants')
+const {
+	GRID_COLUMNS,
+	GRID_ROWS,
+	LOOP_REPEAT_INTERVAL,
+	MAX_PLAYERS,
+} = require('./constants')
 const initialGameState = require('./initial_game_state')
 ////////////////////////
 // server specific state
+let playerSet = new Set()
+let spectating = false
 let backgroundImage
 let gameRunning = false
 let directionQueue = {}
@@ -34,15 +41,13 @@ let connectionQueue = {
 	connections: [],
 	disconnections: [],
 }
-let imageQueue = [
-	// ['test', 'https://media.giphy.com/media/WmQY7DwQcbPfG/giphy.gif'],
-]
-let prevImageQueueLength = 0
 ////////////////////////
 
 ////////////////////////
 // WebSocket
 wss.on('connection', (ws, req) => {
+	let startingKey
+	let startingDirection
 	// disconnections or unsuccessful connections throw errors
 	// will fail without err callback
 	ws.on('error', err => {
@@ -54,26 +59,21 @@ wss.on('connection', (ws, req) => {
 				console.log('WEBSOCKET ERROR ------', err)
 		}
 	})
-	if (wss.clients.size > 2) {
-		console.log('Server is full. Denying requested connection.')
-		ws.send(
-			JSON.stringify({
-				type: 'CONNECTION_DENIED',
-			}),
-		)
-		return
-	}
 
 	ws.id = uuid.v4()
 	console.log(`Client ${ws.id} has connected`)
 	console.log(`There are currently ${wss.clients.size} connected clients`)
+	if (playerSet.size >= MAX_PLAYERS) {
+		spectating = true
+	} else {
+		playerSet.add(ws.id)
+		connectionQueue.connections.push(ws.id)
+		startingDirection = getRandomDirection()
+		directionQueue[ws.id] = [startingDirection]
+		startingKey = directionToKey(startingDirection)
+	}
 
-	connectionQueue.connections.push(ws.id)
-	const startingDirection = getRandomDirection()
-	directionQueue[ws.id] = [startingDirection]
-	const startingKey = directionToKey(startingDirection)
-
-	if (wss.clients.size == 1) {
+	if (!spectating && playerSet.size === 1) {
 		backgroundImage = getRandomBackgroundImage()
 		gameRunning = true
 		gameLoop(initialGameState)
@@ -83,8 +83,10 @@ wss.on('connection', (ws, req) => {
 		JSON.stringify({
 			type: 'GAME_CONNECTION',
 			id: ws.id,
+			spectating,
 			startingKey,
 			backgroundImage,
+			mineTypeToDraw: 'DARK',
 		}),
 	)
 
@@ -107,15 +109,25 @@ wss.on('connection', (ws, req) => {
 		}
 	})
 
-	ws.on('close', () => {
+	ws.on('close', (code, reason) => {
 		console.log(`Closing connection for ${ws.id}`)
-		connectionQueue.disconnections.push(ws.id)
-		prevImageQueueLength--
-		if (wss.clients.size == 0) {
-			console.log('All clients have left', 'STOPPING GAME')
+		if (playerSet.size <= MAX_PLAYERS) {
+			connectionQueue.disconnections.push(ws.id)
+			playerSet.delete(ws.id)
+		}
+		if (playerSet.size === 0 && reason !== 'noMorePlayers') {
+			console.log('All players have left', 'STOPPING GAME')
 			connectionQueue.connections = []
 			connectionQueue.disconnections = []
+			spectating = false
+			playerSet.clear()
 			gameRunning = false
+			if (wss.clients.size > 0) {
+				broadcast(wss.clients, {
+					type: 'PLAYERS_NOT_PRESENT',
+				})
+				wss.clients.forEach(client => client.close(1000, 'noMorePlayers'))
+			}
 		}
 	})
 })
@@ -131,7 +143,6 @@ function gameLoop({ players, food, mines, mineState, gameInfo }) {
 	const updatedPlayers = connectionUpdate(
 		{ players, food, mines },
 		connectionQueue,
-		imageQueue,
 	)
 
 	const playersAfterMove = move(updatedPlayers, directionQueue, [
@@ -153,22 +164,6 @@ function gameLoop({ players, food, mines, mineState, gameInfo }) {
 		state: updatedState,
 	})
 
-	// console.log('updatedState', updatedState)
-	if (imageQueue.length != prevImageQueueLength) {
-		console.log('sending IMAGE_UPDATE message')
-		console.log(
-			`current imageQueue length: ${
-				imageQueue.length
-			}, previous imageQueue length: ${prevImageQueueLength}`,
-		)
-		prevImageQueueLength++
-		imageQueue.forEach(img => {
-			broadcast(wss.clients, {
-				type: 'IMAGE_UPDATE',
-				images: imageQueue,
-			})
-		})
-	}
 	setTimeout(() => gameLoop(updatedState), LOOP_REPEAT_INTERVAL)
 }
 ////////////////////////

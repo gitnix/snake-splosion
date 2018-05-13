@@ -39,14 +39,27 @@ class ChatPanel extends Component {
 			setMovementStatus(true)
 			return
 		}
-		this.props.socket.send(
-			JSON.stringify({
-				type: 'CHAT_MESSAGE',
-				sender: getPlayerMap(this.props.clientId).name,
-				color: getPlayerMap(this.props.clientId).color,
-				contents: this.state.value,
-			}),
-		)
+		if (this.props.spectating) {
+			if (this.props.socket.readyState !== 3) {
+				this.props.socket.send(
+					JSON.stringify({
+						type: 'CHAT_MESSAGE',
+						sender: this.props.clientId,
+						color: 'ORANGE',
+						contents: this.state.value,
+					}),
+				)
+			}
+		} else {
+			this.props.socket.send(
+				JSON.stringify({
+					type: 'CHAT_MESSAGE',
+					sender: getPlayerMap(this.props.clientId).name,
+					color: getPlayerMap(this.props.clientId).color,
+					contents: this.state.value,
+				}),
+			)
+		}
 		this.state.value = ''
 		this.inputDOM.blur()
 		setMovementStatus(true)

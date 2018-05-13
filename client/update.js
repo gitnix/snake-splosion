@@ -37,52 +37,11 @@ const playAudio = (players, id) => {
 	}
 }
 
-const setBackgroundImage = backgroundString =>
-	(document.getElementById(
-		'layer-1',
-	).style.backgroundImage = `url(backgrounds/${backgroundString}.png)`)
-
-const updateImage = (id, state) => {
-	switch (state) {
-		case 'dead': {
-			const pImage = idFor(id, 'image')
-			pImage.classList.add('dead')
-			const pCard = idFor(id, 'card')
-			pCard.classList.add('dead')
-			break
-		}
-		case 'teleported': {
-			const pImage = idFor(id, 'image')
-			pImage.classList.remove('dead')
-			const pCard = idFor(id, 'card')
-			pCard.classList.remove('dead')
-			break
-		}
-	}
-}
-
-const updateUI = (players, playerId) => {
-	const p1 = players.filter(p => p.id === playerId)[0]
-	const otherPlayers = players.filter(p => p.id !== playerId)
-
-	updateDOM(1, 'score', p1.score, ' pts')
-	updateDOM(1, 'name', p1.name)
-	updateImage(1, p1.state)
-	const playerColorDiv = idFor(1, 'color')
-	playerColorDiv.style.background = COLOR_MAP[p1.color]
-
-	otherPlayers.forEach((player, index) => {
-		// first other player is 2 (0 + 2)
-		const i = index + 2
-		updateDOM(i, 'score', player.score, ' pts')
-		updateDOM(i, 'name', player.name)
-		updateImage(i, player.state)
-		const playerColorDiv = idFor(i, 'color')
-		playerColorDiv.style.background = COLOR_MAP[player.color]
-	})
-}
-
-const updateGame = (state, ctx, { width, height, mineTypeToDraw, info }) => {
+const updateGame = (
+	state,
+	ctx,
+	{ width, height, mineTypeToDraw, info, spectating, gameStop },
+) => {
 	ctx.clearRect(0, 0, width, height)
 
 	Object.keys(state.food).forEach(key => {
@@ -154,9 +113,22 @@ const updateGame = (state, ctx, { width, height, mineTypeToDraw, info }) => {
 		height - 8,
 	)
 
-	if (info.winner) {
+	if (spectating && state.players.length > 0) {
+		ctx.textAlign = 'left'
+		ctx.fillText(`You are currently spectating`, 10, height - 56)
+		ctx.fillText(`Refresh to join when`, 10, height - 32)
+		ctx.fillText(`a spot becomes available`, 10, height - 8)
+	}
+
+	if (gameStop === true) {
+		ctx.font = '52px Do Hyeon'
+		ctx.textAlign = 'center'
+		ctx.fillText(`All Players have left.`, width / 2, height / 2)
+		ctx.fillText(`Refresh to start a match.`, width / 2, height / 2 + 60)
+	}
+
+	if (info.winner && state.players.length > 0) {
 		const winnerColor = state.players.find(p => p.id === info.winner.id).color
-		ctx.fillStyle = 'red'
 		ctx.font = '52px Do Hyeon'
 		ctx.textAlign = 'center'
 		ctx.fillText(`${info.winner.name}`, width / 2, height / 2 - 60)
@@ -209,18 +181,4 @@ const updateGame = (state, ctx, { width, height, mineTypeToDraw, info }) => {
 	}
 }
 
-const displayServerFullText = (ctx, width, height) => {
-	ctx.fillStyle = 'red'
-	ctx.font = '48px Do Hyeon'
-	ctx.textAlign = 'center'
-	ctx.fillText('The server is currently full of snakes.', width / 2, height / 2)
-	ctx.fillText('Check back again later.', width / 2, height / 2 + 60)
-}
-
-export {
-	displayServerFullText,
-	playAudio,
-	setBackgroundImage,
-	updateGame,
-	updateUI,
-}
+export { playAudio, updateGame }

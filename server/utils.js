@@ -56,9 +56,9 @@ const getRandomBackgroundImage = () =>
 const getRandomColor = players => {
 	let currentColors = players.map(p => p.color)
 	let color = COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-	while (currentColors.includes(color)) {
-		color = COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-	}
+	// while (currentColors.includes(color)) {
+	// 	color = COLORS[Math.round(Math.random() * (COLORS.length - 1))]
+	// }
 	return color
 }
 

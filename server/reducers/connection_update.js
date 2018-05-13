@@ -17,18 +17,20 @@ const removeId = (stored, currentId) => {
 	return foundIndex > -1 ? remove(foundIndex, 1, stored) : stored
 }
 
-const addId = (randomKey, imageQueue) => (stored, currentId) => {
+const addId = randomKey => (stored, currentId) => {
 	const foundIndex = indexForId(stored, currentId)
 
 	let snakeName
+	// let snakeImage
 	const playerNames = stored.map(p => p.name)
 
 	if (foundIndex < 0) {
 		snakeName = getSnakeName()
 		while (playerNames.includes(snakeName)) snakeName = getSnakeName()
-		getSnakeImage(snakeName).then(url => {
-			imageQueue.push([currentId, url]) // side effect
-		})
+		// snakeImage = getSnakeImage(snakeName)
+		// 	getSnakeImage(snakeName).then(url => {
+		// 	// imageQueue.push([currentId, url]) // side effect
+		// })
 	}
 
 	const color = getRandomColor(stored)
@@ -53,16 +55,17 @@ const addId = (randomKey, imageQueue) => (stored, currentId) => {
 const updatePlayersFromConnections = (
 	{ players, food, mines },
 	{ connections, disconnections },
-	imageQueue,
 ) => {
-	if (!connections.length && !disconnections.length) return players
+	if (!connections.length && !disconnections.length) {
+		return players
+	}
 
 	const randomKey = getValidRandomKey(
 		getAllOccupiedPositions({ players, food, mines }),
 	)
 
 	const updatedPlayers = reduce(
-		addId(randomKey, imageQueue),
+		addId(randomKey),
 		reduce(removeId, players, disconnections),
 		connections,
 	)
