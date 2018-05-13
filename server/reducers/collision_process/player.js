@@ -25,7 +25,9 @@ const processPlayerCollisions = ({
 
 		const head = player.body[0]
 		const isCollided =
-			player.state === 'readyToMove'
+			player.state === 'readyToMove' ||
+			player.state === 'frozen' ||
+			player.state === 'teleportReady'
 				? false
 				: selfPositions.concat(otherPositions).includes(head)
 
