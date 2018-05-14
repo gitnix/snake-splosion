@@ -69,19 +69,19 @@ const getCollisionStatusAndKey = (allPosArray, playersArray) => {
 	}
 
 	let perimeterSet = getCoordSet(randX, randY, MINE_SPAWN_DISTANCE)
+	let isCollision = false
 	playersArray.forEach(p => {
 		perimeterSet.forEach(coord => {
-			if (coord === p.body[0]) {
-				return [true, null]
-			}
+			if (coord === p.body[0]) isCollision = true
 		})
 	})
+	if (isCollision) return [true, null]
 
 	return [false, randomKey]
 }
 
 const getRandom = bounds => Math.floor(Math.random() * bounds)
-const keysToString = (x, y) => '' + x + '_' + y
+const keysToString = (x, y) => `${x}_${y}`
 const getValidRandomKey = (allPosArray, playersArray) => {
 	let distanceCheck = true
 	let key = null

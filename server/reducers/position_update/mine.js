@@ -27,7 +27,7 @@ const updateMinePositions = ({
 	if (shouldUpdate && Object.keys(mines).length < MAX_MINES) {
 		let { minesToAdd } = mineState
 		while (minesToAdd) {
-			const randomKey = getValidRandomKey(allPos)
+			const randomKey = getValidRandomKey(allPos, players)
 			allPos.push(randomKey)
 			newMines[randomKey] = {}
 			minesToAdd--

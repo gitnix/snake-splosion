@@ -11,6 +11,8 @@ module.exports = {
 	// depending on mine spawn settings
 	MAX_MINES: 4,
 	MAX_PLAYERS: 4,
+	// Actual distance for directly north, south, east, west
+	// will be this number plus 1
 	MINE_SPAWN_DISTANCE: 2,
 	NEW_BODY_LENGTH: 8,
 	SNAKE_LOADING_IMAGE: 'images/venomous_brown_tree_snake.jpg',
