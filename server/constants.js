@@ -7,6 +7,9 @@ module.exports = {
 	GRID_COLUMNS: 40,
 	GRID_ROWS: 30,
 	LOOP_REPEAT_INTERVAL: 80,
+	// total mines on field can actually exceed this
+	// depending on mine spawn settings
+	MAX_MINES: 4,
 	MAX_PLAYERS: 4,
 	MINE_SPAWN_DISTANCE: 2,
 	NEW_BODY_LENGTH: 8,

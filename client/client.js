@@ -43,7 +43,8 @@ class Client extends Component {
 					this.spectating = msg.spectating
 					this.clientId = msg.id
 					this.backgroundImage = msg.backgroundImage
-					this.mineTypeToDraw = msg.mineTypeToDraw
+					this.mineTypeToDraw =
+						this.backgroundImage === 'night_sand' ? 'LIGHT' : 'DARK'
 					if (!this.spectating) {
 						addKeyListener(msg.startingKey, this.socket, msg.id)
 					}
