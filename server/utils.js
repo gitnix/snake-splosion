@@ -135,7 +135,6 @@ module.exports = {
 	broadcast,
 	directionToKey,
 	getValidRandomKey,
-	getAllFoodPositions,
 	getAllPlayerPositions,
 	getAllOccupiedPositions,
 	getRandom,

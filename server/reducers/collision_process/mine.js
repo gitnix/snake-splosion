@@ -1,8 +1,12 @@
+const { getRandom } = require('../../utils')
+const { TRIGGER_DIVISOR } = require('../../constants')
+
 const processMineCollisions = ({
 	players,
 	food,
 	mines,
 	mineState,
+	triggers,
 	gameInfo,
 }) => {
 	const markedMineArray = [] // mutable
@@ -26,12 +30,30 @@ const processMineCollisions = ({
 		}
 	})
 
+	Object.keys(triggers).forEach(trigger => {
+		if (triggers[trigger].isCollided) {
+			const allMinePositions = Object.keys(mines)
+			const minePositionsSize = allMinePositions.length
+			if (minePositionsSize > 0) {
+				const numMinesToExplode = Math.floor(
+					minePositionsSize / TRIGGER_DIVISOR,
+				)
+				for (let i = 0; i < numMinesToExplode; i++) {
+					markedMineArray.push(
+						allMinePositions[getRandom(minePositionsSize - 1)],
+					)
+				}
+			}
+		}
+	})
+
 	return {
 		players: markedPlayers,
 		food,
 		mines,
 		markedMines: markedMineArray,
 		mineState,
+		triggers,
 		gameInfo,
 	}
 }

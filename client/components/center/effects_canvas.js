@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
+import Proton from 'proton-js'
 import { explosionAudio } from '../../assets/audio'
-import setupParticles from '../../setup_particles'
+import addEmitter from '../../setup_particles'
 
 class EffectsCanvas extends Component {
 	constructor(props) {
 		super(props)
+		this.renderer = null
+		this.proton = null
 		this._ctx = null
 		this._canvas = null
 		this._child = (
@@ -27,24 +30,26 @@ class EffectsCanvas extends Component {
 			if (!!this.markedMines && this.markedMines.length > 0) {
 				explosionAudio.play()
 				this.markedMines.forEach(m => {
-					const proton = setupParticles(this._canvas, m)
-					this.protonArray.push(proton)
+					addEmitter(this.proton, m)
 				})
 				this.markedMines.splice(0)
 			}
-			this.protonArray.forEach(p => p.update())
+			this.proton.update()
 			// remove expired protons
-			if (this.protonArray.length > 7) this.protonArray.splice(0, 3)
+			if (this.protonArray.length > 10) this.protonArray.splice(0, 3)
 			window.requestAnimationFrame(this.drawEffects)
 		}
 	}
 
 	componentDidMount() {
+		this.renderer = new Proton.CanvasRenderer(this._canvas)
+		this.proton = new Proton()
+		this.proton.addRenderer(this.renderer)
 		window.requestAnimationFrame(this.drawEffects)
 	}
 
 	componentDidUpdate(prevProps) {
-		this.markedMines = this.props.gameState.markedMines
+		this.markedMines = this.markedMines.concat(this.props.gameState.markedMines)
 	}
 
 	render() {

@@ -1,4 +1,3 @@
-import { UNIT_SIZE } from '../../constants'
 import { newImage } from '../../utils'
 
 export const FOOD = {
@@ -8,6 +7,10 @@ export const FOOD = {
 export const MINE = {
 	DARK: newImage('images/mines/mine.png'),
 	LIGHT: newImage('images/mines/mine2_sunny.png'),
+}
+
+export const TRIGGER = {
+	BANG: newImage('images/trigger_bang.png'),
 }
 
 export const BODY = {

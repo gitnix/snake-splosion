@@ -7,6 +7,7 @@ const processWinner = ({
 	mines,
 	markedMines,
 	mineState,
+	triggers,
 	gameInfo,
 }) => {
 	if (gameInfo.winner) {
@@ -25,7 +26,9 @@ const processWinner = ({
 			players: players.map(p => ({ ...p, state: 'frozen' })),
 			food,
 			mines,
+			markedMines,
 			mineState,
+			triggers,
 			gameInfo: { ...gameInfo, ticksUntilReset: gameInfo.ticksUntilReset - 1 },
 		}
 	}
@@ -36,6 +39,7 @@ const processWinner = ({
 		mines,
 		markedMines,
 		mineState,
+		triggers,
 		gameInfo,
 	}
 }

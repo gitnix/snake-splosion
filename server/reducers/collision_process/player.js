@@ -6,6 +6,7 @@ const processPlayerCollisions = ({
 	mines,
 	markedMines,
 	mineState,
+	triggers,
 	gameInfo,
 }) => {
 	const collisionArray = [] //mutable
@@ -55,6 +56,7 @@ const processPlayerCollisions = ({
 		mines,
 		markedMines,
 		mineState,
+		triggers,
 		gameInfo,
 	}
 }

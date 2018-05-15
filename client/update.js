@@ -9,7 +9,7 @@ import {
 	strToCoords,
 } from './utils'
 import { idFor, updateDOM } from './dom'
-import { FOOD, MINE, BODY, HEAD, TAIL } from './assets/images'
+import { FOOD, MINE, TRIGGER, BODY, HEAD, TAIL } from './assets/images'
 
 import { collisionAudio, eatAudio } from './assets/audio'
 
@@ -53,6 +53,13 @@ const updateGame = (
 	Object.keys(state.mines).forEach(key => {
 		const [x, y] = strToCoords(key)
 		ctx.drawImage(MINE[mineTypeToDraw], scale(x), scale(y))
+	})
+
+	Object.keys(state.triggers).forEach(key => {
+		if (!state.triggers[key].isCollided) {
+			const [x, y] = strToCoords(key)
+			ctx.drawImage(TRIGGER['BANG'], scale(x), scale(y))
+		}
 	})
 
 	state.players.forEach(player => {

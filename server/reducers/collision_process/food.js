@@ -5,6 +5,7 @@ const processFoodCollisions = ({
 	food,
 	mines,
 	mineState,
+	triggers,
 	gameInfo,
 }) => {
 	const newFood = {} // mutable
@@ -67,6 +68,7 @@ const processFoodCollisions = ({
 			...mineState,
 			turnCounter: (mineState.turnCounter += mineIncrement),
 		},
+		triggers,
 		gameInfo: !!gameWinner ? { ...gameInfo, winner: gameWinner } : gameInfo,
 	}
 }

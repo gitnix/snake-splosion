@@ -12,6 +12,7 @@ const getStateAfterTeleportingPlayers = ({
 	mines,
 	markedMines,
 	mineState,
+	triggers,
 	gameInfo,
 }) => {
 	const allPos = getAllOccupiedPositions({ players, food, mines }) // mutable
@@ -37,6 +38,7 @@ const getStateAfterTeleportingPlayers = ({
 		mines,
 		markedMines,
 		mineState,
+		triggers,
 		gameInfo,
 	}
 }
