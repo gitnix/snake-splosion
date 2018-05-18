@@ -28,7 +28,11 @@ const getBodyDirection = (bodyDirections, index, playerColor) => {
 	const bevel = bevelMap[`${prevDir}_${dir}`]
 	if (bevel) return bevel
 
-	if (playerColor === 'PINK' || playerColor === 'GOLD') {
+	if (
+		playerColor === 'PINK' ||
+		playerColor === 'GOLD' ||
+		playerColor === 'dead'
+	) {
 		switch (dir) {
 			case 'RIGHT':
 			case 'LEFT':

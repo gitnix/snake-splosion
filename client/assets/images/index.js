@@ -46,6 +46,15 @@ export const BODY = {
 		CENTER_H: newImage('images/body/gold/body_gold_h.png'),
 		CENTER_V: newImage('images/body/gold/body_gold_v.png'),
 	},
+	dead: {
+		CENTER: newImage('images/body/dead/body_dead.png'),
+		SW: newImage('images/body/dead/body_dead_sw.png'),
+		NW: newImage('images/body/dead/body_dead_nw.png'),
+		SE: newImage('images/body/dead/body_dead_se.png'),
+		NE: newImage('images/body/dead/body_dead_ne.png'),
+		CENTER_H: newImage('images/body/dead/body_dead_h.png'),
+		CENTER_V: newImage('images/body/dead/body_dead_v.png'),
+	},
 }
 
 export const HEAD = {
@@ -73,6 +82,12 @@ export const HEAD = {
 		LEFT: newImage('images/head/gold/head_gold_left.png'),
 		RIGHT: newImage('images/head/gold/head_gold_right.png'),
 	},
+	dead: {
+		UP: newImage('images/head/dead/head_dead_up.png'),
+		DOWN: newImage('images/head/dead/head_dead_down.png'),
+		LEFT: newImage('images/head/dead/head_dead_left.png'),
+		RIGHT: newImage('images/head/dead/head_dead_right.png'),
+	},
 }
 
 export const TAIL = {
@@ -99,5 +114,11 @@ export const TAIL = {
 		DOWN: newImage('images/tail/gold/tail_gold_down.png'),
 		LEFT: newImage('images/tail/gold/tail_gold_left.png'),
 		RIGHT: newImage('images/tail/gold/tail_gold_right.png'),
+	},
+	dead: {
+		UP: newImage('images/tail/dead/tail_dead_up.png'),
+		DOWN: newImage('images/tail/dead/tail_dead_down.png'),
+		LEFT: newImage('images/tail/dead/tail_dead_left.png'),
+		RIGHT: newImage('images/tail/dead/tail_dead_right.png'),
 	},
 }

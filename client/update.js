@@ -68,10 +68,6 @@ const updateGame = (
 	state.players.forEach(player => {
 		player.body.forEach((bodyString, index) => {
 			const [x, y] = strToCoords(bodyString)
-			if (player.state === 'teleported') {
-				// for future
-				// get location and set function in motion to draw a teleport thing over specified time
-			}
 
 			if (player.state === 'readyToMove') {
 				blinkTurn[player.color]++
@@ -85,35 +81,26 @@ const updateGame = (
 				return
 			}
 
+			let drawColor = player.state === 'dead' ? 'dead' : player.color
 			switch (index) {
 				case 0:
-					ctx.drawImage(
-						HEAD[player.color][player.direction],
-						scale(x),
-						scale(y),
-					)
+					ctx.drawImage(HEAD[drawColor][player.direction], scale(x), scale(y))
 					break
 				case player.body.length - 1:
 					ctx.drawImage(
-						TAIL[player.color][player.bodyDirections[player.body.length - 2]],
+						TAIL[drawColor][player.bodyDirections[player.body.length - 2]],
 						scale(x),
 						scale(y),
 					)
 					break
 				default:
-					switch (player.state) {
-						case 'dead':
-							drawUnit(ctx, x, y, 'gray')
-							break
-						default:
-							ctx.drawImage(
-								BODY[player.color][
-									getBodyDirection(player.bodyDirections, index, player.color)
-								],
-								scale(x),
-								scale(y),
-							)
-					}
+					ctx.drawImage(
+						BODY[drawColor][
+							getBodyDirection(player.bodyDirections, index, drawColor)
+						],
+						scale(x),
+						scale(y),
+					)
 			}
 		})
 	})
