@@ -61,7 +61,7 @@ class EffectsCanvas extends Component {
 		this.markedMines = this.markedMines.concat(this.props.gameState.markedMines)
 		this.teleportedPlayers = this.props.gameState.players
 			.filter(p => p.state === 'teleported')
-			.map(p => p.body[0])
+			.map(p => [p.body[0], p.color])
 	}
 
 	render() {

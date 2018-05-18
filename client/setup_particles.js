@@ -1,6 +1,6 @@
 import Proton from 'proton-js'
 import { strToCoords } from './utils'
-import { UNIT_SIZE } from './constants'
+import { COLOR_MAP, UNIT_SIZE } from './constants'
 
 export const addExplosionEmitter = (proton, positionString) => {
 	const [x, y] = strToCoords(positionString)
@@ -22,7 +22,7 @@ export const addExplosionEmitter = (proton, positionString) => {
 	proton.addEmitter(emitter)
 }
 
-export const addTeleportedEmitter = (proton, positionString) => {
+export const addTeleportedEmitter = (proton, [positionString, color]) => {
 	const [x, y] = strToCoords(positionString)
 	const emitter = new Proton.Emitter()
 
@@ -33,10 +33,8 @@ export const addTeleportedEmitter = (proton, positionString) => {
 	emitter.addInitialize(
 		new Proton.Velocity(0.8, Proton.getSpan(0, 360), 'polar'),
 	)
-	emitter.addBehaviour(new Proton.Rotate())
-
-	emitter.addBehaviour(new Proton.Color('#2841db', '#4981c1'))
-	emitter.addBehaviour(new Proton.Alpha(1, 1))
+	emitter.addBehaviour(new Proton.Color(COLOR_MAP[color]))
+	emitter.addBehaviour(new Proton.Alpha(1))
 	emitter.p.x = x * UNIT_SIZE + UNIT_SIZE / 2
 	emitter.p.y = y * UNIT_SIZE + UNIT_SIZE / 2
 	emitter.emit('once', 'life')
