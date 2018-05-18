@@ -11,7 +11,7 @@ import {
 import { idFor, updateDOM } from './dom'
 import { FOOD, MINE, TRIGGER, BODY, HEAD, TAIL } from './assets/images'
 
-import { collisionAudio, eatAudio } from './assets/audio'
+import { collisionAudio, eatAudio, teleportAudio } from './assets/audio'
 
 let blinkTurn = {
 	GREEN: 1,
@@ -34,6 +34,9 @@ const playAudio = (players, id) => {
 			break
 		case 'dead':
 			collisionAudio.play()
+			break
+		case 'teleported':
+			teleportAudio.play()
 			break
 	}
 }

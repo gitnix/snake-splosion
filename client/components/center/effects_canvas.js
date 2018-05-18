@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import Proton from 'proton-js'
 import { explosionAudio } from '../../assets/audio'
-import addEmitter from '../../setup_particles'
+import {
+	addExplosionEmitter,
+	addTeleportedEmitter,
+} from '../../setup_particles'
 
 class EffectsCanvas extends Component {
 	constructor(props) {
@@ -23,6 +26,7 @@ class EffectsCanvas extends Component {
 		)
 		this.protonArray = []
 		this.markedMines = []
+		this.teleportedPlayers = []
 
 		this.drawEffects = () => {
 			if (!this._ctx) return
@@ -30,13 +34,18 @@ class EffectsCanvas extends Component {
 			if (!!this.markedMines && this.markedMines.length > 0) {
 				explosionAudio.play()
 				this.markedMines.forEach(m => {
-					addEmitter(this.proton, m)
+					addExplosionEmitter(this.proton, m)
 				})
 				this.markedMines.splice(0)
 			}
+
+			if (!!this.teleportedPlayers && this.teleportedPlayers.length > 0) {
+				this.teleportedPlayers.forEach(p => {
+					addTeleportedEmitter(this.proton, p)
+				})
+			}
+
 			this.proton.update()
-			// remove expired protons
-			if (this.protonArray.length > 10) this.protonArray.splice(0, 3)
 			window.requestAnimationFrame(this.drawEffects)
 		}
 	}
@@ -50,6 +59,9 @@ class EffectsCanvas extends Component {
 
 	componentDidUpdate(prevProps) {
 		this.markedMines = this.markedMines.concat(this.props.gameState.markedMines)
+		this.teleportedPlayers = this.props.gameState.players
+			.filter(p => p.state === 'teleported')
+			.map(p => p.body[0])
 	}
 
 	render() {
