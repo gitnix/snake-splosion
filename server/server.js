@@ -28,6 +28,8 @@ const {
 	GRID_ROWS,
 	LOOP_REPEAT_INTERVAL,
 	MAX_PLAYERS,
+	WS_ACTIVITY_TIMEOUT,
+	WS_SPECTATING_ACTIVITY_TIMEOUT,
 } = require('./constants')
 const initialGameState = require('./initial_game_state')
 ////////////////////////
@@ -66,6 +68,7 @@ wss.on('connection', (ws, req) => {
 	console.log(`There are currently ${wss.clients.size} connected clients`)
 	if (playerSet.size >= MAX_PLAYERS) {
 		spectating = true
+		ws.spectating = true
 	} else {
 		playerSet.add(ws.id)
 		connectionQueue.connections.push(ws.id)
@@ -79,6 +82,10 @@ wss.on('connection', (ws, req) => {
 		gameRunning = true
 		gameLoop(initialGameState)
 	}
+
+	ws.expiration = spectating
+		? WS_SPECTATING_ACTIVITY_TIMEOUT
+		: WS_ACTIVITY_TIMEOUT
 
 	ws.send(
 		JSON.stringify({
@@ -94,6 +101,9 @@ wss.on('connection', (ws, req) => {
 	ws.on('message', message => {
 		const msg = JSON.parse(message)
 		const { type, id, direction } = msg
+		ws.expiration = ws.spectating
+			? WS_SPECTATING_ACTIVITY_TIMEOUT
+			: WS_ACTIVITY_TIMEOUT
 		switch (type) {
 			case 'CHANGE_DIRECTION':
 				directionQueue[id].push(direction)
@@ -168,6 +178,11 @@ function gameLoop({ players, food, mines, mineState, triggers, gameInfo }) {
 	broadcast(wss.clients, {
 		type: 'STATE_UPDATE',
 		state: updatedState,
+	})
+
+	wss.clients.forEach(client => {
+		client.expiration--
+		if (client.expiration <= 0) client.close()
 	})
 
 	setTimeout(() => gameLoop(updatedState), LOOP_REPEAT_INTERVAL)

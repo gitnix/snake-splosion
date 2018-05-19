@@ -19,4 +19,6 @@ module.exports = {
 	TICKS_UNTIL_RESET: 90,
 	// mines to destory: number of current mines / TRIGGER_DIVISOR
 	TRIGGER_DIVISOR: 3,
+	WS_ACTIVITY_TIMEOUT: 1000,
+	WS_SPECTATING_ACTIVITY_TIMEOUT: 2000,
 }
