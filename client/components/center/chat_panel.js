@@ -23,6 +23,13 @@ class ChatPanel extends Component {
 		})
 	}
 
+	componentDidUpdate(prevProps) {
+		if (prevProps.messages.length !== this.props.messages.length) {
+			let lastItem = document.getElementById('message-list').lastElementChild
+			lastItem.scrollIntoView()
+		}
+	}
+
 	onChange(e) {
 		this.setState({ value: e.target.value })
 	}
