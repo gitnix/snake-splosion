@@ -1,15 +1,9 @@
 const { assoc, compose, dissoc, filter, reduce } = require('ramda')
 const { getAllOccupiedPositions, getValidRandomKey } = require('../../utils')
 
-const updateTriggerPositions = ({
-	players,
-	food,
-	mines,
-	markedMines,
-	mineState,
-	triggers,
-	gameInfo,
-}) => {
+const updateTriggerPositions = state => {
+	const { players, food, mines, triggers } = state
+
 	const allMarkedTriggers = filter(f => !!triggers[f].isCollided)(
 		Object.keys(triggers),
 	)
@@ -30,13 +24,8 @@ const updateTriggerPositions = ({
 	)
 
 	return {
-		players,
-		food,
-		mines,
-		mineState,
-		markedMines,
+		...state,
 		triggers: updatedTriggers,
-		gameInfo,
 	}
 }
 

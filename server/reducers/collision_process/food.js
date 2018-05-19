@@ -1,13 +1,8 @@
 const { newBodyDirections } = require('../../utils')
 
-const processFoodCollisions = ({
-	players,
-	food,
-	mines,
-	mineState,
-	triggers,
-	gameInfo,
-}) => {
+const processFoodCollisions = state => {
+	const { players, food, mineState, gameInfo } = state
+
 	const newFood = {} // mutable
 	let mineIncrement = 0
 	let gameWinner = null
@@ -61,14 +56,13 @@ const processFoodCollisions = ({
 		}
 	})
 	return {
+		...state,
 		players: markedPlayers,
 		food: { ...food, ...newFood },
-		mines,
 		mineState: {
 			...mineState,
 			turnCounter: (mineState.turnCounter += mineIncrement),
 		},
-		triggers,
 		gameInfo: !!gameWinner ? { ...gameInfo, winner: gameWinner } : gameInfo,
 	}
 }

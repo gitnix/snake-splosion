@@ -1,14 +1,27 @@
-rankings = [p1_id, p3_id, etc]
-
 players = [
 	{
 		id: 'someId',
-		body: ['X_Y', 'X_Y'],
-		state: 'normal' | 'dead',
+		body: ['X_Y', 'X_Y', 'X_Y'],
+		state:
+			'normal' |
+			'dead' |
+			'reset' |
+			'teleportReady' |
+			'teleported' |
+			'eating' |
+			'frozen' |
+			'readyToMove',
+		// more deathTicks means more ticks will be spent drawing the
+		// gray body
 		deathTicks: 3,
+		// goal score could possibly be different per player to allow
+		// handicaps
 		goalScore: 10,
 		score: 0,
 		direction: 'left',
+		img: 'imgurl',
+		// array is same size as body
+		bodyDirections: ['UP', 'RIGHT', 'RIGHT'],
 	},
 ]
 
@@ -21,7 +34,20 @@ food = {
 
 mines = {
 	X_Y: {
-		explosionRadius: 0,
+		isCollided: true,
+	},
+}
+
+markedPlayers = [
+	// array of 'X_Y'
+]
+
+markedMines = [
+	// array of 'X_Y'
+]
+
+triggers = {
+	X_Y: {
 		isCollided: true,
 	},
 }
@@ -40,4 +66,12 @@ mineState = {
 
 	// how much the number of mines will increase
 	mineMultiplier: 1,
+}
+
+gameInfo = {
+	winner: {
+		id: 'someId',
+		name: 'snakeName',
+	},
+	ticksUntilReset: 100,
 }

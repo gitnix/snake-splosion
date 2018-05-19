@@ -1,15 +1,9 @@
 const initialState = require('../initial_game_state')
 const { TICKS_UNTIL_RESET } = require('../constants')
 
-const processWinner = ({
-	players,
-	food,
-	mines,
-	markedMines,
-	mineState,
-	triggers,
-	gameInfo,
-}) => {
+const processWinner = state => {
+	const { gameInfo, players } = state
+
 	if (gameInfo.winner) {
 		if (gameInfo.ticksUntilReset <= 0) {
 			return {
@@ -23,25 +17,13 @@ const processWinner = ({
 			}
 		}
 		return {
+			...state,
 			players: players.map(p => ({ ...p, state: 'frozen' })),
-			food,
-			mines,
-			markedMines,
-			mineState,
-			triggers,
 			gameInfo: { ...gameInfo, ticksUntilReset: gameInfo.ticksUntilReset - 1 },
 		}
 	}
 
-	return {
-		players,
-		food,
-		mines,
-		markedMines,
-		mineState,
-		triggers,
-		gameInfo,
-	}
+	return state
 }
 
 module.exports = processWinner

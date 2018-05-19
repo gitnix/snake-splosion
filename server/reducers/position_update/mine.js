@@ -7,15 +7,9 @@ const {
 	getRandom,
 } = require('../../utils')
 
-const updateMinePositions = ({
-	players,
-	food,
-	mines,
-	markedMines,
-	mineState,
-	triggers,
-	gameInfo,
-}) => {
+const updateMinePositions = state => {
+	const { players, food, mines, markedMines, mineState } = state
+
 	const allPos = getAllOccupiedPositions({ players, food, mines }) // mutable
 
 	const minesAfterExplosions = reduce(
@@ -41,13 +35,9 @@ const updateMinePositions = ({
 	}
 
 	return {
-		players,
-		food,
+		...state,
 		mines: merge(minesAfterExplosions, newMines),
-		markedMines,
 		mineState: shouldUpdate ? { ...mineState, turnCounter: 0 } : mineState,
-		triggers,
-		gameInfo,
 	}
 }
 

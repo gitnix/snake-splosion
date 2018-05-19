@@ -1,14 +1,9 @@
 const { getRandom } = require('../../utils')
 const { TRIGGER_DIVISOR } = require('../../constants')
 
-const processMineCollisions = ({
-	players,
-	food,
-	mines,
-	mineState,
-	triggers,
-	gameInfo,
-}) => {
+const processMineCollisions = state => {
+	const { players, mines, triggers } = state
+
 	const markedMineArray = [] // mutable
 
 	const checkCollision = head => {
@@ -48,13 +43,9 @@ const processMineCollisions = ({
 	})
 
 	return {
+		...state,
 		players: markedPlayers,
-		food,
-		mines,
 		markedMines: markedMineArray,
-		mineState,
-		triggers,
-		gameInfo,
 	}
 }
 

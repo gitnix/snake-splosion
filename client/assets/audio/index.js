@@ -10,7 +10,7 @@ explosionAudio.volume = 0.5
 const teleportAudio = new Audio('audio/teleport.mp3')
 teleportAudio.volume = 0.12
 
-const gameOverAudio = new Audio('audio/snakecharmer2.mp3')
+const gameOverAudio = new Audio('audio/snakecharmer.mp3')
 gameOverAudio.volume = 0.1
 
 export {

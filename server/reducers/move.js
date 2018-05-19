@@ -31,6 +31,7 @@ const move = (playersArray, directionQueue, dimensions, imageMap) => {
 			directionQueue[player.id].shift() // side effect
 		}
 
+		// player is frozen during game over screen
 		if (player.state === 'frozen') {
 			return player
 		}

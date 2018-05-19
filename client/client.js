@@ -8,6 +8,7 @@ import Center from './components/center'
 import Bottom from './components/bottom'
 
 import initialGameState from '../server/initial_game_state'
+import { protocol } from './client_dev'
 
 import './assets/snake.css'
 
@@ -26,8 +27,7 @@ class Client extends Component {
 		this.mineTypeToDraw = 'DARK'
 		this.spectating = null
 
-		// this.socket = new WebSocket(`${protocol}://${location.host}`)
-		this.socket = new WebSocket(`ws://${location.host}`)
+		this.socket = new WebSocket(`${protocol}://${location.host}`)
 	}
 
 	componentDidMount() {
