@@ -22,40 +22,40 @@ const process_winner = require('./winner')
 const move = require('./move')
 const connectionUpdate = require('./connection_update')
 
-// const reduceState = compose(
-// 	process_winner,
-// 	pu_player,
-// 	cp_player,
-// 	pu_trigger,
-// 	pu_mine,
-// 	cp_mine,
-// 	cp_trigger,
-// 	pu_food,
-// 	cp_food,
-// )
+const reduceState = compose(
+	process_winner,
+	pu_player,
+	cp_player,
+	pu_trigger,
+	pu_mine,
+	cp_mine,
+	cp_trigger,
+	pu_food,
+	cp_food,
+)
 
 // for quick logging purposes
 
-const reduceState = compose(
-	log,
-	process_winner,
-	log,
-	pu_player,
-	log,
-	cp_player,
-	log,
-	pu_trigger,
-	log,
-	pu_mine,
-	log,
-	cp_mine,
-	log,
-	cp_trigger,
-	log,
-	pu_food,
-	log,
-	cp_food,
-)
+// const reduceState = compose(
+// 	log,
+// 	process_winner,
+// 	log,
+// 	pu_player,
+// 	log,
+// 	cp_player,
+// 	log,
+// 	pu_trigger,
+// 	log,
+// 	pu_mine,
+// 	log,
+// 	cp_mine,
+// 	log,
+// 	cp_trigger,
+// 	log,
+// 	pu_food,
+// 	log,
+// 	cp_food,
+// )
 
 module.exports = {
 	reduceState,

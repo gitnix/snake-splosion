@@ -11,7 +11,12 @@ import {
 import { idFor, updateDOM } from './dom'
 import { FOOD, MINE, TRIGGER, BODY, HEAD, TAIL } from './assets/images'
 
-import { collisionAudio, eatAudio, teleportAudio } from './assets/audio'
+import {
+	collisionAudio,
+	eatAudio,
+	gameOverAudio,
+	teleportAudio,
+} from './assets/audio'
 
 let blinkTurn = {
 	GREEN: 1,
@@ -129,6 +134,9 @@ const updateGame = (
 	}
 
 	if (info.winner && state.players.length > 0) {
+		if (info.maxTicksUntilReset - info.ticksUntilReset < 2) {
+			gameOverAudio.play()
+		}
 		const winnerColor = state.players.find(p => p.id === info.winner.id).color
 		ctx.font = '52px Do Hyeon'
 		ctx.textAlign = 'center'
