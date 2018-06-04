@@ -1,4 +1,4 @@
-const { MAX_MINES } = require('../../constants')
+const gameOptions = require('../../constants')
 
 const { dissoc, filter, gte, merge, reduce } = require('ramda')
 const {
@@ -24,7 +24,7 @@ const updateMinePositions = state => {
 	const newMines = {} // mutable
 	const { turnCounter, turnToAdd } = mineState
 	const shouldUpdate = gte(turnCounter, turnToAdd)
-	if (shouldUpdate && Object.keys(mines).length < MAX_MINES) {
+	if (shouldUpdate && Object.keys(mines).length < gameOptions.MAX_MINES) {
 		let { minesToAdd } = mineState
 		while (minesToAdd) {
 			const randomKey = getValidRandomKey(allPos, players)

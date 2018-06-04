@@ -5,7 +5,8 @@ const {
 	getValidRandomKey,
 	newBody,
 } = require('../utils')
-const { DEATH_TICKS, GOAL_SCORE, SNAKE_LOADING_IMAGE } = require('../constants')
+const { DEATH_TICKS, SNAKE_LOADING_IMAGE } = require('../constants')
+const gameOptions = require('../constants')
 const getSnakeImage = require('../image_search')
 const getSnakeName = require('../get_snake_names')
 
@@ -46,7 +47,7 @@ const addId = (randomKey, imageMap) => (stored, currentId) => {
 					name: snakeName,
 					deathTicks: DEATH_TICKS,
 					score: 0,
-					goalScore: GOAL_SCORE,
+					goalScore: gameOptions.GOAL_SCORE,
 				},
 				stored,
 		  )

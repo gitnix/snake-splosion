@@ -1,5 +1,5 @@
 const { getRandom } = require('../../utils')
-const { TRIGGER_DIVISOR } = require('../../constants')
+const gameOptions = require('../../constants')
 
 const processMineCollisions = state => {
 	const { players, mines, triggers } = state
@@ -31,7 +31,7 @@ const processMineCollisions = state => {
 			const minePositionsSize = allMinePositions.length
 			if (minePositionsSize > 0) {
 				const numMinesToExplode = Math.floor(
-					minePositionsSize / TRIGGER_DIVISOR,
+					minePositionsSize / gameOptions.TRIGGER_DIVISOR,
 				)
 				for (let i = 0; i < numMinesToExplode; i++) {
 					markedMineArray.push(

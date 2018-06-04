@@ -4,9 +4,9 @@ const {
 	DIRECTIONS,
 	GRID_COLUMNS,
 	GRID_ROWS,
-	MINE_SPAWN_DISTANCE,
 	NEW_BODY_LENGTH,
 } = require('./constants')
+const gameOptions = require('./constants')
 
 const WebSocket = require('ws')
 const { chain } = require('ramda')
@@ -68,7 +68,7 @@ const getCollisionStatusAndKey = (allPosArray, playersArray) => {
 		return [false, randomKey]
 	}
 
-	let perimeterSet = getCoordSet(randX, randY, MINE_SPAWN_DISTANCE)
+	let perimeterSet = getCoordSet(randX, randY, gameOptions.MINE_SPAWN_DISTANCE)
 	let isCollision = false
 	playersArray.forEach(p => {
 		perimeterSet.forEach(coord => {

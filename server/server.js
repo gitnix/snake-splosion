@@ -32,6 +32,7 @@ const {
 	WS_SPECTATING_ACTIVITY_TIMEOUT,
 } = require('./constants')
 const initialGameState = require('./initial_game_state')
+const { chatHelp, chatSetOption } = require('./chat_options')
 ////////////////////////
 // server specific state
 let playerSet = new Set()
@@ -109,10 +110,32 @@ wss.on('connection', (ws, req) => {
 				directionQueue[id].push(direction)
 				break
 			case 'CHAT_MESSAGE':
+				let isMsgValid = true
+				let parsedMsg = msg.contents.split(' ')
+				let helpDialouge
+
+				if (parsedMsg.length === 1) {
+					if (parsedMsg[0] === 'help') helpDialouge = chatHelp()
+				}
+
+				if (parsedMsg.length === 3) {
+					if (parsedMsg[0] === 'set') {
+						let parsedValue = parseInt(parsedMsg[2])
+						if (isNaN(parsedValue)) isMsgValid = false
+						else {
+							isMsgValid = chatSetOption(parsedMsg[1], parsedValue)
+						}
+					}
+				}
+
 				broadcast(wss.clients, {
 					type: 'CHAT_MESSAGE',
 					message: {
-						contents: msg.contents,
+						contents: helpDialouge
+							? helpDialouge
+							: isMsgValid
+								? msg.contents
+								: 'invalid command or desired value is out of allowed range',
 						sender: msg.sender,
 						color: msg.color,
 					},
