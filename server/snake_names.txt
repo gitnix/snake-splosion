@@ -482,7 +482,8 @@ Twin Headed King Snake
 Titanboa
 Urutu
 Vine Snake
-Asian Vine Snake, Whip Snake
+Asian Vine Snake
+Whip Snake
 American Vine Snake
 Mexican Vine Snake
 Viper
