@@ -1,14 +1,7 @@
-import { find, propEq } from 'ramda'
+import { divide, find, min, propEq } from 'ramda'
 
 import { COLOR_MAP, UNIT_SIZE } from './constants'
-import {
-	getBodyDirection,
-	getTailDirection,
-	roundRect,
-	scale,
-	strToCoords,
-} from './utils'
-import { idFor, updateDOM } from './dom'
+import { getBodyDirection, roundRect, scale, strToCoords } from './utils'
 import { FOOD, MINE, TRIGGER, BODY, HEAD, TAIL } from './assets/images'
 
 import {
@@ -18,12 +11,26 @@ import {
 	teleportAudio,
 } from './assets/audio'
 
+// draw nothing if blinkTurn under this number
+let blinkTimer = 100
+// draw color square if > blinkTimer && < blinkTimer2
+let blinkTimer2 = 160
+// incremented each frame
 let blinkTurn = {
 	GREEN: 1,
 	PINK: 1,
 	BLUE: 1,
 	GOLD: 1,
 }
+
+// singleton that componentDidUpdate writes state to
+let updateState = {}
+// used to divide elapsed time
+let denominator = 59
+// used to store interpolated coords
+let drawX, drawY
+// used to store raw coords of head
+let head_x, head_y
 
 const drawUnit = (ctx, x, y, color) => {
 	ctx.fillStyle = color
@@ -46,11 +53,19 @@ const playAudio = (players, id) => {
 	}
 }
 
-const updateGame = (
+const updateGame = timestamp => (
 	state,
 	ctx,
 	{ width, height, mineTypeToDraw, info, spectating, gameStop },
 ) => {
+	// shouldUpdate is true when server sends new state updated
+	if (updateState.shouldUpdate) {
+		updateState.start = timestamp
+		updateState.shouldUpdate = false
+	}
+	// total elapsed time since last update message from server
+	let elapsed = timestamp - updateState.start
+
 	ctx.clearRect(0, 0, width, height)
 
 	Object.keys(state.food).forEach(key => {
@@ -73,32 +88,96 @@ const updateGame = (
 	state.players.forEach(player => {
 		player.body.forEach((bodyString, index) => {
 			const [x, y] = strToCoords(bodyString)
+			// save the coords of head here since it is not
+			// drawn until after body draws
+			if (index == 0) {
+				head_x = x
+				head_y = y
+			}
 
 			if (player.state === 'readyToMove') {
 				blinkTurn[player.color]++
-				if (blinkTurn[player.color] <= 10) {
+				if (blinkTurn[player.color] <= blinkTimer) {
 					return
 				}
-				if (blinkTurn[player.color] > 10) {
-					if (blinkTurn[player.color] >= 16) blinkTurn[player.color] = 1
+				if (blinkTurn[player.color] > blinkTimer) {
+					if (blinkTurn[player.color] >= blinkTimer2)
+						blinkTurn[player.color] = 1
 					drawUnit(ctx, x, y, COLOR_MAP[player.color])
 				}
 				return
 			}
 
 			let drawColor = player.state === 'dead' ? 'dead' : player.color
+			let noInterpolate = ['dead', 'frozen'].includes(player.state)
 			switch (index) {
-				case 0:
-					ctx.drawImage(HEAD[drawColor][player.direction], scale(x), scale(y))
-					break
+				/////////////////////////
+				// TAIL && HEAD
 				case player.body.length - 1:
-					ctx.drawImage(
-						TAIL[drawColor][player.bodyDirections[player.body.length - 2]],
-						scale(x),
-						scale(y),
-					)
+					// TAIL
+					if (player.bodyDirections.length > 2) {
+						ctx.drawImage(
+							TAIL[drawColor][player.bodyDirections[player.body.length - 2]],
+							scale(x),
+							scale(y),
+						)
+					}
+
+					// HEAD
+					// drawn last to ensure it is on top of body
+					if (player.bodyDirections.length > 1) {
+						// will be drawn  back this amount and
+						// interpolate up this amount to server location x/y
+						let offset = 0.8
+						switch (player.direction) {
+							case 'RIGHT':
+								drawX =
+									head_x - offset + min(offset, divide(elapsed, denominator))
+								ctx.drawImage(
+									HEAD[drawColor][player.direction],
+									scale(noInterpolate ? head_x : drawX),
+									scale(head_y),
+								)
+								break
+							case 'LEFT':
+								drawX =
+									head_x + offset - min(offset, divide(elapsed, denominator))
+								ctx.drawImage(
+									HEAD[drawColor][player.direction],
+									scale(noInterpolate ? head_x : drawX),
+									scale(head_y),
+								)
+								break
+							case 'UP':
+								drawY =
+									head_y + offset - min(offset, divide(elapsed, denominator))
+								ctx.drawImage(
+									HEAD[drawColor][player.direction],
+									scale(head_x),
+									scale(noInterpolate ? head_y : drawY),
+								)
+								break
+							case 'DOWN':
+								drawY =
+									head_y - offset + min(offset, divide(elapsed, denominator))
+								ctx.drawImage(
+									HEAD[drawColor][player.direction],
+									scale(head_x),
+									scale(noInterpolate ? head_y : drawY),
+								)
+								break
+						}
+					}
+					//end head & tail
 					break
+
+				/////////////////////////
+				// BODY
 				default:
+					// ignore head here. head is drawn when tail is drawn
+					if (index == 0) {
+						break
+					}
 					ctx.drawImage(
 						BODY[drawColor][
 							getBodyDirection(player.bodyDirections, index, drawColor)
@@ -106,6 +185,7 @@ const updateGame = (
 						scale(x),
 						scale(y),
 					)
+					break
 			}
 		})
 	})
@@ -157,7 +237,7 @@ const updateGame = (
 			ctx,
 			centerWidth - barOffset,
 			centerHeight + loadingHeight,
-			Math.round(info.maxTicksUntilReset / 3 * UNIT_SIZE),
+			Math.round((info.maxTicksUntilReset / 3) * UNIT_SIZE),
 			20,
 			20,
 		)
@@ -188,6 +268,17 @@ const updateGame = (
 			}
 		}
 	}
+
+	window.requestAnimationFrame(newTimestamp =>
+		updateGame(newTimestamp)(updateState.gameState, ctx, {
+			width: updateState.width,
+			height: updateState.height,
+			mineTypeToDraw: updateState.mineTypeToDraw,
+			info: updateState.gameInfo,
+			spectating: updateState.spectating,
+			gameStop: updateState.gameStop,
+		}),
+	)
 }
 
-export { playAudio, updateGame }
+export { playAudio, updateGame, updateState }
