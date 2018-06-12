@@ -1,5 +1,7 @@
 import { newImage } from '../../utils'
 
+export const EXPLOSION = newImage('images/explosion.png')
+
 export const FOOD = {
 	APPLE: newImage('images/food/apple.png'),
 }

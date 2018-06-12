@@ -10,7 +10,6 @@ module.exports = {
 		turnCounter: 0,
 		minesToAdd: 1,
 		turnToAdd: 1,
-		mineMultiplier: 1,
 	},
 	gameInfo: {
 		winner: null,

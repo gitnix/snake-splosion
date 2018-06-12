@@ -38,10 +38,6 @@ mines = {
 	},
 }
 
-markedPlayers = [
-	// array of 'X_Y'
-]
-
 markedMines = [
 	// array of 'X_Y'
 ]
@@ -64,6 +60,7 @@ mineState = {
 	// turn on which new mines are created
 	turnToAdd: 2,
 
+	// not implemented
 	// how much the number of mines will increase
 	mineMultiplier: 1,
 }

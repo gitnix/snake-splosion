@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import ChatPanel from './chat_panel'
 import MainCanvas from './main_canvas'
 import EffectsCanvas from './effects_canvas'
