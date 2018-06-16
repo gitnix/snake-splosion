@@ -35,6 +35,12 @@ class MainCanvas extends Component {
 		updateState.width = this._canvasRef.width
 		updateState.height = this._canvasRef.height
 
+		this.props.gameState.players.forEach(player => {
+			updateState.stateList[player.id] = []
+			updateState.stateList[player.id].push(player.state)
+			updateState.stateList[player.id].push(player.state)
+		})
+
 		window.requestAnimationFrame(timestamp => {
 			updateGame(timestamp)(this.props.gameState, this._ctx, {
 				width: this._canvasRef.width,
@@ -58,6 +64,30 @@ class MainCanvas extends Component {
 		updateState.gameStop = this.props.gameStop
 		updateState.width = this._canvasRef.width
 		updateState.height = this._canvasRef.height
+
+		// keep track of previous state
+		// used when interpolating tail
+		this.props.gameState.players.forEach(player => {
+			if (!updateState.stateList[player.id]) {
+				updateState.stateList[player.id] = []
+				updateState.stateList[player.id].push(player.state)
+				updateState.stateList[player.id].push(player.state)
+			} else {
+				updateState.stateList[player.id].push(player.state)
+				updateState.stateList[player.id].shift()
+			}
+
+			if (updateState.countDown[player.id] > 0) {
+				updateState.countDown[player.id]--
+			}
+
+			if (
+				updateState.stateList[player.id][0] === 'readyToMove' &&
+				updateState.stateList[player.id][1] === 'normal'
+			) {
+				updateState.countDown[player.id] = player.body.length - 1
+			}
+		})
 	}
 
 	render() {

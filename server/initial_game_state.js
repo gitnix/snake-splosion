@@ -7,7 +7,7 @@ module.exports = {
 	markedMines: [],
 	triggers: { '12_12': { isCollided: false } },
 	mineState: {
-		turnCounter: 0,
+		turnCounter: 1,
 		minesToAdd: 1,
 		turnToAdd: 1,
 	},

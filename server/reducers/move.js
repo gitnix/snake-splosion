@@ -2,7 +2,7 @@ const { DEATH_TICKS } = require('../constants')
 const { newBodyDirections } = require('../utils')
 
 // accounts for negative modulus
-const mod = (n, m) => (n % m + m) % m
+const mod = (n, m) => ((n % m) + m) % m
 
 const move = (playersArray, directionQueue, dimensions, imageMap) => {
 	// console.log('playersArray in move', playersArray)
@@ -81,10 +81,13 @@ const move = (playersArray, directionQueue, dimensions, imageMap) => {
 			state: 'normal',
 			direction,
 			img: imageMap.get(player.id),
-			bodyDirections: newBodyDirections(player.bodyDirections, {
-				type: 'move',
-				direction,
-			}),
+			bodyDirections:
+				player.state !== 'readyToMove'
+					? newBodyDirections(player.bodyDirections, {
+							type: 'move',
+							direction,
+					  })
+					: player.bodyDirections.map(dir => direction),
 		}
 	})
 	// console.log('returnArray', returnArray)

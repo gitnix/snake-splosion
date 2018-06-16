@@ -22,11 +22,13 @@ let blinkTurn = {
 	BLUE: 1,
 	GOLD: 1,
 }
-
+// for testing purposes
+// so animation can be frozen at certain point
+let shouldAnimate = true
 // singleton that componentDidUpdate writes state to
-let updateState = {}
+let updateState = { stateList: {}, countDown: {} }
 // used to divide elapsed time
-let denominator = 59
+let denominator = 66
 // used to store interpolated coords
 let drawX, drawY
 // used to store raw coords of head
@@ -116,11 +118,132 @@ const updateGame = timestamp => (
 				case player.body.length - 1:
 					// TAIL
 					if (player.bodyDirections.length > 2) {
-						ctx.drawImage(
-							TAIL[drawColor][player.bodyDirections[player.body.length - 2]],
-							scale(x),
-							scale(y),
-						)
+						let tailDirection = player.bodyDirections[player.body.length - 1]
+						let preTailDirection = player.bodyDirections[player.body.length - 2]
+
+						if (tailDirection !== preTailDirection) {
+							ctx.drawImage(
+								TAIL[drawColor][preTailDirection],
+								scale(x),
+								scale(y),
+							)
+						} else if (player.state === 'eating') {
+							// 3 back here because new body part will be appended
+							// to end when eating and need to go past that
+							ctx.drawImage(
+								TAIL[drawColor][player.bodyDirections[player.body.length - 3]],
+								scale(x),
+								scale(y),
+							)
+						} else if (updateState.stateList[player.id][0] === 'eating') {
+							ctx.drawImage(
+								TAIL[drawColor][player.bodyDirections[player.body.length - 2]],
+								scale(x),
+								scale(y),
+							)
+						} else if (updateState.countDown[player.id]) {
+							ctx.drawImage(TAIL[drawColor][tailDirection], scale(x), scale(y))
+						} else {
+							let offset = 0.8
+							let drawLimit = 60
+
+							switch (preTailDirection) {
+								case 'RIGHT':
+									drawX = x - offset + min(offset, divide(elapsed, denominator))
+									// drawing the body in these cases will
+									// fill out the gap left by the tail interpolating
+									if (!noInterpolate) {
+										if (elapsed < drawLimit) {
+											ctx.drawImage(
+												BODY[drawColor][
+													getBodyDirection(
+														player.bodyDirections,
+														index,
+														drawColor,
+													)
+												],
+												scale(drawX + offset),
+												scale(y),
+											)
+										}
+									}
+									ctx.drawImage(
+										TAIL[drawColor][preTailDirection],
+										scale(noInterpolate ? x : drawX),
+										scale(y),
+									)
+									break
+								case 'LEFT':
+									drawX = x + offset - min(offset, divide(elapsed, denominator))
+									if (!noInterpolate) {
+										if (elapsed < drawLimit) {
+											ctx.drawImage(
+												BODY[drawColor][
+													getBodyDirection(
+														player.bodyDirections,
+														index,
+														drawColor,
+													)
+												],
+												scale(drawX - offset),
+												scale(y),
+											)
+										}
+									}
+									ctx.drawImage(
+										TAIL[drawColor][preTailDirection],
+										scale(noInterpolate ? x : drawX),
+										scale(y),
+									)
+									break
+								case 'UP':
+									drawY = y + offset - min(offset, divide(elapsed, denominator))
+									if (!noInterpolate) {
+										if (elapsed < drawLimit) {
+											ctx.drawImage(
+												BODY[drawColor][
+													getBodyDirection(
+														player.bodyDirections,
+														index,
+														drawColor,
+													)
+												],
+												scale(x),
+												scale(drawY - offset),
+											)
+										}
+									}
+									ctx.drawImage(
+										TAIL[drawColor][preTailDirection],
+										scale(x),
+										scale(noInterpolate ? y : drawY),
+									)
+									break
+								case 'DOWN':
+									drawY = y - offset + min(offset, divide(elapsed, denominator))
+									if (!noInterpolate) {
+										if (elapsed < drawLimit) {
+											ctx.drawImage(
+												BODY[drawColor][
+													getBodyDirection(
+														player.bodyDirections,
+														index,
+														drawColor,
+													)
+												],
+												scale(x),
+												scale(drawY + offset),
+											)
+										}
+									}
+									ctx.drawImage(
+										TAIL[drawColor][preTailDirection],
+										scale(x),
+										scale(noInterpolate ? y : drawY),
+									)
+									break
+							}
+						}
 					}
 
 					// HEAD
@@ -178,13 +301,18 @@ const updateGame = timestamp => (
 					if (index == 0) {
 						break
 					}
-					ctx.drawImage(
-						BODY[drawColor][
-							getBodyDirection(player.bodyDirections, index, drawColor)
-						],
-						scale(x),
-						scale(y),
-					)
+					// if they are equal it means food was obtained and thus
+					// the body at the end would be drawn over the tail
+					// this avoids that
+					if (bodyString !== player.body[player.body.length - 1]) {
+						ctx.drawImage(
+							BODY[drawColor][
+								getBodyDirection(player.bodyDirections, index, drawColor)
+							],
+							scale(x),
+							scale(y),
+						)
+					}
 					break
 			}
 		})
@@ -268,17 +396,17 @@ const updateGame = timestamp => (
 			}
 		}
 	}
-
-	window.requestAnimationFrame(newTimestamp =>
-		updateGame(newTimestamp)(updateState.gameState, ctx, {
-			width: updateState.width,
-			height: updateState.height,
-			mineTypeToDraw: updateState.mineTypeToDraw,
-			info: updateState.gameInfo,
-			spectating: updateState.spectating,
-			gameStop: updateState.gameStop,
-		}),
-	)
+	if (shouldAnimate)
+		window.requestAnimationFrame(newTimestamp =>
+			updateGame(newTimestamp)(updateState.gameState, ctx, {
+				width: updateState.width,
+				height: updateState.height,
+				mineTypeToDraw: updateState.mineTypeToDraw,
+				info: updateState.gameInfo,
+				spectating: updateState.spectating,
+				gameStop: updateState.gameStop,
+			}),
+		)
 }
 
 export { playAudio, updateGame, updateState }

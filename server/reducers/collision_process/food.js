@@ -50,7 +50,7 @@ const processFoodCollisions = state => {
 				: isCollided
 					? newBodyDirections(player.bodyDirections, {
 							type: 'add',
-							direction: player.direction,
+							direction: player.bodyDirections[player.body.length - 1],
 					  })
 					: player.bodyDirections,
 		}
