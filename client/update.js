@@ -12,9 +12,9 @@ import {
 } from './assets/audio'
 
 // draw nothing if blinkTurn under this number
-let blinkTimer = 100
+let blinkTimer = 250
 // draw color square if > blinkTimer && < blinkTimer2
-let blinkTimer2 = 160
+let blinkTimer2 = 330
 // incremented each frame
 let blinkTurn = {
 	GREEN: 1,

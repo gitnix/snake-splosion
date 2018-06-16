@@ -31,6 +31,7 @@ const getBodyDirection = (bodyDirections, index, playerColor) => {
 	if (
 		playerColor === 'PINK' ||
 		playerColor === 'GOLD' ||
+		playerColor === 'BLUE' ||
 		playerColor === 'dead'
 	) {
 		switch (dir) {

@@ -29,6 +29,8 @@ export const BODY = {
 		NW: newImage('images/body/blue/body_blue_nw.png'),
 		SE: newImage('images/body/blue/body_blue_se.png'),
 		NE: newImage('images/body/blue/body_blue_ne.png'),
+		CENTER_H: newImage('images/body/blue/body_blue_h.png'),
+		CENTER_V: newImage('images/body/blue/body_blue_v.png'),
 	},
 	PINK: {
 		CENTER: newImage('images/body/pink/body_pink.png'),
