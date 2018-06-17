@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Proton from 'proton-js'
 import { explosionAudio } from '../../assets/audio'
 import {
+	addEatingEmitter,
 	addExplosionEmitter,
 	addTeleportedEmitter,
 } from '../../setup_particles'
@@ -27,6 +28,7 @@ class EffectsCanvas extends Component {
 		this.protonArray = []
 		this.markedMines = []
 		this.teleportedPlayers = []
+		this.eatingPlayers = []
 
 		this.drawEffects = () => {
 			if (!this._ctx) return
@@ -42,6 +44,12 @@ class EffectsCanvas extends Component {
 			if (!!this.teleportedPlayers && this.teleportedPlayers.length > 0) {
 				this.teleportedPlayers.forEach(p => {
 					addTeleportedEmitter(this.proton, p)
+				})
+			}
+
+			if (!!this.eatingPlayers && this.eatingPlayers.length > 0) {
+				this.eatingPlayers.forEach(p => {
+					addEatingEmitter(this.proton, p)
 				})
 			}
 
@@ -62,6 +70,9 @@ class EffectsCanvas extends Component {
 		this.teleportedPlayers = this.props.gameState.players
 			.filter(p => p.state === 'teleported')
 			.map(p => [p.body[0], p.color])
+		this.eatingPlayers = this.props.gameState.players
+			.filter(p => p.state === 'eating')
+			.map(p => p.body[0])
 	}
 
 	render() {

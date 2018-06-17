@@ -39,3 +39,23 @@ export const addTeleportedEmitter = (proton, [positionString, color]) => {
 
 	proton.addEmitter(emitter)
 }
+
+export const addEatingEmitter = (proton, positionString) => {
+	const [x, y] = strToCoords(positionString)
+	const emitter = new Proton.Emitter()
+
+	emitter.rate = new Proton.Rate(Proton.getSpan(5, 10), 0.1)
+
+	emitter.addInitialize(new Proton.Radius(2, 3))
+	emitter.addInitialize(new Proton.Life(0, 0.4))
+	emitter.addInitialize(
+		new Proton.Velocity(1.1, Proton.getSpan(0, 360), 'polar'),
+	)
+	emitter.addBehaviour(new Proton.Color(COLOR_MAP['RED']))
+	emitter.addBehaviour(new Proton.Alpha(1, 0))
+	emitter.p.x = x * UNIT_SIZE + UNIT_SIZE / 2
+	emitter.p.y = y * UNIT_SIZE + UNIT_SIZE / 2
+	emitter.emit('once', 'life')
+
+	proton.addEmitter(emitter)
+}

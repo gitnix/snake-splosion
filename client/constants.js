@@ -6,4 +6,5 @@ export const COLOR_MAP = {
 	PINK: '#D42966',
 	GOLD: '#CDBE4C',
 	ORANGE: '#FBA93D',
+	RED: '#FC3B40',
 }
