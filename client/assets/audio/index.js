@@ -1,5 +1,5 @@
-const eatAudio = new Audio('audio/adjusted_crunch.mp3')
-eatAudio.volume = 0.5
+const eatAudio = new Audio('audio/crunch.mp3')
+eatAudio.volume = 0.2
 
 const collisionAudio = new Audio('audio/collision.mp3')
 collisionAudio.volume = 0.11

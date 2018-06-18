@@ -17,14 +17,14 @@ export const TRIGGER = {
 
 export const BODY = {
 	GREEN: {
-		CENTER: newImage('images/body/green/body_green.png'),
 		SW: newImage('images/body/green/body_green_sw.png'),
 		NW: newImage('images/body/green/body_green_nw.png'),
 		SE: newImage('images/body/green/body_green_se.png'),
 		NE: newImage('images/body/green/body_green_ne.png'),
+		CENTER_H: newImage('images/body/green/body_green_h.png'),
+		CENTER_V: newImage('images/body/green/body_green_v.png'),
 	},
 	BLUE: {
-		CENTER: newImage('images/body/blue/body_blue.png'),
 		SW: newImage('images/body/blue/body_blue_sw.png'),
 		NW: newImage('images/body/blue/body_blue_nw.png'),
 		SE: newImage('images/body/blue/body_blue_se.png'),
@@ -33,7 +33,6 @@ export const BODY = {
 		CENTER_V: newImage('images/body/blue/body_blue_v.png'),
 	},
 	PINK: {
-		CENTER: newImage('images/body/pink/body_pink.png'),
 		SW: newImage('images/body/pink/body_pink_sw.png'),
 		NW: newImage('images/body/pink/body_pink_nw.png'),
 		SE: newImage('images/body/pink/body_pink_se.png'),
@@ -42,7 +41,6 @@ export const BODY = {
 		CENTER_V: newImage('images/body/pink/body_pink_v.png'),
 	},
 	GOLD: {
-		CENTER: newImage('images/body/pink/body_pink.png'),
 		SW: newImage('images/body/gold/body_gold_sw.png'),
 		NW: newImage('images/body/gold/body_gold_nw.png'),
 		SE: newImage('images/body/gold/body_gold_se.png'),
@@ -51,7 +49,6 @@ export const BODY = {
 		CENTER_V: newImage('images/body/gold/body_gold_v.png'),
 	},
 	dead: {
-		CENTER: newImage('images/body/dead/body_dead.png'),
 		SW: newImage('images/body/dead/body_dead_sw.png'),
 		NW: newImage('images/body/dead/body_dead_nw.png'),
 		SE: newImage('images/body/dead/body_dead_se.png'),

@@ -156,11 +156,7 @@ const updateGame = timestamp => (
 										if (elapsed < drawLimit) {
 											ctx.drawImage(
 												BODY[drawColor][
-													getBodyDirection(
-														player.bodyDirections,
-														index,
-														drawColor,
-													)
+													getBodyDirection(player.bodyDirections, index)
 												],
 												scale(drawX + offset),
 												scale(y),
@@ -179,11 +175,7 @@ const updateGame = timestamp => (
 										if (elapsed < drawLimit) {
 											ctx.drawImage(
 												BODY[drawColor][
-													getBodyDirection(
-														player.bodyDirections,
-														index,
-														drawColor,
-													)
+													getBodyDirection(player.bodyDirections, index)
 												],
 												scale(drawX - offset),
 												scale(y),
@@ -202,11 +194,7 @@ const updateGame = timestamp => (
 										if (elapsed < drawLimit) {
 											ctx.drawImage(
 												BODY[drawColor][
-													getBodyDirection(
-														player.bodyDirections,
-														index,
-														drawColor,
-													)
+													getBodyDirection(player.bodyDirections, index)
 												],
 												scale(x),
 												scale(drawY - offset),
@@ -225,11 +213,7 @@ const updateGame = timestamp => (
 										if (elapsed < drawLimit) {
 											ctx.drawImage(
 												BODY[drawColor][
-													getBodyDirection(
-														player.bodyDirections,
-														index,
-														drawColor,
-													)
+													getBodyDirection(player.bodyDirections, index)
 												],
 												scale(x),
 												scale(drawY + offset),
@@ -306,9 +290,7 @@ const updateGame = timestamp => (
 					// this avoids that
 					if (bodyString !== player.body[player.body.length - 1]) {
 						ctx.drawImage(
-							BODY[drawColor][
-								getBodyDirection(player.bodyDirections, index, drawColor)
-							],
+							BODY[drawColor][getBodyDirection(player.bodyDirections, index)],
 							scale(x),
 							scale(y),
 						)

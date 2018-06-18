@@ -21,30 +21,23 @@ const bevelMap = {
 	RIGHT_UP: 'NW',
 }
 
-const getBodyDirection = (bodyDirections, index, playerColor) => {
-	if (!bodyDirections) return 'CENTER'
+const getBodyDirection = (bodyDirections, index) => {
+	if (!bodyDirections) return 'CENTER_H'
 	const prevDir = bodyDirections[index - 1]
 	const dir = bodyDirections[index]
 	const bevel = bevelMap[`${prevDir}_${dir}`]
 	if (bevel) return bevel
 
-	if (
-		playerColor === 'PINK' ||
-		playerColor === 'GOLD' ||
-		playerColor === 'BLUE' ||
-		playerColor === 'dead'
-	) {
-		switch (dir) {
-			case 'RIGHT':
-			case 'LEFT':
-				return 'CENTER_H'
-			case 'UP':
-			case 'DOWN':
-				return 'CENTER_V'
-		}
+	switch (dir) {
+		case 'RIGHT':
+		case 'LEFT':
+			return 'CENTER_H'
+		case 'UP':
+		case 'DOWN':
+			return 'CENTER_V'
 	}
 
-	return 'CENTER'
+	return 'CENTER_H'
 }
 
 const roundRect = (ctx, x, y, w, h, r) => {
