@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { setPlayerMap } from './globals'
+import { setPlayerStateObj } from './client_state'
 import { playAudio } from './update'
 import addKeyListener from './key_listener'
 
@@ -28,15 +28,14 @@ class Client extends Component {
 		this.spectating = null
 
 		this.socket = new WebSocket(`${protocol}://${location.host}`)
-	}
-
-	componentDidMount() {
 		this.socket.addEventListener('message', message => {
 			const msg = JSON.parse(message.data)
 			switch (msg.type) {
 				case 'STATE_UPDATE':
 					this.setState({ gameState: msg.state })
-					msg.state.players.forEach(p => setPlayerMap(p.id, p))
+					msg.state.players.forEach(p => {
+						setPlayerStateObj(p.id, p)
+					})
 					playAudio(msg.state.players, this.clientId)
 					break
 				case 'GAME_CONNECTION':

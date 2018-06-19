@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { updateGame, updateState } from '../../update'
+import { updateGame } from '../../update'
+import { updateClientState } from '../../client_state'
 
 class MainCanvas extends Component {
 	constructor(props) {
@@ -23,22 +24,11 @@ class MainCanvas extends Component {
 	}
 
 	componentDidMount() {
-		updateState.shouldUpdate = true
-
 		// need here in case make game rate slow and needs updated gameState
 		// before server updates
-		updateState.gameState = this.props.gameState
-		updateState.mineTypeToDraw = this.props.mineTypeToDraw
-		updateState.gameInfo = this.props.gameState.gameInfo
-		updateState.spectating = this.props.spectating
-		updateState.gameStop = this.props.gameStop
-		updateState.width = this._canvasRef.width
-		updateState.height = this._canvasRef.height
-
-		this.props.gameState.players.forEach(player => {
-			updateState.stateList[player.id] = []
-			updateState.stateList[player.id].push(player.state)
-			updateState.stateList[player.id].push(player.state)
+		updateClientState(this.props, {
+			width: this._canvasRef.width,
+			height: this._canvasRef.height,
 		})
 
 		window.requestAnimationFrame(timestamp => {
@@ -46,47 +36,16 @@ class MainCanvas extends Component {
 				width: this._canvasRef.width,
 				height: this._canvasRef.height,
 				mineTypeToDraw: this.props.mineTypeToDraw,
-				info: this.props.gameState.gameInfo,
 				spectating: this.props.spectating,
 				gameStop: this.props.gameStop,
 			})
 		})
 	}
 
-	componentDidUpdate(prevProps) {
-		// update state for update function to use
-		updateState.shouldUpdate = true
-
-		updateState.gameState = this.props.gameState
-		updateState.mineTypeToDraw = this.props.mineTypeToDraw
-		updateState.gameInfo = this.props.gameState.gameInfo
-		updateState.spectating = this.props.spectating
-		updateState.gameStop = this.props.gameStop
-		updateState.width = this._canvasRef.width
-		updateState.height = this._canvasRef.height
-
-		// keep track of previous state
-		// used when interpolating tail
-		this.props.gameState.players.forEach(player => {
-			if (!updateState.stateList[player.id]) {
-				updateState.stateList[player.id] = []
-				updateState.stateList[player.id].push(player.state)
-				updateState.stateList[player.id].push(player.state)
-			} else {
-				updateState.stateList[player.id].push(player.state)
-				updateState.stateList[player.id].shift()
-			}
-
-			if (updateState.countDown[player.id] > 0) {
-				updateState.countDown[player.id]--
-			}
-
-			if (
-				updateState.stateList[player.id][0] === 'readyToMove' &&
-				updateState.stateList[player.id][1] === 'normal'
-			) {
-				updateState.countDown[player.id] = player.body.length - 1
-			}
+	componentDidUpdate() {
+		updateClientState(this.props, {
+			width: this._canvasRef.width,
+			height: this._canvasRef.height,
 		})
 	}
 

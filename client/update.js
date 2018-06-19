@@ -1,6 +1,7 @@
 import { divide, find, min, propEq } from 'ramda'
 
 import { COLOR_MAP, UNIT_SIZE } from './constants'
+import { clientState } from './client_state'
 import { getBodyDirection, roundRect, scale, strToCoords } from './utils'
 import { FOOD, MINE, TRIGGER, BODY, HEAD, TAIL } from './assets/images'
 
@@ -25,8 +26,6 @@ let blinkTurn = {
 // for testing purposes
 // so animation can be frozen at certain point
 let shouldAnimate = true
-// singleton that componentDidUpdate writes state to
-let updateState = { stateList: {}, countDown: {} }
 // used to divide elapsed time
 let denominator = 66
 // used to store interpolated coords
@@ -61,12 +60,12 @@ const updateGame = timestamp => (
 	{ width, height, mineTypeToDraw, info, spectating, gameStop },
 ) => {
 	// shouldUpdate is true when server sends new state updated
-	if (updateState.shouldUpdate) {
-		updateState.start = timestamp
-		updateState.shouldUpdate = false
+	if (clientState.shouldUpdate) {
+		clientState.start = timestamp
+		clientState.shouldUpdate = false
 	}
 	// total elapsed time since last update message from server
-	let elapsed = timestamp - updateState.start
+	let elapsed = timestamp - clientState.start
 
 	ctx.clearRect(0, 0, width, height)
 
@@ -135,13 +134,13 @@ const updateGame = timestamp => (
 								scale(x),
 								scale(y),
 							)
-						} else if (updateState.stateList[player.id][0] === 'eating') {
+						} else if (clientState.stateList[player.id][0] === 'eating') {
 							ctx.drawImage(
 								TAIL[drawColor][player.bodyDirections[player.body.length - 2]],
 								scale(x),
 								scale(y),
 							)
-						} else if (updateState.countDown[player.id]) {
+						} else if (clientState.countDown[player.id]) {
 							ctx.drawImage(TAIL[drawColor][tailDirection], scale(x), scale(y))
 						} else {
 							let offset = 0.8
@@ -323,14 +322,19 @@ const updateGame = timestamp => (
 		ctx.fillText(`Refresh to start a match.`, width / 2, height / 2 + 60)
 	}
 
-	if (info.winner && state.players.length > 0) {
-		if (info.maxTicksUntilReset - info.ticksUntilReset < 2) {
+	if (state.gameInfo.winner && state.players.length > 0) {
+		if (
+			state.gameInfo.maxTicksUntilReset - state.gameInfo.ticksUntilReset <
+			2
+		) {
 			gameOverAudio.play()
 		}
-		const winnerColor = state.players.find(p => p.id === info.winner.id).color
+		const winnerColor = state.players.find(
+			p => p.id === state.gameInfo.winner.id,
+		).color
 		ctx.font = '52px Do Hyeon'
 		ctx.textAlign = 'center'
-		ctx.fillText(`${info.winner.name}`, width / 2, height / 2 - 60)
+		ctx.fillText(`${state.gameInfo.winner.name}`, width / 2, height / 2 - 60)
 		ctx.fillText(`Wins!`, width / 2, height / 2)
 		ctx.font = '48px Do Hyeon'
 		ctx.fillText(`Restarting...`, width / 2, height / 2 + 60)
@@ -347,14 +351,17 @@ const updateGame = timestamp => (
 			ctx,
 			centerWidth - barOffset,
 			centerHeight + loadingHeight,
-			Math.round((info.maxTicksUntilReset / 3) * UNIT_SIZE),
+			Math.round((state.gameInfo.maxTicksUntilReset / 3) * UNIT_SIZE),
 			20,
 			20,
 		)
 		ctx.fill()
 
 		const maxVal =
-			Math.round((info.maxTicksUntilReset - info.ticksUntilReset) / 3) - 1
+			Math.round(
+				(state.gameInfo.maxTicksUntilReset - state.gameInfo.ticksUntilReset) /
+					3,
+			) - 1
 
 		ctx.drawImage(
 			TAIL[winnerColor]['RIGHT'],
@@ -371,7 +378,7 @@ const updateGame = timestamp => (
 				)
 			} else {
 				ctx.drawImage(
-					BODY[winnerColor]['CENTER'],
+					BODY[winnerColor]['CENTER_H'],
 					centerWidth - drawOffset + i * UNIT_SIZE,
 					centerHeight + loadingHeight,
 				)
@@ -380,15 +387,14 @@ const updateGame = timestamp => (
 	}
 	if (shouldAnimate)
 		window.requestAnimationFrame(newTimestamp =>
-			updateGame(newTimestamp)(updateState.gameState, ctx, {
-				width: updateState.width,
-				height: updateState.height,
-				mineTypeToDraw: updateState.mineTypeToDraw,
-				info: updateState.gameInfo,
-				spectating: updateState.spectating,
-				gameStop: updateState.gameStop,
+			updateGame(newTimestamp)(clientState.gameState, ctx, {
+				width: clientState.width,
+				height: clientState.height,
+				mineTypeToDraw: clientState.mineTypeToDraw,
+				spectating: clientState.spectating,
+				gameStop: clientState.gameStop,
 			}),
 		)
 }
 
-export { playAudio, updateGame, updateState }
+export { playAudio, updateGame }

@@ -5,7 +5,6 @@ const { newBodyDirections } = require('../utils')
 const mod = (n, m) => ((n % m) + m) % m
 
 const move = (playersArray, directionQueue, dimensions, imageMap) => {
-	// console.log('playersArray in move', playersArray)
 	const returnArray = playersArray.map(player => {
 		if (player.state === 'teleported') {
 			directionQueue[player.id].splice(0) // side effect
@@ -15,12 +14,13 @@ const move = (playersArray, directionQueue, dimensions, imageMap) => {
 			}
 		}
 
-		if (player.state === 'readyToMove') {
-			if (directionQueue[player.id].length < 1) {
-				return {
-					...player,
-					state: 'readyToMove',
-				}
+		if (
+			player.state === 'readyToMove' &&
+			directionQueue[player.id].length < 1
+		) {
+			return {
+				...player,
+				state: 'readyToMove',
 			}
 		}
 
@@ -78,7 +78,7 @@ const move = (playersArray, directionQueue, dimensions, imageMap) => {
 				computeNewHead(player.body[0], direction, dimensions),
 				...player.body.slice(0, player.body.length - 1),
 			],
-			state: 'normal',
+			state: player.state === 'connecting' ? 'connected' : 'normal',
 			direction,
 			img: imageMap.get(player.id),
 			bodyDirections:
@@ -90,7 +90,6 @@ const move = (playersArray, directionQueue, dimensions, imageMap) => {
 					: player.bodyDirections.map(dir => direction),
 		}
 	})
-	// console.log('returnArray', returnArray)
 	return returnArray
 }
 

@@ -3,13 +3,13 @@ import dropRepeats from 'xstream/extra/dropRepeats'
 import xs from 'xstream'
 import { equals, ifElse, or } from 'ramda'
 import KEY_MAP from './key_map'
-import { getMovementStatus, getPlayerMap } from './globals'
+import { getMovementStatus, clientState } from './client_state'
 
 const shouldDrop = id =>
 	ifElse(
 		({ curr }) => KEY_MAP.has(curr),
 		({ curr, last }) =>
-			getPlayerMap(id).state === 'readyToMove'
+			clientState.playerMap[id].state === 'readyToMove'
 				? false
 				: or(KEY_MAP.areOpposites(curr, last), equals(curr, last)),
 		() => true,

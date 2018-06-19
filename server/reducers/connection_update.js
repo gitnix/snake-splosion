@@ -43,7 +43,7 @@ const addId = (randomKey, imageMap) => (stored, currentId) => {
 					id: currentId,
 					body: newBody(randomKey),
 					color,
-					state: 'normal',
+					state: 'connecting',
 					name: snakeName,
 					deathTicks: DEATH_TICKS,
 					score: 0,

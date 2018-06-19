@@ -65,7 +65,7 @@ class EffectsCanvas extends Component {
 		window.requestAnimationFrame(this.drawEffects)
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate() {
 		this.markedMines = this.markedMines.concat(this.props.gameState.markedMines)
 		this.teleportedPlayers = this.props.gameState.players
 			.filter(p => p.state === 'teleported')

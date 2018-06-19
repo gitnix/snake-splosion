@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import MessageList from './message_list'
 
-import { setMovementStatus, getPlayerMap } from '../../globals'
+import { setMovementStatus, getPlayerMap } from '../../client_state'
 
 class ChatPanel extends Component {
 	constructor(props) {
