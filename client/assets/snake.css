@@ -172,9 +172,10 @@ canvas {
 
 .player-image {
 	align-self: center;
-	border-radius: 50%;
-	border: 6px solid #ead45dde;
+	border-radius: 40%;
+	border: 4px solid #ead45dde;
 	max-width: 100px;
+	max-height: 78px;
 }
 
 .player-image.dead {
