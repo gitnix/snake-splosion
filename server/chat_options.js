@@ -67,7 +67,7 @@ const chatHelp = () => {
 	maxMines: 40
 	mineSpawnDistance: 2
 	trigger: 3
-	minesToAdd: 1
+	minesToAdd: 3
 	turnToAdd: 1`
 }
 

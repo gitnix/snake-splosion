@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import MessageList from './message_list'
 
-import { setMovementStatus, getPlayerMap } from '../../client_state'
+import { setMovementStatus, clientState } from '../../client_state'
 
 class ChatPanel extends Component {
 	constructor(props) {
@@ -61,8 +61,8 @@ class ChatPanel extends Component {
 			this.props.socket.send(
 				JSON.stringify({
 					type: 'CHAT_MESSAGE',
-					sender: getPlayerMap(this.props.clientId).name,
-					color: getPlayerMap(this.props.clientId).color,
+					sender: clientState.playerMap[this.props.clientId].name,
+					color: clientState.playerMap[this.props.clientId].color,
 					contents: this.state.value,
 				}),
 			)

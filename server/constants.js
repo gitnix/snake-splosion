@@ -14,7 +14,7 @@ module.exports = {
 	// Actual distance for directly north, south, east, west
 	// will be this number plus 1
 	MINE_SPAWN_DISTANCE: 2,
-	NEW_BODY_LENGTH: 5,
+	NEW_BODY_LENGTH: 6,
 	SNAKE_LOADING_IMAGE: 'images/venomous_brown_tree_snake.jpg',
 	TICKS_UNTIL_RESET: 90,
 	// mines to destory: number of current mines / TRIGGER_DIVISOR
