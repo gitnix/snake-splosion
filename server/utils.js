@@ -131,6 +131,8 @@ const newBodyDirections = (bodyDirections, { type, direction }) => {
 	}
 }
 
+const strToCoords = key => key.split('_').map(string => parseInt(string))
+
 module.exports = {
 	broadcast,
 	directionToKey,
@@ -141,6 +143,8 @@ module.exports = {
 	getRandomBackgroundImage,
 	getRandomColor,
 	getRandomDirection,
+	keysToString,
 	newBody,
 	newBodyDirections,
+	strToCoords,
 }

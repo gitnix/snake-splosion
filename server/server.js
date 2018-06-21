@@ -35,8 +35,11 @@ const initialGameState = require('./initial_game_state')
 const { chatHelp, chatSetOption } = require('./chat_options')
 ////////////////////////
 // server specific state
-let playerSet = new Set()
+let playerArray = []
+let humanSet = new Set()
+let spectatorSet = new Set()
 let spectating = false
+
 let backgroundImage
 let gameRunning = false
 let directionQueue = {}
@@ -45,6 +48,12 @@ let connectionQueue = {
 	disconnections: [],
 }
 let playerImageMap = new Map()
+
+let addAi = id => {
+	playerArray.push({ id, ai: true })
+	connectionQueue.connections.push(id)
+	directionQueue[id] = ['RIGHT']
+}
 ////////////////////////
 
 ////////////////////////
@@ -67,18 +76,34 @@ wss.on('connection', (ws, req) => {
 	ws.id = uuid.v4()
 	console.log(`Client ${ws.id} has connected`)
 	console.log(`There are currently ${wss.clients.size} connected clients`)
-	if (playerSet.size >= MAX_PLAYERS) {
+	if (humanSet.size >= MAX_PLAYERS) {
 		spectating = true
 		ws.spectating = true
+		spectatorSet.add(ws.id)
 	} else {
-		playerSet.add(ws.id)
+		playerArray.push({ id: ws.id, ai: false })
+		humanSet.add(ws.id)
+
+		substituted = false
+		if (playerArray.length > MAX_PLAYERS) {
+			let indexToRemove = playerArray.findIndex(player => player.ai)
+			connectionQueue.disconnections.push(playerArray[indexToRemove].id)
+			playerArray.splice(indexToRemove, 1)
+			console.log('after substitution player array is now: ', playerArray)
+		}
 		connectionQueue.connections.push(ws.id)
 		startingDirection = getRandomDirection()
 		directionQueue[ws.id] = [startingDirection]
 		startingKey = directionToKey(startingDirection)
 	}
 
-	if (!spectating && playerSet.size === 1) {
+	if (playerArray.length === 1) {
+		for (let i = 0; i < 3; i++) {
+			addAi('ai_' + uuid.v4().slice(0, 8))
+		}
+	}
+
+	if (!spectating && humanSet.size === 1) {
 		backgroundImage = getRandomBackgroundImage()
 		gameRunning = true
 		gameLoop(initialGameState)
@@ -145,16 +170,29 @@ wss.on('connection', (ws, req) => {
 
 	ws.on('close', (code, reason) => {
 		console.log(`Closing connection for ${ws.id}`)
-		if (playerSet.size <= MAX_PLAYERS) {
-			connectionQueue.disconnections.push(ws.id)
-			playerSet.delete(ws.id)
+		if (ws.spectating) {
+			console.log('removing spectator')
+			spectatorSet.delete(ws.id)
+			if (spectatorSet.size === 0) {
+				console.log('there are now no spectators')
+				spectating = false
+			}
+			return
 		}
-		if (playerSet.size === 0 && reason !== 'noMorePlayers') {
+		if (playerArray.length <= MAX_PLAYERS) {
+			connectionQueue.disconnections.push(ws.id)
+			let indexToRemove = playerArray.findIndex(player => player.id === ws.id)
+			playerArray.splice(indexToRemove, 1)
+			humanSet.delete(ws.id)
+			addAi('ai_' + uuid.v4().slice(0, 8))
+		}
+		if (humanSet.size === 0 && reason !== 'noMorePlayers') {
 			console.log('All players have left', 'STOPPING GAME')
 			connectionQueue.connections = []
 			connectionQueue.disconnections = []
 			spectating = false
-			playerSet.clear()
+			playerArray.splice(0)
+			humanSet.clear()
 			playerImageMap.clear()
 			gameRunning = false
 			if (wss.clients.size > 0) {
@@ -171,7 +209,10 @@ wss.on('connection', (ws, req) => {
 ////////////////////////
 // Main Loop
 function gameLoop({ players, food, mines, mineState, triggers, gameInfo }) {
-	if (!gameRunning) return
+	if (!gameRunning) {
+		console.log('game was stopped')
+		return
+	}
 
 	////////////////////////
 	// state reduction
@@ -186,6 +227,9 @@ function gameLoop({ players, food, mines, mineState, triggers, gameInfo }) {
 		directionQueue,
 		[GRID_COLUMNS, GRID_ROWS],
 		playerImageMap,
+		food,
+		mines,
+		triggers,
 	)
 
 	const updatedState = reduceState({
@@ -205,7 +249,10 @@ function gameLoop({ players, food, mines, mineState, triggers, gameInfo }) {
 
 	wss.clients.forEach(client => {
 		client.expiration--
-		if (client.expiration <= 0) client.close()
+		if (client.expiration <= 0) {
+			console.log('closing due to expiration')
+			client.close()
+		}
 	})
 
 	setTimeout(() => gameLoop(updatedState), LOOP_REPEAT_INTERVAL)

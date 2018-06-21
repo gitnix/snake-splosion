@@ -41,10 +41,12 @@ const addId = (randomKey, imageMap) => (stored, currentId) => {
 		: append(
 				{
 					id: currentId,
+					ai: currentId.split('_')[0] === 'ai' ? true : false,
 					body: newBody(randomKey),
 					color,
 					state: 'connecting',
-					name: snakeName,
+					name:
+						currentId.split('_')[0] === 'ai' ? 'Robot ' + snakeName : snakeName,
 					deathTicks: DEATH_TICKS,
 					score: 0,
 					goalScore: gameOptions.GOAL_SCORE,

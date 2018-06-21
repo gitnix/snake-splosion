@@ -4,3 +4,4 @@ coverage
 dist
 keys.js
 node_modules
+ignore_bin
