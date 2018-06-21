@@ -4,9 +4,9 @@ const { dissoc, filter, gte, merge, reduce } = require('ramda')
 const { getAllOccupiedPositions, getValidRandomKey } = require('../../utils')
 
 const updateMinePositions = state => {
-	const { players, food, mines, markedMines, mineState } = state
+	const { players, food, mines, markedMines, mineState, triggers } = state
 
-	const allPos = getAllOccupiedPositions({ players, food, mines }) // mutable
+	const allPos = getAllOccupiedPositions({ players, food, mines, triggers }) // mutable
 
 	const minesAfterExplosions = reduce(
 		(mineObj, mineKey) => {
