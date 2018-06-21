@@ -235,7 +235,6 @@ const move = (
 
 // side effects: mutates directionQueue
 const computeNewHead = (head, direction, [columns, rows]) => {
-	// const [x, y] = head.split('_').map(string => parseInt(string))
 	const [x, y] = strToCoords(head)
 
 	const getModString = (x, y) => {
