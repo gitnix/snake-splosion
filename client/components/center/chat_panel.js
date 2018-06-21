@@ -91,7 +91,8 @@ class ChatPanel extends Component {
 					/>
 					<div id="chat-help">
 						<div>Press c to focus chat.</div>
-						<div>Game will be refocused after message is sent.</div>
+						<div>Game will be refocused</div>
+						<div>after message is sent.</div>
 					</div>
 				</form>
 			</div>

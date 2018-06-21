@@ -28,12 +28,13 @@ body {
 	align-self: center;
 	border-radius: 30px;
 	margin-left: 30%;
-	max-height: 100%;
+	max-height: 100px;
 	opacity: 0.85;
 }
 
 #banner-title {
 	align-self: center;
+	/* will need to convert colors to rgba for edge */
 	background: #9e4646ed;
 	border-radius: 1em;
 	color: #fdebbef5;
@@ -46,7 +47,7 @@ body {
 	justify-self: center;
 	max-height: 100px;
 	opacity: 0.6;
-	width: 58%;
+	width: 43%;
 }
 
 #multi-canvas-container {
@@ -82,7 +83,7 @@ canvas {
 #message-list {
 	list-style-type: none;
 	width: 14vw;
-	max-height: 38vh;
+	height: 46vh;
 	overflow: scroll;
 }
 
@@ -122,6 +123,7 @@ canvas {
 	border-radius: 5px;
 	border: 2px solid black;
 	display: flex;
+	/* edge will only do space-around */
 	justify-content: space-evenly;
 	margin-top: 15px;
 	max-height: 270px;
@@ -144,15 +146,6 @@ canvas {
 	height: 97%;
 	margin-top: -10px;
 }
-
-/* .player-card.active {
-	animation: grow 0.4s ease-in-out;
-	will-change: transform;
-} */
-
-/* .player-card:not(.active) {
-	display: none;
-} */
 
 .player-card.dead {
 	animation: shake 0.4s ease-in-out;
@@ -292,5 +285,11 @@ canvas {
 @media (max-width: 115em) and (min-height: 80em) {
 	#chat-panel {
 		display: none;
+	}
+}
+
+@media (max-height: 80em) and (max-width: 100em) {
+	#message-list {
+		height: 32vh;
 	}
 }

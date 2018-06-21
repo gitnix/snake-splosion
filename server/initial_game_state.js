@@ -8,7 +8,7 @@ module.exports = {
 	triggers: { '12_12': { isCollided: false } },
 	mineState: {
 		turnCounter: 1,
-		minesToAdd: 3,
+		minesToAdd: 5,
 		turnToAdd: 1,
 	},
 	gameInfo: {

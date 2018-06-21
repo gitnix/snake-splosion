@@ -17,7 +17,7 @@ class EffectsCanvas extends Component {
 		this._child = (
 			<canvas
 				id="layer-2"
-				width="800"
+				width="1000"
 				height="600"
 				ref={node => {
 					this._ctx = node ? node.getContext('2d') : null

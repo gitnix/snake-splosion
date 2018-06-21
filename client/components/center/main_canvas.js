@@ -10,7 +10,7 @@ class MainCanvas extends Component {
 		this._child = (
 			<canvas
 				id="layer-1"
-				width="800"
+				width="1000"
 				height="600"
 				style={{
 					backgroundImage: `url(backgrounds/${this.props.backgroundImage}.png)`,
