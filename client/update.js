@@ -358,9 +358,9 @@ const updateGame = timestamp => (
 		roundRect(
 			ctx,
 			centerWidth - barOffset,
-			centerHeight + loadingHeight,
+			centerHeight + loadingHeight + 2,
 			Math.round((state.gameInfo.maxTicksUntilReset / 3) * UNIT_SIZE),
-			20,
+			16,
 			20,
 		)
 		ctx.fill()
@@ -378,6 +378,11 @@ const updateGame = timestamp => (
 		)
 
 		for (let i = maxVal; i >= 0; i--) {
+			ctx.drawImage(
+				FOOD['APPLE'],
+				centerWidth - drawOffset + i * UNIT_SIZE,
+				centerHeight + loadingHeight,
+			)
 			if (i === maxVal) {
 				ctx.drawImage(
 					HEAD[winnerColor]['RIGHT'],
