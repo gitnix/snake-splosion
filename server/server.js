@@ -250,7 +250,9 @@ function gameLoop({ players, food, mines, mineState, triggers, gameInfo }) {
 	wss.clients.forEach(client => {
 		client.expiration--
 		if (client.expiration <= 0) {
-			console.log('closing due to expiration')
+			console.log('Closing due to expiration')
+			if (client.readyState === WebSocket.OPEN)
+				client.send(JSON.stringify({ type: 'INACTIVITY_TIMEOUT' }))
 			client.close()
 		}
 	})

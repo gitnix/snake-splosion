@@ -11,7 +11,11 @@ class Center extends Component {
 
 	render() {
 		return (
-			<div id="multi-canvas-container">
+			<div
+				id="multi-canvas-container"
+				onClick={() => {
+					if (this.props.gameStop) location.reload()
+				}}>
 				<MainCanvas
 					gameState={this.props.gameState}
 					backgroundImage={this.props.backgroundImage}

@@ -51,7 +51,7 @@ class Client extends Component {
 				case 'CHAT_MESSAGE':
 					this.setState({ messages: [...this.state.messages, msg.message] })
 					break
-				case 'PLAYERS_NOT_PRESENT':
+				case 'INACTIVITY_TIMEOUT':
 					this.setState({ gameStop: true })
 					break
 			}

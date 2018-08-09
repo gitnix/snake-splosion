@@ -318,8 +318,16 @@ const updateGame = timestamp => (
 	if (gameStop === true) {
 		ctx.font = '52px Do Hyeon'
 		ctx.textAlign = 'center'
-		ctx.fillText(`All Players have left.`, width / 2, height / 2)
-		ctx.fillText(`Refresh to start a match.`, width / 2, height / 2 + 60)
+		ctx.fillStyle = '#9e4646ed'
+		roundRect(ctx, 10, 240, 980, 150, 20)
+		ctx.fill()
+		ctx.fillStyle = '#fdebbef5'
+		ctx.fillText(
+			`You have been disconnected due to inactivity.`,
+			width / 2,
+			height / 2,
+		)
+		ctx.fillText(`Click here to rejoin.`, width / 2, height / 2 + 60)
 	}
 
 	if (state.gameInfo.winner && state.players.length > 0) {
