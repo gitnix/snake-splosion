@@ -5,3 +5,4 @@ dist
 keys.js
 node_modules
 ignore_bin
+.vscode/launch.json
