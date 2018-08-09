@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import Proton from 'proton-js'
 import { explosionAudio } from '../../assets/audio'
 import {
-	addEatingEmitter,
 	addExplosionEmitter,
 	addTeleportedEmitter,
+	addScatterEmitter,
 } from '../../setup_particles'
 
 class EffectsCanvas extends Component {
@@ -29,6 +29,7 @@ class EffectsCanvas extends Component {
 		this.markedMines = []
 		this.teleportedPlayers = []
 		this.eatingPlayers = []
+		this.newMines = []
 
 		this.drawEffects = () => {
 			if (!this._ctx) return
@@ -47,9 +48,15 @@ class EffectsCanvas extends Component {
 				})
 			}
 
+			if (!!this.newMines && this.newMines.length > 0) {
+				this.newMines.forEach(m => {
+					addScatterEmitter(this.proton, m, 'DARK_MINE')
+				})
+			}
+
 			if (!!this.eatingPlayers && this.eatingPlayers.length > 0) {
 				this.eatingPlayers.forEach(p => {
-					addEatingEmitter(this.proton, p)
+					addScatterEmitter(this.proton, p, 'FOOD')
 				})
 			}
 
@@ -67,6 +74,7 @@ class EffectsCanvas extends Component {
 
 	componentDidUpdate() {
 		this.markedMines = this.markedMines.concat(this.props.gameState.markedMines)
+		this.newMines = Object.keys(this.props.gameState.newMines)
 		this.teleportedPlayers = this.props.gameState.players
 			.filter(p => p.state === 'teleported')
 			.map(p => [p.body[0], p.color])

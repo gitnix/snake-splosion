@@ -33,6 +33,7 @@ const updateMinePositions = state => {
 	return {
 		...state,
 		mines: merge(minesAfterExplosions, newMines),
+		newMines,
 		mineState: shouldUpdate ? { ...mineState, turnCounter: 0 } : mineState,
 	}
 }

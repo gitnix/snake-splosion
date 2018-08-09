@@ -5,6 +5,7 @@ module.exports = {
 	food: { '15_15': { score: 10 }, '3_3': { score: 10 } },
 	mines: {},
 	markedMines: [],
+	newMines: [],
 	triggers: { '12_12': { isCollided: false } },
 	mineState: {
 		turnCounter: 1,
