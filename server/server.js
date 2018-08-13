@@ -32,7 +32,12 @@ const {
 	WS_SPECTATING_ACTIVITY_TIMEOUT,
 } = require('./constants')
 const initialGameState = require('./initial_game_state')
-const { chatHelp, chatSetOption } = require('./chat_options')
+const {
+	chatHelp,
+	chatSetOption,
+	chatListOptions,
+	chatSetDefaults,
+} = require('./chat_options')
 ////////////////////////
 // server specific state
 let playerArray = []
@@ -127,6 +132,8 @@ wss.on('connection', (ws, req) => {
 	ws.on('message', message => {
 		const msg = JSON.parse(message)
 		const { type, id, direction } = msg
+		let dialouge
+
 		ws.expiration = ws.spectating
 			? WS_SPECTATING_ACTIVITY_TIMEOUT
 			: WS_ACTIVITY_TIMEOUT
@@ -135,37 +142,36 @@ wss.on('connection', (ws, req) => {
 				directionQueue[id].push(direction)
 				break
 			case 'CHAT_MESSAGE':
-				let isMsgValid = true
 				let parsedMsg = msg.contents.split(' ')
-				let helpDialouge
 
-				if (parsedMsg.length === 1) {
-					if (parsedMsg[0] === 'help') helpDialouge = chatHelp()
+				switch (msg.contents) {
+					case 'help':
+						dialouge = chatHelp()
+						break
+					case 'list values':
+						dialouge = chatListOptions()
+						break
+					case 'set defaults':
+						dialouge = chatSetDefaults()
+						break
 				}
 
 				if (parsedMsg.length === 3) {
 					if (parsedMsg[0] === 'set') {
 						let parsedValue = parseInt(parsedMsg[2])
-						if (isNaN(parsedValue)) isMsgValid = false
-						else {
-							isMsgValid = chatSetOption(parsedMsg[1], parsedValue)
-						}
+						dialouge = chatSetOption(parsedMsg[1], parsedValue)
 					}
 				}
-
-				broadcast(wss.clients, {
-					type: 'CHAT_MESSAGE',
-					message: {
-						contents: helpDialouge
-							? helpDialouge
-							: isMsgValid
-								? msg.contents
-								: 'invalid command or desired value is out of allowed range',
-						sender: msg.sender,
-						color: msg.color,
-					},
-				})
 		}
+
+		broadcast(wss.clients, {
+			type: 'CHAT_MESSAGE',
+			message: {
+				contents: dialouge ? dialouge : msg.contents,
+				sender: msg.sender,
+				color: msg.color,
+			},
+		})
 	})
 
 	ws.on('close', (code, reason) => {

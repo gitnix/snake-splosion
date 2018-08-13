@@ -1,77 +1,152 @@
 const gameOptions = require('./constants')
 const initialState = require('./initial_game_state')
 
+const DEFAULT_VALUES = {
+	GOAL_SCORE: 100,
+	MAX_MINES: 35,
+	MINE_SPAWN_DISTANCE: 7,
+	TRIGGER_DIVISOR: 3,
+	MINES_TO_ADD: 4,
+	TURN_TO_ADD: 1,
+}
+
+const OUT_OF_RANGE = 'Requested value out of accepted range'
+const NOT_A_NUMBER = 'Requested value is not a number'
+
 const chatSetOption = (option, value) => {
+	const SUCCESS_MESSAGE = `
+	option ${option}
+	was changed to:
+	${value}
+	All players must leave the game
+	for the new values to take effect
+	`
 	switch (option) {
 		case 'score':
-			if (value <= 10 || value >= 800) return false
+			if (isNaN(value)) return NOT_A_NUMBER
+			if (value <= 10 || value >= 800) return OUT_OF_RANGE
 			gameOptions.GOAL_SCORE = value
-			break
+			return SUCCESS_MESSAGE
 
 		case 'maxMines':
-			if (value < 10 || value > 500) return false
+			if (isNaN(value)) return NOT_A_NUMBER
+
+			if (value < 10 || value > 500) return OUT_OF_RANGE
 			gameOptions.MAX_MINES = value
-			break
+			return SUCCESS_MESSAGE
 
 		case 'mineSpawnDistance':
-			if (value < 1 || value > 9) return false
+			if (isNaN(value)) return NOT_A_NUMBER
+			if (value < 1 || value > 9) return OUT_OF_RANGE
 			gameOptions.MINE_SPAWN_DISTANCE = value
-			break
+			return SUCCESS_MESSAGE
 
-		case 'trigger':
-			if (value < 1 || value > 10) return false
+		case 'detonator':
+			if (isNaN(value)) return NOT_A_NUMBER
+			if (value < 1 || value > 10) return OUT_OF_RANGE
 			gameOptions.TRIGGER_DIVISOR = value
-			break
+			return SUCCESS_MESSAGE
 
 		case 'minesToAdd':
-			if (value < 1 || value > 50) return false
+			if (isNaN(value)) return NOT_A_NUMBER
+			if (value < 1 || value > 50) return OUT_OF_RANGE
 			initialState.mineState.minesToAdd = value
-			break
+			return SUCCESS_MESSAGE
 
 		case 'turnToAdd':
-			if (value < 1 || value > 20) return false
+			if (isNaN(value)) return NOT_A_NUMBER
+			if (value < 1 || value > 20) return OUT_OF_RANGE
 			initialState.mineState.turnToAdd = value
-			break
-
-		case 'default':
-			if (value !== 1) return false
-			gameOptions.GOAL_SCORE = 150
-			gameOptions.MAX_MINES = 40
-			gameOptions.MINE_SPAWN_DISTANCE = 2
-			gameOptions.TRIGGER_DIVISOR = 3
-			initialState.mineState.minesToAdd = 1
-			initialState.mineState.turnToAdd = 1
-			break
-
-		default:
-			return false
+			return SUCCESS_MESSAGE
 	}
 	console.log(`option ${option} was changed to ${value}`)
-	return true
+	return 'Unrecognized Option'
 }
 
 const chatHelp = () => {
-	return `FORMAT: set option integer
+	return `
+	COMMANDS
+	-------------------------------
+	-------------------------------
+	Set Option
+	-------------------------------
+	FORMAT: set option integer
+
 	EXAMPLE: set score 200
+
 	OPTIONS:
-	score,
-	maxMines,
-	mineSpawnDistance (distance in front of player is 1 + this number),
-	trigger (mines to destory: number of current mines / trigger),
-	minesToAdd (how many mines to add on eat),
+
+	score (game will end once a player reaches this score),
+
+	maxMines (once this number is reached (or exceeded), new mines will not spawn,
+
+	mineSpawnDistance (mines can not spawn more than this distance + 1 in front of players),
+
+	detonator (mines to destory: number of current mines / detonator) (lower means more mines are destroyed),
+
+	minesToAdd (how many mines will be spawned when a player eats),
+
 	turnToAdd (how many apples eaten until new mines added)
 
-	to reset to default use set default 1
+	-------------------------------
+	List Values
+	-------------------------------
+	FORMAT: list values
+
+	list the current
+	option values
+
+	-------------------------------
+	Reset Option Values
+	-------------------------------
+	FORMAT: set defaults
+
+	sets all option
+	values to default
+
 	DEFAULT VALUES ARE:
-	score: 150
-	maxMines: 40
-	mineSpawnDistance: 2
-	trigger: 3
-	minesToAdd: 3
-	turnToAdd: 1`
+	score: ${DEFAULT_VALUES.GOAL_SCORE}
+	maxMines: ${DEFAULT_VALUES.MAX_MINES}
+	mineSpawnDistance: ${DEFAULT_VALUES.MINE_SPAWN_DISTANCE}
+	detonator: ${DEFAULT_VALUES.TRIGGER_DIVISOR}
+	minesToAdd: ${DEFAULT_VALUES.MINES_TO_ADD}
+	turnToAdd: ${DEFAULT_VALUES.TURN_TO_ADD}`
+}
+
+const chatSetDefaults = () => {
+	gameOptions.GOAL_SCORE = DEFAULT_VALUES.GOAL_SCORE
+	gameOptions.MAX_MINES = DEFAULT_VALUES.MAX_MINES
+	gameOptions.MINE_SPAWN_DISTANCE = DEFAULT_VALUES.MINE_SPAWN_DISTANCE
+	gameOptions.TRIGGER_DIVISOR = DEFAULT_VALUES.TRIGGER_DIVISOR
+	initialState.mineState.minesToAdd = DEFAULT_VALUES.MINES_TO_ADD
+	initialState.mineState.turnToAdd = DEFAULT_VALUES.TURN_TO_ADD
+	console.log('option values set to default')
+	return `
+	Options set to default
+	All players must
+	leave the game
+	for the new values
+	to take effect
+	`
+}
+
+const chatListOptions = () => {
+	return `
+	---------------------------------------
+	CURRENT OPTION VALUES
+	---------------------------------------
+	score: ${gameOptions.GOAL_SCORE},
+	maxMines: ${gameOptions.MAX_MINES},
+	mineSpawnDistance: ${gameOptions.MINE_SPAWN_DISTANCE}
+	detonator: ${gameOptions.TRIGGER_DIVISOR}
+	minesToAdd: ${initialState.mineState.minesToAdd}
+	turnToAdd ${initialState.mineState.turnToAdd}
+	`
 }
 
 module.exports = {
 	chatHelp,
 	chatSetOption,
+	chatSetDefaults,
+	chatListOptions,
 }
