@@ -131,17 +131,16 @@ wss.on('connection', (ws, req) => {
 
 	ws.on('message', message => {
 		const msg = JSON.parse(message)
-		const { type, id, direction } = msg
-		let dialouge
 
 		ws.expiration = ws.spectating
 			? WS_SPECTATING_ACTIVITY_TIMEOUT
 			: WS_ACTIVITY_TIMEOUT
-		switch (type) {
+		switch (msg.type) {
 			case 'CHANGE_DIRECTION':
-				directionQueue[id].push(direction)
+				directionQueue[msg.id].push(msg.direction)
 				break
 			case 'CHAT_MESSAGE':
+				let dialouge
 				let parsedMsg = msg.contents.split(' ')
 
 				switch (msg.contents) {
@@ -162,16 +161,16 @@ wss.on('connection', (ws, req) => {
 						dialouge = chatSetOption(parsedMsg[1], parsedValue)
 					}
 				}
-		}
 
-		broadcast(wss.clients, {
-			type: 'CHAT_MESSAGE',
-			message: {
-				contents: dialouge ? dialouge : msg.contents,
-				sender: msg.sender,
-				color: msg.color,
-			},
-		})
+				broadcast(wss.clients, {
+					type: 'CHAT_MESSAGE',
+					message: {
+						contents: dialouge ? dialouge : msg.contents,
+						sender: msg.sender,
+						color: msg.color,
+					},
+				})
+		}
 	})
 
 	ws.on('close', (code, reason) => {
