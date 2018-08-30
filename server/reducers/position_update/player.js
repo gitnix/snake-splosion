@@ -22,8 +22,8 @@ const getStateAfterTeleportingPlayers = state => {
 			body: newBody(randomKey),
 			bodyDirections: new Array(NEW_BODY_LENGTH).fill(player.direction),
 			state: 'teleported',
+			score: 0,
 		}
-		allPos.push(randomKey)
 	})
 
 	return {

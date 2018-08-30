@@ -33,7 +33,6 @@ const processPlayerCollisions = state => {
 		return {
 			...player,
 			state: isCollided ? 'dead' : player.state,
-			score: isCollided ? 0 : player.score,
 			body: isCollided && shouldSlice ? player.body.slice(1) : player.body,
 			bodyDirections:
 				isCollided && shouldSlice
