@@ -1,10 +1,10 @@
 const { DEATH_TICKS } = require('../constants')
 const {
 	getAllOccupiedPositions,
-	keysToString,
 	newBodyDirections,
 	strToCoords,
 } = require('../utils')
+const { processAiMove } = require('../ai')
 
 // accounts for negative modulus
 const mod = (n, m) => ((n % m) + m) % m
@@ -18,131 +18,20 @@ const move = (
 	mines,
 	triggers,
 ) => {
+	const aiTargets = [...Object.keys(food), ...Object.keys(triggers)]
+	const allPos = getAllOccupiedPositions({ players, mines, food: {} })
+
 	const returnArray = players.map(player => {
 		if (player.id.split('_')[0] === 'ai') {
-			const pushDir = dir => (directionQueue[player.id][0] = dir)
-			const tryDirMove = (arr, aiX, aiY, successChance) => {
-				if (Math.random() > successChance) {
-					return
-				}
-				if (!arr.includes(keysToString(aiX + 1, aiY))) {
-					pushDir('RIGHT')
-					return
-				}
-				if (!arr.includes(keysToString(aiX - 1, aiY))) {
-					pushDir('LEFT')
-					return
-				}
-				if (!arr.includes(keysToString(aiX, aiY - 1))) {
-					pushDir('UP')
-					return
-				}
-				if (!arr.includes(keysToString(aiX, aiY + 1))) {
-					pushDir('DOWN')
-					return
-				}
-				return
-			}
-
-			if (player.state !== 'dead' && player.state !== 'readyToMove') {
-				const [x, y] = strToCoords(player.body[0])
-				let targets = [...Object.keys(food), ...Object.keys(triggers)]
-				let targetDistances = targets.map(key => {
-					const [tX, tY] = strToCoords(key)
-					return {
-						key,
-						distance: Math.hypot(Math.abs(tX - x), Math.abs(tY - y)),
-					}
-				})
-				targetDistances.sort((a, b) => a.distance - b.distance)
-
-				const [targetX, targetY] = strToCoords(targetDistances[0].key)
-
-				const lastDir = directionQueue[player.id][0]
-				const random = Math.random()
-				const chanceToContinuePath = 0.85
-				const closeInDistance = 5
-				const chanceOfSuccess = 0.96
-				let xDistance = Math.abs(targetX - x)
-				let yDistance = Math.abs(targetY - y)
-				const isClose =
-					xDistance <= closeInDistance && yDistance <= closeInDistance
-
-				switch (lastDir) {
-					case 'UP':
-						if (isClose || random > chanceToContinuePath) {
-							if (x > targetX) pushDir('LEFT')
-							else pushDir('RIGHT')
-						}
-						break
-
-					case 'DOWN':
-						if (isClose || random > chanceToContinuePath) {
-							if (x > targetX) pushDir('LEFT')
-							else pushDir('RIGHT')
-						}
-						break
-
-					case 'RIGHT':
-						if (isClose || random > chanceToContinuePath) {
-							if (y > targetY) pushDir('UP')
-							else pushDir('DOWN')
-						}
-						break
-
-					case 'LEFT':
-						if (isClose || random > chanceToContinuePath) {
-							if (y > targetY) pushDir('UP')
-							else pushDir('DOWN')
-						}
-						break
-				}
-
-				const qIndex = directionQueue[player.id].length - 1
-				const allPos = getAllOccupiedPositions({ players, mines, food: {} })
-				const adjustDir = tryDirMove.bind(null, allPos, x, y, chanceOfSuccess)
-				switch (directionQueue[player.id][qIndex]) {
-					case 'UP':
-						if (allPos.includes(keysToString(x, y - 1))) {
-							adjustDir()
-							break
-						} else {
-							directionQueue[player.id][0] = 'UP'
-							break
-						}
-
-					case 'DOWN':
-						if (allPos.includes(keysToString(x, y + 1))) {
-							adjustDir()
-							break
-						} else {
-							directionQueue[player.id][0] = 'DOWN'
-							break
-						}
-
-					case 'RIGHT':
-						if (allPos.includes(keysToString(x + 1, y))) {
-							adjustDir()
-							break
-						} else {
-							directionQueue[player.id][0] = 'RIGHT'
-							break
-						}
-
-					case 'LEFT':
-						if (allPos.includes(keysToString(x - 1, y))) {
-							adjustDir()
-							break
-						} else {
-							directionQueue[player.id][0] = 'LEFT'
-							break
-						}
-				}
-			}
-
-			if (player.state === 'readyToMove') {
-				pushDir('RIGHT')
-			}
+			processAiMove({
+				ai: player,
+				directionQueue,
+				targets: aiTargets,
+				chanceToContinuePath: 0.85,
+				closeInDistance: 5,
+				chanceOfSuccess: 0.96,
+				allPos,
+			})
 		}
 		// end ai
 
