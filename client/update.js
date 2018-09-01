@@ -86,6 +86,13 @@ const updateGame = timestamp => (
 		}
 	})
 
+	// sort so dead players are drawn last
+	// and thus on top of other players
+	state.players.sort(p => {
+		if (p.state === 'dead') return 1
+		return 0
+	})
+
 	state.players.forEach(player => {
 		player.body.forEach((bodyString, index) => {
 			const [x, y] = strToCoords(bodyString)
@@ -232,45 +239,87 @@ const updateGame = timestamp => (
 					// HEAD
 					// drawn last to ensure it is on top of body
 					if (player.bodyDirections.length > 1) {
-						// will be drawn  back this amount and
+						// will be drawn back this amount and
 						// interpolate up this amount to server location x/y
 						let offset = 0.8
+						/* will be drawn back this amount
+						 on death so head overlaps
+						 halfway on body collisions and
+						 head on collisions meet in the middle
+						*/
+						let deathOffset = 0.5
+
 						switch (player.direction) {
 							case 'RIGHT':
 								drawX =
 									head_x - offset + min(offset, divide(elapsed, denominator))
-								ctx.drawImage(
-									HEAD[drawColor][player.direction],
-									scale(noInterpolate ? head_x : drawX),
-									scale(head_y),
-								)
+								if (player.deathCause === 'body') {
+									ctx.drawImage(
+										HEAD[drawColor][player.direction],
+										scale(head_x - deathOffset),
+										scale(head_y),
+									)
+								} else {
+									ctx.drawImage(
+										HEAD[drawColor][player.direction],
+										scale(noInterpolate ? head_x : drawX),
+										scale(head_y),
+									)
+								}
 								break
+
 							case 'LEFT':
 								drawX =
 									head_x + offset - min(offset, divide(elapsed, denominator))
-								ctx.drawImage(
-									HEAD[drawColor][player.direction],
-									scale(noInterpolate ? head_x : drawX),
-									scale(head_y),
-								)
+								if (player.deathCause === 'body') {
+									ctx.drawImage(
+										HEAD[drawColor][player.direction],
+										scale(head_x + deathOffset),
+										scale(head_y),
+									)
+								} else {
+									ctx.drawImage(
+										HEAD[drawColor][player.direction],
+										scale(noInterpolate ? head_x : drawX),
+										scale(head_y),
+									)
+								}
 								break
+
 							case 'UP':
 								drawY =
 									head_y + offset - min(offset, divide(elapsed, denominator))
-								ctx.drawImage(
-									HEAD[drawColor][player.direction],
-									scale(head_x),
-									scale(noInterpolate ? head_y : drawY),
-								)
+								if (player.deathCause === 'body') {
+									ctx.drawImage(
+										HEAD[drawColor][player.direction],
+										scale(head_x),
+										scale(head_y + deathOffset),
+									)
+								} else {
+									ctx.drawImage(
+										HEAD[drawColor][player.direction],
+										scale(head_x),
+										scale(noInterpolate ? head_y : drawY),
+									)
+								}
 								break
+
 							case 'DOWN':
 								drawY =
 									head_y - offset + min(offset, divide(elapsed, denominator))
-								ctx.drawImage(
-									HEAD[drawColor][player.direction],
-									scale(head_x),
-									scale(noInterpolate ? head_y : drawY),
-								)
+								if (player.deathCause === 'body') {
+									ctx.drawImage(
+										HEAD[drawColor][player.direction],
+										scale(head_x),
+										scale(head_y - deathOffset),
+									)
+								} else {
+									ctx.drawImage(
+										HEAD[drawColor][player.direction],
+										scale(head_x),
+										scale(noInterpolate ? head_y : drawY),
+									)
+								}
 								break
 						}
 					}

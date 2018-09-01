@@ -16,7 +16,6 @@ const processPlayerCollisions = state => {
 		// otherwise both players would get head sliced
 		// leaving a gap and making it appear as if there
 		// wasn't a collision
-		let shouldSlice = true
 
 		const head = player.body[0]
 		const isCollided =
@@ -30,16 +29,11 @@ const processPlayerCollisions = state => {
 			if (collisionArray.includes(player.body[0])) shouldSlice = false
 			else collisionArray.push(player.body[0])
 		}
+
 		return {
 			...player,
 			state: isCollided ? 'dead' : player.state,
-			body: isCollided && shouldSlice ? player.body.slice(1) : player.body,
-			bodyDirections:
-				isCollided && shouldSlice
-					? newBodyDirections(player.bodyDirections.slice(1), {
-							type: 'remove',
-					  })
-					: player.bodyDirections,
+			deathCause: isCollided ? 'body' : player.deathCause,
 		}
 	})
 

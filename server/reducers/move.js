@@ -144,6 +144,7 @@ const move = (
 				pushDir('RIGHT')
 			}
 		}
+		// end ai
 
 		if (player.state === 'teleported') {
 			directionQueue[player.id].splice(0) // side effect
@@ -180,6 +181,7 @@ const move = (
 			return {
 				...player,
 				state: 'teleportReady',
+				deathCause: null,
 				deathTicks: DEATH_TICKS,
 			}
 		}
@@ -191,6 +193,7 @@ const move = (
 				return {
 					...player,
 					state: 'teleportReady',
+					deathCause: null,
 					deathTicks: DEATH_TICKS,
 				}
 			}
