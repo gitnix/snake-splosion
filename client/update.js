@@ -209,7 +209,7 @@ const updateGame = timestamp => (
 								scale(x),
 								scale(y),
 							)
-						} else if (clientState.stateList[player.id][0] === 'eating') {
+						} else if (clientState.playerMap[player.id].state === 'eating') {
 							ctx.drawImage(
 								TAIL[drawColor][player.bodyDirections[player.body.length - 2]],
 								scale(x),

@@ -3,8 +3,8 @@ let canMove = true
 export const getMovementStatus = () => canMove
 export const setMovementStatus = bool => (canMove = bool)
 
+// will be filled out with more properties when updated
 export const clientState = {
-	stateList: {},
 	countDown: {},
 	playerMap: {},
 	gameState: {},
@@ -14,24 +14,12 @@ export const setPlayerStateObj = (id, player) => {
 	clientState.playerMap[id] = player
 	// keep track of previous state
 	// used when interpolating tail
-	if (!clientState.stateList[id]) {
-		clientState.stateList[id] = []
-		clientState.stateList[id].push(player.state)
-		clientState.stateList[id].push(player.state)
-	} else {
-		clientState.stateList[id].push(player.state)
-		clientState.stateList[id].shift()
-	}
-
+	// when starting from square
 	if (clientState.countDown[id] > 0) {
 		clientState.countDown[id]--
 	}
-	if (
-		(clientState.stateList[id][0] === 'readyToMove' &&
-			clientState.stateList[id][1] === 'normal') ||
-		clientState.stateList[id][1] === 'connected'
-	) {
-		clientState.countDown[id] = player.body.length - 1
+	if (player.state === 'readyToMove' || player.state === 'connected') {
+		clientState.countDown[id] = player.body.length
 	}
 }
 

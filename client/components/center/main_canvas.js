@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { updateGame } from '../../update'
-import { updateClientState } from '../../client_state'
+import { clientState, updateClientState } from '../../client_state'
 
 class MainCanvas extends Component {
 	constructor(props) {
@@ -24,22 +24,27 @@ class MainCanvas extends Component {
 	}
 
 	componentDidMount() {
-		// need here in case make game rate slow and needs updated gameState
-		// before server updates
 		updateClientState(this.props, {
 			width: this._canvasRef.width,
 			height: this._canvasRef.height,
 		})
 
-		window.requestAnimationFrame(timestamp => {
-			updateGame(timestamp)(this.props.gameState, this._ctx, {
-				width: this._canvasRef.width,
-				height: this._canvasRef.height,
-				mineTypeToDraw: this.props.mineTypeToDraw,
-				spectating: this.props.spectating,
-				gameStop: this.props.gameStop,
-			})
-		})
+		// the updateGame function internally
+		// imports clientState and gets values from that.
+		// as for this initial startup- could just as
+		// easily pass props directly here, but need to call
+		// updateClientState above regardless, because server
+		// may not send an update before the draw function needs
+		// something in clientState
+		window.requestAnimationFrame(newTimestamp =>
+			updateGame(newTimestamp)(clientState.gameState, this._ctx, {
+				width: clientState.width,
+				height: clientState.height,
+				mineTypeToDraw: clientState.mineTypeToDraw,
+				spectating: clientState.spectating,
+				gameStop: clientState.gameStop,
+			}),
+		)
 	}
 
 	componentDidUpdate() {
