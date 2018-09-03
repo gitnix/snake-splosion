@@ -2,6 +2,9 @@ players = [
 	{
 		id: 'someId',
 		body: ['X_Y', 'X_Y', 'X_Y'],
+		// this was added to differentiate particle color
+		// maybe implement a different way in the futture
+		eatItem: 'CHEESE',
 		state:
 			'normal' |
 			'dead' |
@@ -25,9 +28,19 @@ players = [
 	},
 ]
 
+mice: [
+	{
+		id: 'mouse_1',
+		body: ['10_10'],
+		bodyDirections: ['RIGHT'],
+		state: 'normal',
+	},
+]
+
 food = {
 	X_Y: {
 		score: 5,
+		type: 'APPLE',
 		isCollided: true,
 	},
 }

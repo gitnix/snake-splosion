@@ -13,10 +13,14 @@ teleportAudio.volume = 0.07
 const gameOverAudio = new Audio('audio/snakecharmer.mp3')
 gameOverAudio.volume = 0.1
 
+const squeakAudio = new Audio('audio/mouse_squeak.mp3')
+squeakAudio.volume = 0.5
+
 export {
 	collisionAudio,
 	eatAudio,
 	explosionAudio,
 	gameOverAudio,
+	squeakAudio,
 	teleportAudio,
 }

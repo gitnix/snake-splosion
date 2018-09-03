@@ -60,6 +60,10 @@ export const addScatterEmitter = (proton, positionString, type) => {
 			scale = 0.2
 			color = new Proton.Color(COLOR_MAP['RED'])
 			break
+		case 'CHEESE':
+			scale = 0.2
+			color = new Proton.Color(COLOR_MAP['GOLD'])
+			break
 		case 'DARK_MINE':
 			scale = 0.4
 			color = new Proton.Color(

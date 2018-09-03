@@ -54,13 +54,18 @@ const getCoordSet = (x, y, distance = 2) => {
 	return coordSet
 }
 
-const getCollisionStatusAndKey = (allPosArray, playersArray) => {
-	let randX = getRandom(GRID_COLUMNS)
-	let randY = getRandom(GRID_ROWS)
+const getCollisionStatusAndKey = (
+	allPosArray,
+	playersArray,
+	xRange,
+	yRange,
+) => {
+	let randX = getRandom(xRange)
+	let randY = getRandom(yRange)
 	let randomKey = keysToString(randX, randY)
 	while (allPosArray.includes(randomKey)) {
-		randX = getRandom(GRID_COLUMNS)
-		randY = getRandom(GRID_ROWS)
+		randX = getRandom(xRange)
+		randY = getRandom(yRange)
 		randomKey = keysToString(randX, randY)
 	}
 
@@ -68,6 +73,7 @@ const getCollisionStatusAndKey = (allPosArray, playersArray) => {
 		return [false, randomKey]
 	}
 
+	// used when getting position for new mines
 	let perimeterSet = getCoordSet(randX, randY, gameOptions.MINE_SPAWN_DISTANCE)
 	let isCollision = false
 	playersArray.forEach(p => {
@@ -82,23 +88,35 @@ const getCollisionStatusAndKey = (allPosArray, playersArray) => {
 
 const getRandom = bounds => Math.floor(Math.random() * bounds)
 const keysToString = (x, y) => `${x}_${y}`
-const getValidRandomKey = (allPosArray, playersArray) => {
+// playersArray does not need to be provided
+// it is used for mine spawn distance
+// xRange and yRange are options (will default to GRID_COLUMNS, GRID_ROWS)
+const getValidRandomKey = (
+	allPosArray,
+	playersArray,
+	xRange = GRID_COLUMNS,
+	yRange = GRID_ROWS,
+) => {
 	let distanceCheck = true
 	let key = null
 	while (distanceCheck) {
-		;[distanceCheck, key] = getCollisionStatusAndKey(allPosArray, playersArray)
+		;[distanceCheck, key] = getCollisionStatusAndKey(
+			allPosArray,
+			playersArray,
+			xRange,
+			yRange,
+		)
 	}
 	return key
 }
 
-const getAllFoodPositions = food => Object.keys(food)
-const getAllMinePositions = mines => Object.keys(mines)
 const getAllPlayerPositions = players => chain(player => player.body, players)
 
-const getAllOccupiedPositions = ({ players, food, mines }) => [
+const getAllOccupiedPositions = ({ players, food, mines, triggers }) => [
 	...getAllPlayerPositions(players),
-	...getAllFoodPositions(food),
-	...getAllMinePositions(mines),
+	...Object.keys(food),
+	...Object.keys(mines),
+	...Object.keys(triggers),
 ]
 
 const getRandomBackgroundImage = () =>
@@ -133,18 +151,36 @@ const newBodyDirections = (bodyDirections, { type, direction }) => {
 
 const strToCoords = key => key.split('_').map(string => parseInt(string))
 
+const keysForTypes = (obj, types) =>
+	Object.entries(obj)
+		.filter(([k, v]) => types.includes(v.type))
+		.map(arr => arr[0])
+
+const shuffle = a => {
+	let j, x, i
+	for (i = a.length - 1; i > 0; i--) {
+		j = Math.floor(Math.random() * (i + 1))
+		x = a[i]
+		a[i] = a[j]
+		a[j] = x
+	}
+	return a
+}
+
 module.exports = {
 	broadcast,
 	directionToKey,
-	getValidRandomKey,
-	getAllPlayerPositions,
 	getAllOccupiedPositions,
+	getAllPlayerPositions,
 	getRandom,
 	getRandomBackgroundImage,
 	getRandomColor,
 	getRandomDirection,
+	getValidRandomKey,
+	keysForTypes,
 	keysToString,
 	newBody,
 	newBodyDirections,
+	shuffle,
 	strToCoords,
 }

@@ -1,4 +1,4 @@
-const { append, findIndex, length, reduce, remove } = require('ramda')
+const { append, findIndex, reduce, remove } = require('ramda')
 const {
 	getAllOccupiedPositions,
 	getRandomColor,
@@ -56,7 +56,7 @@ const addId = (randomKey, imageMap) => (stored, currentId) => {
 }
 
 const updatePlayersFromConnections = (
-	{ players, food, mines },
+	{ players, food, mines, triggers },
 	{ connections, disconnections },
 	imageMap,
 ) => {
@@ -65,7 +65,7 @@ const updatePlayersFromConnections = (
 	}
 
 	const randomKey = getValidRandomKey(
-		getAllOccupiedPositions({ players, food, mines }),
+		getAllOccupiedPositions({ players, food, mines, triggers }),
 	)
 
 	const updatedPlayers = reduce(

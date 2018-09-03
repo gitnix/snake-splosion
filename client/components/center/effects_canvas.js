@@ -29,6 +29,7 @@ class EffectsCanvas extends Component {
 		this.markedMines = []
 		this.teleportedPlayers = []
 		this.eatingPlayers = []
+		this.eatingMice = []
 		this.newMines = []
 
 		this.drawEffects = () => {
@@ -56,7 +57,17 @@ class EffectsCanvas extends Component {
 
 			if (!!this.eatingPlayers && this.eatingPlayers.length > 0) {
 				this.eatingPlayers.forEach(p => {
-					addScatterEmitter(this.proton, p, 'FOOD')
+					if (p.eatItem === 'CHEESE') {
+						addScatterEmitter(this.proton, p.positionString, 'CHEESE')
+					} else {
+						addScatterEmitter(this.proton, p.positionString, 'FOOD')
+					}
+				})
+			}
+
+			if (!!this.eatingMice && this.eatingMice.length > 0) {
+				this.eatingMice.forEach(p => {
+					addScatterEmitter(this.proton, p, 'CHEESE')
 				})
 			}
 
@@ -80,7 +91,10 @@ class EffectsCanvas extends Component {
 			.map(p => [p.body[0], p.color])
 		this.eatingPlayers = this.props.gameState.players
 			.filter(p => p.state === 'eating')
-			.map(p => p.body[0])
+			.map(p => ({ positionString: p.body[0], eatItem: p.eatItem }))
+		this.eatingMice = this.props.gameState.mice
+			.filter(m => m.state === 'eating')
+			.map(m => m.body[0])
 	}
 
 	render() {

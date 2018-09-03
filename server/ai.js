@@ -1,4 +1,5 @@
-const { keysToString, strToCoords } = require('./utils')
+const { keysToString, strToCoords, shuffle } = require('./utils')
+const { GRID_COLUMNS, GRID_ROWS } = require('./constants')
 
 const pushDir_unbound = (id, directionQueue, dir) =>
 	(directionQueue[id][0] = dir)
@@ -9,22 +10,47 @@ const tryDirMove = (arr, directionQueue, id, aiX, aiY, successChance) => {
 	if (Math.random() > successChance) {
 		return
 	}
-	if (!arr.includes(keysToString(aiX + 1, aiY))) {
-		pushDir('RIGHT')
-		return
+
+	const directionMap = {
+		1: () => {
+			if (!arr.includes(keysToString(aiX + 1, aiY))) {
+				pushDir('RIGHT')
+				return true
+			}
+			return false
+		},
+		2: () => {
+			if (!arr.includes(keysToString(aiX - 1, aiY))) {
+				pushDir('LEFT')
+				return true
+			}
+			return false
+		},
+		3: () => {
+			if (!arr.includes(keysToString(aiX, aiY - 1))) {
+				pushDir('UP')
+				return true
+			}
+			return false
+		},
+		4: () => {
+			if (!arr.includes(keysToString(aiX, aiY + 1))) {
+				pushDir('DOWN')
+				return true
+			}
+			return false
+		},
 	}
-	if (!arr.includes(keysToString(aiX - 1, aiY))) {
-		pushDir('LEFT')
-		return
+
+	// shuffle the order to try so
+	// dir moves don't always result
+	// in same direction
+	let order = [1, 2, 3, 4]
+	shuffle(order)
+	for (let i = 0; i < order.length; i++) {
+		if (directionMap[order[i]]()) break
 	}
-	if (!arr.includes(keysToString(aiX, aiY - 1))) {
-		pushDir('UP')
-		return
-	}
-	if (!arr.includes(keysToString(aiX, aiY + 1))) {
-		pushDir('DOWN')
-		return
-	}
+
 	return
 }
 
@@ -36,20 +62,30 @@ const processAiMove = ({
 	chanceToContinuePath,
 	closeInDistance,
 	allPos,
+	wiggle = true,
 }) => {
 	const pushDir = pushDir_unbound.bind(null, ai.id, directionQueue)
 	if (ai.state !== 'dead' && ai.state !== 'readyToMove') {
 		const [x, y] = strToCoords(ai.body[0])
-		let targetDistances = targets.map(key => {
-			const [tX, tY] = strToCoords(key)
-			return {
-				key,
-				distance: Math.hypot(Math.abs(tX - x), Math.abs(tY - y)),
-			}
-		})
-		targetDistances.sort((a, b) => a.distance - b.distance)
+		let targetX, targetY
 
-		const [targetX, targetY] = strToCoords(targetDistances[0].key)
+		if (targets.length === 0) {
+			if (x >= GRID_COLUMNS / 2) targetX = GRID_COLUMNS
+			else targetX = 0
+
+			if (y >= GRID_ROWS / 2) targetY = GRID_ROWS
+			else targetY = 0
+		} else {
+			let targetDistances = targets.map(key => {
+				const [tX, tY] = strToCoords(key)
+				return {
+					key,
+					distance: Math.hypot(Math.abs(tX - x), Math.abs(tY - y)),
+				}
+			})
+			targetDistances.sort((a, b) => a.distance - b.distance)
+			;[targetX, targetY] = strToCoords(targetDistances[0].key)
+		}
 
 		const lastDir = directionQueue[ai.id][0]
 		const random = Math.random()
@@ -60,6 +96,19 @@ const processAiMove = ({
 		switch (lastDir) {
 			case 'UP':
 				if (isClose || random > chanceToContinuePath) {
+					// when not wiggling, ai will travel
+					// straight direct path
+					if (!wiggle) {
+						if (y === targetY) {
+							if (x > targetX) pushDir('LEFT')
+							else pushDir('RIGHT')
+						} else {
+							if (y > targetY) pushDir('UP')
+							else pushDir('DOWN')
+						}
+						break
+					}
+
 					if (x > targetX) pushDir('LEFT')
 					else pushDir('RIGHT')
 				}
@@ -67,6 +116,17 @@ const processAiMove = ({
 
 			case 'DOWN':
 				if (isClose || random > chanceToContinuePath) {
+					if (!wiggle) {
+						if (y === targetY) {
+							if (x > targetX) pushDir('LEFT')
+							else pushDir('RIGHT')
+						} else {
+							if (y > targetY) pushDir('UP')
+							else pushDir('DOWN')
+						}
+						break
+					}
+
 					if (x > targetX) pushDir('LEFT')
 					else pushDir('RIGHT')
 				}
@@ -74,6 +134,17 @@ const processAiMove = ({
 
 			case 'RIGHT':
 				if (isClose || random > chanceToContinuePath) {
+					if (!wiggle) {
+						if (x === targetX) {
+							if (y > targetY) pushDir('UP')
+							else pushDir('DOWN')
+						} else {
+							if (x > targetX) pushDir('LEFT')
+							else pushDir('RIGHT')
+						}
+						break
+					}
+
 					if (y > targetY) pushDir('UP')
 					else pushDir('DOWN')
 				}
@@ -81,6 +152,17 @@ const processAiMove = ({
 
 			case 'LEFT':
 				if (isClose || random > chanceToContinuePath) {
+					if (!wiggle) {
+						if (x === targetX) {
+							if (y > targetY) pushDir('UP')
+							else pushDir('DOWN')
+						} else {
+							if (x > targetX) pushDir('LEFT')
+							else pushDir('RIGHT')
+						}
+						break
+					}
+
 					if (y > targetY) pushDir('UP')
 					else pushDir('DOWN')
 				}

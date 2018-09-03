@@ -2,8 +2,20 @@ import { newImage } from '../../utils'
 
 export const EXPLOSION = newImage('images/explosion.png')
 
+export const MOUSE = {
+	LEFT: {
+		1: newImage('images/mouse/mouse_left_1.png'),
+		2: newImage('images/mouse/mouse_left_2.png'),
+	},
+	RIGHT: {
+		1: newImage('images/mouse/mouse_right_1.png'),
+		2: newImage('images/mouse/mouse_right_2.png'),
+	},
+}
+
 export const FOOD = {
 	APPLE: newImage('images/food/apple.png'),
+	CHEESE: newImage('images/cheese.png'),
 }
 
 export const MINE = {

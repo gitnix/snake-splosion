@@ -2,7 +2,11 @@ const { TICKS_UNTIL_RESET } = require('./constants')
 
 module.exports = {
 	players: [],
-	food: { '15_15': { score: 10 }, '3_3': { score: 10 } },
+	mice: [],
+	food: {
+		'15_15': { score: 10, type: 'APPLE' },
+		'40_20': { score: 0, type: 'APPLE' },
+	},
 	mines: {},
 	markedMines: [],
 	newMines: [],

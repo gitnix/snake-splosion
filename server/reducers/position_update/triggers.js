@@ -8,7 +8,7 @@ const updateTriggerPositions = state => {
 		Object.keys(triggers),
 	)
 
-	const allPos = getAllOccupiedPositions({ players, food, mines }) // mutable
+	const allPos = getAllOccupiedPositions({ players, food, mines, triggers }) // mutable
 
 	const updatedTriggers = reduce(
 		(triggerObj, triggerKey) => {

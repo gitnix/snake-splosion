@@ -3,6 +3,7 @@ const {
 	getAllOccupiedPositions,
 	newBodyDirections,
 	strToCoords,
+	keysForTypes,
 } = require('../utils')
 const { processAiMove } = require('../ai')
 
@@ -17,16 +18,55 @@ const move = (
 	food,
 	mines,
 	triggers,
+	mice,
 ) => {
-	const aiTargets = [...Object.keys(food), ...Object.keys(triggers)]
-	const allPos = getAllOccupiedPositions({ players, mines, food: {} })
+	const food_non_cheese = keysForTypes(food, ['APPLE'])
+	const food_cheese = keysForTypes(food, ['CHEESE'])
+
+	const snakeTargets = [
+		...food_non_cheese,
+		...Object.keys(triggers),
+		...mice.map(m => m.body[0]),
+	]
+	const mouseTargets = food_cheese
+	const allPos = getAllOccupiedPositions({
+		players,
+		mines,
+		triggers: {},
+		food: {},
+	})
+
+	const movedMice = mice.map(mouse => {
+		// mutates directionQueue
+		processAiMove({
+			ai: mouse,
+			directionQueue,
+			targets: mouseTargets,
+			chanceToContinuePath: 0.8,
+			closeInDistance: 60,
+			chanceOfSuccess: 0.7,
+			allPos,
+			wiggle: false,
+		})
+		const direction = directionQueue[mouse.id][0]
+		return {
+			...mouse,
+			state: 'normal',
+			body: [computeNewHead(mouse.body[0], direction, dimensions)],
+			bodyDirections: newBodyDirections(mouse.bodyDirections, {
+				type: 'move',
+				direction,
+			}),
+		}
+	})
 
 	const returnArray = players.map(player => {
 		if (player.id.split('_')[0] === 'ai') {
+			// mutates directionQueue
 			processAiMove({
 				ai: player,
 				directionQueue,
-				targets: aiTargets,
+				targets: snakeTargets,
 				chanceToContinuePath: 0.85,
 				closeInDistance: 5,
 				chanceOfSuccess: 0.96,
@@ -43,6 +83,7 @@ const move = (
 			}
 		}
 
+		// player has not yet hit a button to move
 		if (
 			player.state === 'readyToMove' &&
 			directionQueue[player.id].length < 1
@@ -110,6 +151,7 @@ const move = (
 				...player.body.slice(0, player.body.length - 1),
 			],
 			state: player.state === 'connecting' ? 'connected' : 'normal',
+			eatItem: null,
 			direction,
 			img: imageMap.get(player.id),
 			bodyDirections:
@@ -118,11 +160,14 @@ const move = (
 							type: 'move',
 							direction,
 					  })
-					: player.bodyDirections.map(dir => direction),
+					: player.bodyDirections.map(() => direction),
 		}
 	})
 	// arrange players on left and ai on right
-	return returnArray.sort((a, b) => a.ai - b.ai)
+	return {
+		players: returnArray.sort((a, b) => a.ai - b.ai),
+		mice: movedMice,
+	}
 }
 
 // side effects: mutates directionQueue

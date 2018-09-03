@@ -12,11 +12,6 @@ const processPlayerCollisions = state => {
 		const selfPositions = getAllPlayerPositions(self).slice(1)
 		const otherPositions = getAllPlayerPositions(others)
 
-		// ensures head-on collisions handle properly
-		// otherwise both players would get head sliced
-		// leaving a gap and making it appear as if there
-		// wasn't a collision
-
 		const head = player.body[0]
 		const isCollided =
 			player.state === 'readyToMove' ||

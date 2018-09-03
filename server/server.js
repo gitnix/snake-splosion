@@ -15,7 +15,7 @@ const wss = new WebSocket.Server({ server })
 
 ////////////////////////
 // app dependencies
-const { compose } = require('ramda')
+const { directionQueue } = require('./server_state')
 const { connectionUpdate, move, reduceState } = require('./reducers')
 const {
 	broadcast,
@@ -47,7 +47,6 @@ let spectating = false
 
 let backgroundImage
 let gameRunning = false
-let directionQueue = {}
 let connectionQueue = {
 	connections: [],
 	disconnections: [],
@@ -106,6 +105,7 @@ wss.on('connection', (ws, req) => {
 		for (let i = 0; i < 3; i++) {
 			addAi('ai_' + uuid.v4().slice(0, 8))
 		}
+		directionQueue['mouse_1'] = ['RIGHT']
 	}
 
 	if (!spectating && humanSet.size === 1) {
@@ -213,7 +213,15 @@ wss.on('connection', (ws, req) => {
 
 ////////////////////////
 // Main Loop
-function gameLoop({ players, food, mines, mineState, triggers, gameInfo }) {
+function gameLoop({
+	players,
+	food,
+	mice,
+	mines,
+	mineState,
+	triggers,
+	gameInfo,
+}) {
 	if (!gameRunning) {
 		console.log('game was stopped')
 		return
@@ -222,12 +230,12 @@ function gameLoop({ players, food, mines, mineState, triggers, gameInfo }) {
 	////////////////////////
 	// state reduction
 	const updatedPlayers = connectionUpdate(
-		{ players, food, mines },
+		{ players, food, mines, triggers },
 		connectionQueue,
 		playerImageMap,
 	)
 
-	const playersAfterMove = move(
+	const { players: playersAfterMove, mice: miceAfterMove } = move(
 		updatedPlayers,
 		directionQueue,
 		[GRID_COLUMNS, GRID_ROWS],
@@ -235,10 +243,12 @@ function gameLoop({ players, food, mines, mineState, triggers, gameInfo }) {
 		food,
 		mines,
 		triggers,
+		mice,
 	)
 
 	const updatedState = reduceState({
 		players: playersAfterMove,
+		mice: miceAfterMove,
 		food,
 		mines,
 		mineState,

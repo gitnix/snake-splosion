@@ -2,7 +2,7 @@ const { getRandom } = require('../../utils')
 const gameOptions = require('../../constants')
 
 const processMineCollisions = state => {
-	const { players, mines, triggers } = state
+	const { players, mice, mines, triggers } = state
 
 	const markedMineArray = [] // mutable
 
@@ -16,12 +16,20 @@ const processMineCollisions = state => {
 
 	const markedPlayers = players.map(player => {
 		const head = player.body[0]
-		const tail = player.body[player.body.length - 1]
 		const isCollided = checkCollision(head, mines)
 		return {
 			...player,
 			state: isCollided ? 'dead' : player.state,
 			score: isCollided ? 0 : player.score,
+		}
+	})
+
+	const markedMice = mice.map(mouse => {
+		const head = mouse.body[0]
+		const isCollided = checkCollision(head, mines)
+		return {
+			...mouse,
+			state: isCollided ? 'dead' : mouse.state,
 		}
 	})
 
@@ -45,6 +53,7 @@ const processMineCollisions = state => {
 	return {
 		...state,
 		players: markedPlayers,
+		mice: markedMice,
 		markedMines: markedMineArray,
 	}
 }

@@ -1,7 +1,7 @@
 const { newBodyDirections } = require('../../utils')
 
 const processFoodCollisions = state => {
-	const { players, food, mineState, gameInfo } = state
+	const { players, mice, food, mineState, gameInfo } = state
 
 	const newFood = {} // mutable
 	let mineIncrement = 0
@@ -17,6 +17,14 @@ const processFoodCollisions = state => {
 		}
 		return false
 	}
+
+	const markedMice = mice.map(mouse => {
+		const isCollided = checkForCollision(mouse.body[0])
+		return {
+			...mouse,
+			state: isCollided ? 'eating' : mouse.state,
+		}
+	})
 
 	const checkForWinner = player => {
 		const head = player.body[0]
@@ -38,6 +46,7 @@ const processFoodCollisions = state => {
 		return {
 			...player,
 			state: isCollided ? 'eating' : player.state,
+			eatItem: isCollided ? food[head].type : null,
 			score: isCollided ? player.score + food[head].score : player.score,
 			isWinner,
 			body: isWinner
@@ -58,6 +67,7 @@ const processFoodCollisions = state => {
 	return {
 		...state,
 		players: markedPlayers,
+		mice: markedMice,
 		food: { ...food, ...newFood },
 		mineState: {
 			...mineState,

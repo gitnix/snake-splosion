@@ -3,14 +3,19 @@ import { divide, find, min, propEq } from 'ramda'
 import { COLOR_MAP, UNIT_SIZE } from './constants'
 import { clientState } from './client_state'
 import { getBodyDirection, roundRect, scale, strToCoords } from './utils'
-import { FOOD, MINE, TRIGGER, BODY, HEAD, TAIL } from './assets/images'
+import { FOOD, MINE, MOUSE, TRIGGER, BODY, HEAD, TAIL } from './assets/images'
 
 import {
 	collisionAudio,
 	eatAudio,
 	gameOverAudio,
+	squeakAudio,
 	teleportAudio,
 } from './assets/audio'
+
+let mouseFrame = 0
+let mouseMaxFrame = 46
+let mouseDrawDir = 'RIGHT'
 
 // draw nothing if blinkTurn under this number
 let blinkTimer = 150
@@ -42,9 +47,6 @@ const playAudio = (players, id) => {
 	const currentPlayer = find(propEq('id', id))(players)
 	if (!currentPlayer) return
 	switch (currentPlayer.state) {
-		case 'eating':
-			eatAudio.play()
-			break
 		case 'dead':
 			collisionAudio.play()
 			break
@@ -71,7 +73,15 @@ const updateGame = timestamp => (
 
 	Object.keys(state.food).forEach(key => {
 		const [x, y] = strToCoords(key)
-		ctx.drawImage(FOOD['APPLE'], scale(x), scale(y))
+		let foodType = state.food[key].type
+		switch (foodType) {
+			case 'APPLE':
+				ctx.drawImage(FOOD['APPLE'], scale(x), scale(y))
+				break
+			case 'CHEESE':
+				ctx.drawImage(FOOD['CHEESE'], scale(x), scale(y))
+				break
+		}
 	})
 
 	Object.keys(state.mines).forEach(key => {
@@ -83,6 +93,61 @@ const updateGame = timestamp => (
 		if (!state.triggers[key].isCollided) {
 			const [x, y] = strToCoords(key)
 			ctx.drawImage(TRIGGER['BANG'], scale(x), scale(y))
+		}
+	})
+
+	state.mice.forEach(mouse => {
+		const [x, y] = strToCoords(mouse.body[0])
+
+		if (mouse.state === 'spawned') squeakAudio.play()
+
+		let offset = 0.8
+		mouseFrame += 1
+		if (mouseFrame > mouseMaxFrame) mouseFrame = 0
+
+		switch (mouse.bodyDirections[0]) {
+			case 'RIGHT':
+				mouseDrawDir = 'RIGHT'
+				drawX = x - offset + min(offset, divide(elapsed, denominator))
+				ctx.drawImage(
+					mouseFrame <= mouseMaxFrame / 2
+						? MOUSE[mouseDrawDir][1]
+						: MOUSE[mouseDrawDir][2],
+					scale(drawX),
+					scale(y),
+				)
+				break
+			case 'LEFT':
+				mouseDrawDir = 'LEFT'
+				drawX = x + offset - min(offset, divide(elapsed, denominator))
+				ctx.drawImage(
+					mouseFrame <= mouseMaxFrame / 2
+						? MOUSE[mouseDrawDir][1]
+						: MOUSE[mouseDrawDir][2],
+					scale(drawX),
+					scale(y),
+				)
+				break
+			case 'UP':
+				drawY = y + offset - min(offset, divide(elapsed, denominator))
+				ctx.drawImage(
+					mouseFrame <= mouseMaxFrame / 2
+						? MOUSE[mouseDrawDir][1]
+						: MOUSE[mouseDrawDir][2],
+					scale(x),
+					scale(drawY),
+				)
+				break
+			case 'DOWN':
+				drawY = y - offset + min(offset, divide(elapsed, denominator))
+				ctx.drawImage(
+					mouseFrame <= mouseMaxFrame / 2
+						? MOUSE[mouseDrawDir][1]
+						: MOUSE[mouseDrawDir][2],
+					scale(x),
+					scale(drawY),
+				)
+				break
 		}
 	})
 
@@ -102,6 +167,9 @@ const updateGame = timestamp => (
 				head_x = x
 				head_y = y
 			}
+
+			// play eat audio for all players
+			if (player.state === 'eating') eatAudio.play()
 
 			if (player.state === 'readyToMove') {
 				blinkTurn[player.color]++

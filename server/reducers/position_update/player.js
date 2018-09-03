@@ -9,7 +9,12 @@ const {
 const getStateAfterTeleportingPlayers = state => {
 	const { players, food, mines } = state
 
-	const allPos = getAllOccupiedPositions({ players, food, mines }) // mutable
+	const allPos = getAllOccupiedPositions({
+		players,
+		food,
+		mines,
+		triggers: state.triggers,
+	}) // mutable
 
 	const teleportedPlayers = players.map(player => {
 		if (player.state !== 'teleportReady') {

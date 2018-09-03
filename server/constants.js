@@ -1,5 +1,6 @@
 module.exports = {
 	BACKGROUNDS: ['sand', 'calm_sand', 'gray_sand', 'night_sand'],
+	CHEESE_CHANCE: 0.35,
 	COLORS: ['GREEN', 'BLUE', 'PINK', 'GOLD'],
 	DEATH_TICKS: 2,
 	DIRECTIONS: ['RIGHT', 'LEFT', 'UP', 'DOWN'],
@@ -9,11 +10,11 @@ module.exports = {
 	LOOP_REPEAT_INTERVAL: 80,
 	// total mines on field can actually exceed this
 	// depending on mine spawn settings
-	MAX_MINES: 50,
+	MAX_MINES: 32,
 	MAX_PLAYERS: 4,
 	// Actual distance for directly north, south, east, west
 	// will be this number plus 1
-	MINE_SPAWN_DISTANCE: 2,
+	MINE_SPAWN_DISTANCE: 7,
 	NEW_BODY_LENGTH: 6,
 	SNAKE_LOADING_IMAGE: 'images/venomous_brown_tree_snake.jpg',
 	TICKS_UNTIL_RESET: 90,
