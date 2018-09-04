@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import ChatPanel from './chat_panel'
 import MainCanvas from './main_canvas'
-import EffectsCanvas from './effects_canvas'
+import TopEffectsCanvas from './top_effects_canvas'
+import BackgroundCanvas from './background_canvas'
+import BottomEffectsCanvas from './bottom_effects_canvas'
 
 class Center extends Component {
 	constructor(props) {
@@ -16,14 +18,18 @@ class Center extends Component {
 				onClick={() => {
 					if (this.props.gameStop) location.reload()
 				}}>
+				<BackgroundCanvas backgroundImage={this.props.backgroundImage} />
+				<BottomEffectsCanvas
+					players={this.props.gameState.players}
+					backgroundImage={this.props.backgroundImage}
+				/>
 				<MainCanvas
 					gameState={this.props.gameState}
-					backgroundImage={this.props.backgroundImage}
 					mineTypeToDraw={this.props.mineTypeToDraw}
 					spectating={this.props.spectating}
 					gameStop={this.props.gameStop}
 				/>
-				<EffectsCanvas gameState={this.props.gameState} />
+				<TopEffectsCanvas gameState={this.props.gameState} />
 				<ChatPanel
 					ref={this.chatRef}
 					socket={this.props.socket}

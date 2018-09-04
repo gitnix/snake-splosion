@@ -67,13 +67,22 @@ canvas {
 	top: -4px;
 }
 
-#layer-1 {
+#background-layer {
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
+	z-index: 0;
 }
 
-#layer-2 {
+#bottom-effects-layer {
+	z-index: 1;
+}
+
+#main-layer {
 	z-index: 2;
+}
+
+#top-effects-layer {
+	z-index: 3;
 }
 
 #chat-panel {

@@ -22,7 +22,7 @@ To start client and server locally:
 - Choose `Start Snake`
 - Press `enter` (Continue without scanning the task output) to continue
 
-Tasks can be stopped maunally (though you don't really need to [see below]) by bringing up the command palette and typing `Terminate Task` and then choosing the client or server
+Tasks can be stopped manually (though you don't really need to [see below]) by bringing up the command palette and typing `Terminate Task` and then choosing the client or server
 
 You can also close Visual Studio Code to terminate the tasks
 

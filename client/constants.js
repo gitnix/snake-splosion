@@ -9,4 +9,8 @@ export const COLOR_MAP = {
 	RED: '#FC3B40',
 	BLACK: '#282C29',
 	GRAY: '#A0A4A1',
+	GRAY_SAND: '#94928E',
+	NIGHT_SAND: '#394D7A',
+	CALM_SAND: '#836F58',
+	SAND: '#AB834A',
 }

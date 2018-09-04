@@ -44,25 +44,50 @@ export const addScatterEmitter = (proton, positionString, type) => {
 	const [x, y] = strToCoords(positionString)
 	const emitter = new Proton.Emitter()
 
-	let scale,
-		color,
-		quantity1 = 3,
-		quantity2 = 5,
-		rate1 = 0.3,
-		rate2 = 0.5,
-		life1 = 0.3,
-		life2 = 0.8,
+	let color,
+		// defaults are for sand
+		scale = 0.2,
+		quantity1 = 1,
+		quantity2 = 3,
+		rate1 = 0.2,
+		rate2 = 0.4,
+		life1 = 0.2,
+		life2 = 0.5,
 		speed1 = 0.5,
 		speed2 = 1
 
 	switch (type) {
 		case 'FOOD':
-			scale = 0.2
-			color = new Proton.Color(COLOR_MAP['RED'])
+			;(scale = 0.3),
+				(quantity1 = 3),
+				(quantity2 = 5),
+				(rate1 = 0.3),
+				(rate2 = 0.5),
+				(life1 = 0.3),
+				(life2 = 0.8),
+				(color = new Proton.Color(COLOR_MAP['RED']))
 			break
 		case 'CHEESE':
-			scale = 0.2
-			color = new Proton.Color(COLOR_MAP['GOLD'])
+			;(scale = 0.3),
+				(quantity1 = 3),
+				(quantity2 = 5),
+				(rate1 = 0.3),
+				(rate2 = 0.5),
+				(life1 = 0.3),
+				(life2 = 0.8),
+				(color = new Proton.Color(COLOR_MAP['GOLD']))
+			break
+		case 'GRAY_SAND':
+			color = new Proton.Color(COLOR_MAP['GRAY_SAND'])
+			break
+		case 'NIGHT_SAND':
+			color = new Proton.Color(COLOR_MAP['NIGHT_SAND'])
+			break
+		case 'CALM_SAND':
+			color = new Proton.Color(COLOR_MAP['CALM_SAND'])
+			break
+		case 'SAND':
+			color = new Proton.Color(COLOR_MAP['SAND'])
 			break
 		case 'DARK_MINE':
 			scale = 0.4

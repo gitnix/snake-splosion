@@ -9,12 +9,9 @@ class MainCanvas extends Component {
 		this._canvasRef
 		this._child = (
 			<canvas
-				id="layer-1"
+				id="main-layer"
 				width="1000"
 				height="600"
-				style={{
-					backgroundImage: `url(backgrounds/${this.props.backgroundImage}.png)`,
-				}}
 				ref={node => {
 					this._ctx = node ? node.getContext('2d') : null
 					this._canvasRef = node
