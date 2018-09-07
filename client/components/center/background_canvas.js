@@ -5,7 +5,7 @@ class BackgroundCanvas extends Component {
 		super(props)
 		this._child = (
 			<canvas
-				id="background-layer"
+				id="background-canvas"
 				style={{
 					backgroundImage: `url(backgrounds/${this.props.backgroundImage}.png)`,
 				}}

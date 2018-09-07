@@ -12,7 +12,7 @@ class BottomEffectsCanvas extends Component {
 		this._canvas = null
 		this._child = (
 			<canvas
-				id="bottom-effects-layer"
+				id="bottom-effects-canvas"
 				width="1000"
 				height="600"
 				ref={node => {

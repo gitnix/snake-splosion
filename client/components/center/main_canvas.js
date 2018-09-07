@@ -9,7 +9,7 @@ class MainCanvas extends Component {
 		this._canvasRef
 		this._child = (
 			<canvas
-				id="main-layer"
+				id="main-canvas"
 				width="1000"
 				height="600"
 				ref={node => {

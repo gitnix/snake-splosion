@@ -36,7 +36,6 @@ class ChatPanel extends Component {
 
 	onFocus() {
 		setMovementStatus(false)
-		setTimeout(() => this.setState({ value: '' }), 1)
 	}
 
 	onSubmit(e) {

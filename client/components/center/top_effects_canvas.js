@@ -16,7 +16,7 @@ class EffectsCanvas extends Component {
 		this._canvas = null
 		this._child = (
 			<canvas
-				id="top-effects-layer"
+				id="top-effects-canvas"
 				width="1000"
 				height="600"
 				ref={node => {

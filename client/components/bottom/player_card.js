@@ -5,12 +5,16 @@ const PlayerCard = props => {
 	const isDead = state === 'dead' ? true : false
 	return (
 		<div className={`player-card ${isDead ? 'dead' : ''}`}>
-			<div className="player-image-and-name-container">
+			<div className="player-image-container">
 				<img className="player-image" src={imgSrc} />
-				<div className="player-name">{name}</div>
 			</div>
-			<div className="player-score">{score} pts</div>
-			<div className="player-color" style={{ backgroundColor: color }} />
+			<div className="player-name" style={{ backgroundColor: color }}>
+				{name}
+			</div>
+			<div className="player-score">
+				<div className="player-score-header">Score</div>
+				<div className="player-score-number">{score}</div>
+			</div>
 		</div>
 	)
 }
