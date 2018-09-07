@@ -44,6 +44,18 @@ export const addScatterEmitter = (proton, positionString, type) => {
 	const [x, y] = strToCoords(positionString)
 	const emitter = new Proton.Emitter()
 
+	let foodSettings = {
+		scale: 0.3,
+		quantity1: 3,
+		quantity2: 5,
+		rate1: 0.3,
+		rate2: 0.5,
+		life1: 0.3,
+		life2: 0.5,
+		speed1: 0.5,
+		speed2: 1,
+	}
+
 	let color,
 		// defaults are for sand
 		scale = 0.2,
@@ -58,36 +70,39 @@ export const addScatterEmitter = (proton, positionString, type) => {
 
 	switch (type) {
 		case 'FOOD':
-			;(scale = 0.3),
-				(quantity1 = 3),
-				(quantity2 = 5),
-				(rate1 = 0.3),
-				(rate2 = 0.5),
-				(life1 = 0.3),
-				(life2 = 0.8),
-				(color = new Proton.Color(COLOR_MAP['RED']))
+			scale = foodSettings.scale
+			quantity1 = foodSettings.quantity1
+			quantity2 = foodSettings.quantity2
+			rate1 = foodSettings.rate1
+			rate2 = foodSettings.rate2
+			life1 = foodSettings.life1
+			life2 = foodSettings.life2
+			color = new Proton.Color(COLOR_MAP['RED'])
 			break
 		case 'CHEESE':
-			;(scale = 0.3),
-				(quantity1 = 3),
-				(quantity2 = 5),
-				(rate1 = 0.3),
-				(rate2 = 0.5),
-				(life1 = 0.3),
-				(life2 = 0.8),
-				(color = new Proton.Color(COLOR_MAP['GOLD']))
+			scale = foodSettings.scale
+			quantity1 = foodSettings.quantity1
+			quantity2 = foodSettings.quantity2
+			rate1 = foodSettings.rate1
+			rate2 = foodSettings.rate2
+			life1 = foodSettings.life1
+			life2 = foodSettings.life2
+			color = new Proton.Color(COLOR_MAP['GOLD'])
 			break
 		case 'GRAY_SAND':
-			color = new Proton.Color(COLOR_MAP['GRAY_SAND'])
+			color = new Proton.Color(COLOR_MAP['GRAY_SAND'], COLOR_MAP['GRAY_SAND_2'])
 			break
 		case 'NIGHT_SAND':
-			color = new Proton.Color(COLOR_MAP['NIGHT_SAND'])
+			color = new Proton.Color(
+				COLOR_MAP['NIGHT_SAND'],
+				COLOR_MAP['NIGHT_SAND_2'],
+			)
 			break
 		case 'CALM_SAND':
-			color = new Proton.Color(COLOR_MAP['CALM_SAND'])
+			color = new Proton.Color(COLOR_MAP['CALM_SAND'], COLOR_MAP['CALM_SAND_2'])
 			break
 		case 'SAND':
-			color = new Proton.Color(COLOR_MAP['SAND'])
+			color = new Proton.Color(COLOR_MAP['SAND'], COLOR_MAP['SAND_2'])
 			break
 		case 'DARK_MINE':
 			scale = 0.4
