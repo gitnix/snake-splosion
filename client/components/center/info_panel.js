@@ -11,7 +11,7 @@ export default () => {
 						Eat food to grow your snake, raise your score, and spawn mines!
 					</li>
 					<li>Avoid the mines!</li>
-					<li>Slither over the detonators to clear mines!</li>
+					<li>Slither over detonators to clear mines!</li>
 				</ol>
 			</div>
 		</div>

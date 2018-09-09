@@ -3,7 +3,7 @@ const initialState = require('./initial_game_state')
 
 const DEFAULT_VALUES = {
 	GOAL_SCORE: 100,
-	MAX_MINES: 35,
+	MAX_MINES: 25,
 	MINE_SPAWN_DISTANCE: 7,
 	TRIGGER_DIVISOR: 3,
 	MINES_TO_ADD: 4,

@@ -10,7 +10,7 @@ module.exports = {
 	LOOP_REPEAT_INTERVAL: 80,
 	// total mines on field can actually exceed this
 	// depending on mine spawn settings
-	MAX_MINES: 32,
+	MAX_MINES: 25,
 	MAX_PLAYERS: 4,
 	// Actual distance for directly north, south, east, west
 	// will be this number plus 1

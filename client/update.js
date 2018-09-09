@@ -432,21 +432,6 @@ const updateGame = timestamp => (
 		ctx.fillText(`a spot becomes available`, 10, height - 8)
 	}
 
-	if (gameStop === true) {
-		ctx.font = '52px Do Hyeon'
-		ctx.textAlign = 'center'
-		ctx.fillStyle = '#9e4646ed'
-		roundRect(ctx, 10, 240, 980, 150, 20)
-		ctx.fill()
-		ctx.fillStyle = '#fdebbef5'
-		ctx.fillText(
-			`You have been disconnected due to inactivity.`,
-			width / 2,
-			height / 2,
-		)
-		ctx.fillText(`Click here to rejoin.`, width / 2, height / 2 + 60)
-	}
-
 	if (state.gameInfo.winner && state.players.length > 0) {
 		if (
 			state.gameInfo.maxTicksUntilReset - state.gameInfo.ticksUntilReset <
@@ -459,6 +444,10 @@ const updateGame = timestamp => (
 		).color
 		ctx.font = '52px Do Hyeon'
 		ctx.textAlign = 'center'
+		ctx.fillStyle = '#9e4646ed'
+		roundRect(ctx, 10, 185, 980, 240, 20)
+		ctx.fill()
+		ctx.fillStyle = '#fdebbef5'
 		ctx.fillText(`${state.gameInfo.winner.name}`, width / 2, height / 2 - 60)
 		ctx.fillText(`Wins!`, width / 2, height / 2)
 		ctx.font = '48px Do Hyeon'
@@ -495,11 +484,6 @@ const updateGame = timestamp => (
 		)
 
 		for (let i = maxVal; i >= 0; i--) {
-			ctx.drawImage(
-				FOOD['APPLE'],
-				centerWidth - drawOffset + i * UNIT_SIZE,
-				centerHeight + loadingHeight,
-			)
 			if (i === maxVal) {
 				ctx.drawImage(
 					HEAD[winnerColor]['RIGHT'],
@@ -515,6 +499,22 @@ const updateGame = timestamp => (
 			}
 		}
 	}
+
+	if (gameStop) {
+		ctx.font = '52px Do Hyeon'
+		ctx.textAlign = 'center'
+		ctx.fillStyle = '#9e4646ed'
+		roundRect(ctx, 10, 240, 980, 150, 20)
+		ctx.fill()
+		ctx.fillStyle = '#fdebbef5'
+		ctx.fillText(
+			`You have been disconnected due to inactivity.`,
+			width / 2,
+			height / 2,
+		)
+		ctx.fillText(`Click here to rejoin.`, width / 2, height / 2 + 60)
+	}
+
 	if (shouldAnimate)
 		window.requestAnimationFrame(newTimestamp =>
 			updateGame(newTimestamp)(clientState.gameState, ctx, {

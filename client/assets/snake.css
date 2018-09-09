@@ -57,6 +57,8 @@ body {
 	border-radius: 1em;
 	color: #fdebbef5;
 	font-size: 3.1em;
+	box-shadow: 3px 12px 27px 10px #0e0e0e;
+	margin: -0.04em 0;
 }
 
 #banner-fire {
@@ -88,6 +90,7 @@ canvas {
 	margin: auto;
 	width: 100%;
 	padding-top: 60%;
+	box-shadow: 3px 12px 27px 10px #0e0e0e;
 }
 
 #background-canvas {
@@ -222,8 +225,7 @@ canvas {
 	animation: grow 0.4s ease-in-out;
 
 	/* used to get overlap on bottom banner */
-	margin-top: -0.3em;
-	margin-bottom: -0.3em;
+	margin: -0.3em 0;
 }
 
 .player-card.dead {
@@ -272,7 +274,9 @@ canvas {
 	box-shadow: inset 1px 1px 20px 0px;
 	text-align: center;
 	margin-bottom: 5%;
+	padding: 0 1%;
 	height: 100%;
+	min-height: 2.6em;
 }
 
 .player-score {
@@ -369,16 +373,20 @@ canvas {
 	}
 }
 
-@media (min-height: 900px) and (max-height: 1000px) {
+@media (min-height: 900px) and (max-height: 1050px) {
 	#message-list {
 		max-height: 46vh;
 		height: 46vh;
+	}
+
+	#banner-title {
+		font-size: 3.7em;
 	}
 }
 
 @media (min-height: 1050px) {
 	#banner-title {
-		font-size: 4em;
+		font-size: 5em;
 	}
 
 	#info-panel {
@@ -407,6 +415,10 @@ canvas {
 	#info-panel {
 		font-size: 2em;
 	}
+
+	#banner-title {
+		font-size: 6em;
+	}
 }
 
 @media (min-height: 1600px) {
@@ -430,7 +442,7 @@ canvas {
 	}
 
 	#banner-title {
-		font-size: 7.5em;
+		font-size: 9.5em;
 	}
 
 	#banner-fire {
@@ -471,6 +483,7 @@ canvas {
 	.player-name {
 		font-size: 2.8em;
 		height: 85%;
+		min-height: 0;
 		margin-bottom: 0;
 	}
 }
