@@ -45,8 +45,7 @@ const addId = (randomKey, imageMap) => (stored, currentId) => {
 					body: newBody(randomKey),
 					color,
 					state: 'connecting',
-					name:
-						currentId.split('_')[0] === 'ai' ? 'Robot ' + snakeName : snakeName,
+					name: snakeName,
 					deathTicks: DEATH_TICKS,
 					score: 0,
 					goalScore: gameOptions.GOAL_SCORE,
