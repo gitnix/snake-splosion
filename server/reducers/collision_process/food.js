@@ -5,7 +5,7 @@ const processFoodCollisions = state => {
 
 	const newFood = {} // mutable
 	let mineIncrement = 0
-	let gameWinner = null
+	let gameWinner
 
 	const checkForCollision = head => {
 		if (food[head]) {
@@ -48,7 +48,6 @@ const processFoodCollisions = state => {
 			state: isCollided ? 'eating' : player.state,
 			eatItem: isCollided ? food[head].type : null,
 			score: isCollided ? player.score + food[head].score : player.score,
-			isWinner,
 			body: isWinner
 				? player.body
 				: isCollided
@@ -59,7 +58,7 @@ const processFoodCollisions = state => {
 				: isCollided
 					? newBodyDirections(player.bodyDirections, {
 							type: 'add',
-							direction: player.bodyDirections[player.body.length - 1],
+							direction: player.bodyDirections[tail],
 					  })
 					: player.bodyDirections,
 		}
@@ -73,7 +72,7 @@ const processFoodCollisions = state => {
 			...mineState,
 			turnCounter: (mineState.turnCounter += mineIncrement),
 		},
-		gameInfo: !!gameWinner ? { ...gameInfo, winner: gameWinner } : gameInfo,
+		gameInfo: gameWinner ? { ...gameInfo, winner: gameWinner } : gameInfo,
 	}
 }
 

@@ -15,6 +15,7 @@ module.exports = {
 	// Actual distance for directly north, south, east, west
 	// will be this number plus 1
 	MINE_SPAWN_DISTANCE: 7,
+	MOUSE_SCORE: 30,
 	NEW_BODY_LENGTH: 6,
 	SNAKE_LOADING_IMAGE: 'images/venomous_brown_tree_snake.jpg',
 	TICKS_UNTIL_RESET: 90,
