@@ -111,6 +111,28 @@ canvas {
 	z-index: 3;
 }
 
+#score-overlay-container {
+	display: flex;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	font-size: 5.5em;
+	z-index: 5;
+	text-align: center;
+}
+
+.score-overlay {
+	opacity: 0;
+}
+
+.score-overlay-animating {
+	animation: grow-in-out 1.4s ease-in-out;
+}
+
 /* ***************************** */
 /* CHAT */
 /* ***************************** */
@@ -328,6 +350,21 @@ canvas {
 	}
 }
 
+@keyframes grow-in-out {
+	0% {
+		opacity: 0;
+		transform: scale(0);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(1);
+	}
+}
+
 @keyframes shake {
 	10%,
 	90% {
@@ -434,6 +471,10 @@ canvas {
 		grid-column-gap: 4em;
 		grid-template-rows: 3fr 18fr 5fr;
 		grid-template-columns: 2fr 5fr 2fr;
+	}
+
+	#score-overlay-container {
+		font-size: 10em;
 	}
 
 	#banner-snake {

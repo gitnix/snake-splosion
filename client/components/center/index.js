@@ -5,6 +5,8 @@ import InfoPanel from './info_panel'
 import TopEffectsCanvas from './top_effects_canvas'
 import BackgroundCanvas from './background_canvas'
 import BottomEffectsCanvas from './bottom_effects_canvas'
+import ScoreOverlay from './score_overlay'
+import { find, propEq } from 'ramda'
 
 class Center extends Component {
 	constructor(props) {
@@ -17,6 +19,9 @@ class Center extends Component {
 	}
 
 	render() {
+		const currentPlayer = find(propEq('id', this.props.clientId))(
+			this.props.gameState.players,
+		)
 		return (
 			<>
 				<ChatPanel
@@ -38,6 +43,13 @@ class Center extends Component {
 						gameStop={this.props.gameStop}
 					/>
 					<TopEffectsCanvas gameState={this.props.gameState} />
+					<div id="score-overlay-container">
+						<ScoreOverlay
+							playerState={currentPlayer.state}
+							eatItem={currentPlayer.eatItem}
+							color={currentPlayer.color}
+						/>
+					</div>
 				</div>
 				<InfoPanel />
 			</>

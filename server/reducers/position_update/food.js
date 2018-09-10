@@ -1,6 +1,6 @@
 const { assoc, compose, dissoc, filter, reduce } = require('ramda')
 const { getAllOccupiedPositions, getValidRandomKey } = require('../../utils')
-const { CHEESE_CHANCE } = require('../../constants')
+const { CHEESE_CHANCE, APPLE_SCORE, CHEESE_SCORE } = require('../../constants')
 
 const updateFoodPositions = state => {
 	const { players, mice, food, mines } = state
@@ -22,7 +22,7 @@ const updateFoodPositions = state => {
 			allPos.push(randomKey)
 			return compose(
 				assoc(randomKey, {
-					score: foodType === 'APPLE' ? 10 : 0,
+					score: foodType === 'APPLE' ? APPLE_SCORE : CHEESE_SCORE,
 					type: foodType,
 				}),
 				dissoc(foodKey),

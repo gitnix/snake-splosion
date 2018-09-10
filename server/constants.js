@@ -1,6 +1,8 @@
 module.exports = {
 	BACKGROUNDS: ['sand', 'calm_sand', 'gray_sand', 'night_sand'],
+	APPLE_SCORE: 10,
 	CHEESE_CHANCE: 0.35,
+	CHEESE_SCORE: -10,
 	COLORS: ['GREEN', 'BLUE', 'PINK', 'GOLD'],
 	DEATH_TICKS: 2,
 	DIRECTIONS: ['RIGHT', 'LEFT', 'UP', 'DOWN'],

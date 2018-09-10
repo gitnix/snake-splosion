@@ -18,7 +18,16 @@ const processTriggerCollisions = state => {
 		Object.keys(triggers),
 	)
 
-	return { ...state, triggers: updatedTriggers }
+	const markedPlayers = state.players.map(player => {
+		const head = player.body[0]
+		const isCollided = !!triggers[head]
+		return {
+			...player,
+			state: isCollided ? 'detonating' : player.state,
+		}
+	})
+
+	return { ...state, triggers: updatedTriggers, players: markedPlayers }
 }
 
 module.exports = processTriggerCollisions

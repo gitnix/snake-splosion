@@ -28,6 +28,7 @@ const processMiceCollisions = state => {
 		return {
 			...player,
 			state: isCollided ? 'eating' : player.state,
+			eatItem: isCollided ? 'MOUSE' : player.eatItem,
 			score: isCollided ? (player.score += MOUSE_SCORE) : player.score,
 			body: isWinner
 				? player.body

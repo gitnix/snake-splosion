@@ -1,4 +1,5 @@
 const { newBodyDirections } = require('../../utils')
+const { clamp } = require('ramda')
 
 const processFoodCollisions = state => {
 	const { players, mice, food, mineState, gameInfo } = state
@@ -46,8 +47,10 @@ const processFoodCollisions = state => {
 		return {
 			...player,
 			state: isCollided ? 'eating' : player.state,
-			eatItem: isCollided ? food[head].type : null,
-			score: isCollided ? player.score + food[head].score : player.score,
+			eatItem: isCollided ? food[head].type : player.eatItem,
+			score: isCollided
+				? clamp(0, Infinity, player.score + food[head].score)
+				: player.score,
 			body: isWinner
 				? player.body
 				: isCollided

@@ -1,6 +1,6 @@
 const gameOptions = require('../../constants')
 
-const { dissoc, filter, gte, merge, reduce } = require('ramda')
+const { dissoc, gte, merge, reduce } = require('ramda')
 const { getAllOccupiedPositions, getValidRandomKey } = require('../../utils')
 
 const updateMinePositions = state => {
