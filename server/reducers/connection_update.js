@@ -22,14 +22,13 @@ const addId = (randomKey, imageMap) => (stored, currentId) => {
 	const foundIndex = indexForId(stored, currentId)
 
 	let snakeName
-	let snakeImage
 	const playerNames = stored.map(p => p.name)
 
 	if (foundIndex < 0) {
 		imageMap.set(currentId, SNAKE_LOADING_IMAGE)
 		snakeName = getSnakeName()
 		while (playerNames.includes(snakeName)) snakeName = getSnakeName()
-		snakeImage = getSnakeImage(snakeName).then(url => {
+		getSnakeImage(snakeName).then(url => {
 			imageMap.set(currentId, url)
 		})
 	}

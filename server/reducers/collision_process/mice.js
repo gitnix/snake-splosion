@@ -15,7 +15,7 @@ const processMiceCollisions = state => {
 	})
 
 	const markedPlayers = players.map(player => {
-		let isCollided = mousePositions.includes(player.body[0])
+		const isCollided = mousePositions.includes(player.body[0])
 		let isWinner
 
 		if (isCollided) {

@@ -1,3 +1,3 @@
-let directionQueue = {}
+const directionQueue = {}
 
 module.exports = { directionQueue }

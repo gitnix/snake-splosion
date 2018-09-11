@@ -1,6 +1,7 @@
+/* eslint no-console: 0 */
+
 import fromEvent from 'xstream/extra/fromEvent'
 import dropRepeats from 'xstream/extra/dropRepeats'
-import xs from 'xstream'
 import { equals, ifElse, or } from 'ramda'
 import KEY_MAP from './key_map'
 import { getMovementStatus, clientState } from './client_state'

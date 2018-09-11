@@ -40,7 +40,7 @@ const getCoordsAroundPoint = (x, y) => {
 }
 
 const getCoordSet = (x, y, distance = 2) => {
-	let coordSet = new Set()
+	const coordSet = new Set()
 	for (let i = 0; i < distance; i++) {
 		if (i == 0) {
 			getCoordsAroundPoint(x, y).forEach(coord => coordSet.add(coord))
@@ -74,7 +74,11 @@ const getCollisionStatusAndKey = (
 	}
 
 	// used when getting position for new mines
-	let perimeterSet = getCoordSet(randX, randY, gameOptions.MINE_SPAWN_DISTANCE)
+	const perimeterSet = getCoordSet(
+		randX,
+		randY,
+		gameOptions.MINE_SPAWN_DISTANCE,
+	)
 	let isCollision = false
 	playersArray.forEach(p => {
 		perimeterSet.forEach(coord => {
@@ -100,6 +104,7 @@ const getValidRandomKey = (
 	let distanceCheck = true
 	let key = null
 	while (distanceCheck) {
+		// eslint-disable-next-line
 		;[distanceCheck, key] = getCollisionStatusAndKey(
 			allPosArray,
 			playersArray,
@@ -123,7 +128,7 @@ const getRandomBackgroundImage = () =>
 	BACKGROUNDS[Math.round(Math.random() * (BACKGROUNDS.length - 1))]
 
 const getRandomColor = players => {
-	let currentColors = players.map(p => p.color)
+	const currentColors = players.map(p => p.color)
 	let color = COLORS[Math.round(Math.random() * (COLORS.length - 1))]
 	while (currentColors.includes(color)) {
 		color = COLORS[Math.round(Math.random() * (COLORS.length - 1))]
@@ -153,7 +158,7 @@ const strToCoords = key => key.split('_').map(string => parseInt(string))
 
 const keysForTypes = (obj, types) =>
 	Object.entries(obj)
-		.filter(([k, v]) => types.includes(v.type))
+		.filter(([, v]) => types.includes(v.type))
 		.map(arr => arr[0])
 
 const shuffle = a => {

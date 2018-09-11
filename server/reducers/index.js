@@ -1,12 +1,12 @@
 const { compose } = require('ramda')
 
-let functionIndex = 0
-const log = value => {
-	console.log('--------------  ' + (functionIndex % 9) + '  --------------')
-	console.log(value)
-	functionIndex = (functionIndex + 1) % 9
-	return value
-}
+// let functionIndex = 0
+// const log = value => {
+// 	console.log('--------------  ' + (functionIndex % 9) + '  --------------')
+// 	console.log(value)
+// 	functionIndex = (functionIndex + 1) % 9
+// 	return value
+// }
 
 const cp_food = require('./collision_process/food')
 const cp_mine = require('./collision_process/mine')

@@ -1,0 +1,8 @@
+node_modules
+coverage
+dist
+ignore_bin
+.vscode
+__tests__
+server/state_outline.js
+test_constants.js

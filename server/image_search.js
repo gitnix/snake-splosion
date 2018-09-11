@@ -1,7 +1,10 @@
-const { clientSearchEngineKey, apiKey } = require('./keys')
-const GoogleImages = require('google-images')
-const client = new GoogleImages(clientSearchEngineKey, apiKey)
-const { getRandom } = require('./utils')
+/* eslint no-unreachable: 0 */
+/* eslint no-unused-vars: 0 */
+
+// const { clientSearchEngineKey, apiKey } = require('./keys')
+// const GoogleImages = require('google-images')
+// const client = new GoogleImages(clientSearchEngineKey, apiKey)
+// const { getRandom } = require('./utils')
 
 const getImage = async snakeName => {
 	try {
@@ -13,7 +16,6 @@ const getImage = async snakeName => {
 		// hard code for development
 		return 'images/venomous_brown_tree_snake.jpg'
 	} catch (e) {
-		console.log(e)
 		throw e
 	}
 }

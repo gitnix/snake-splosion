@@ -44,7 +44,7 @@ export const addScatterEmitter = (proton, positionString, type) => {
 	const [x, y] = strToCoords(positionString)
 	const emitter = new Proton.Emitter()
 
-	let foodSettings = {
+	const foodSettings = {
 		scale: 0.3,
 		quantity1: 3,
 		quantity2: 5,
@@ -64,8 +64,9 @@ export const addScatterEmitter = (proton, positionString, type) => {
 		rate1 = 0.2,
 		rate2 = 0.4,
 		life1 = 0.2,
-		life2 = 0.5,
-		speed1 = 0.5,
+		life2 = 0.5
+
+	const speed1 = 0.5,
 		speed2 = 1
 
 	switch (type) {

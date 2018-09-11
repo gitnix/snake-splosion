@@ -1,3 +1,6 @@
+/* eslint no-console: 0 */
+/* eslint no-case-declarations: 0 */
+
 ////////////////////////
 // server setup
 const express = require('express')
@@ -40,20 +43,20 @@ const {
 } = require('./chat_options')
 ////////////////////////
 // server specific state
-let playerArray = []
-let humanSet = new Set()
-let spectatorSet = new Set()
+const playerArray = []
+const humanSet = new Set()
+const spectatorSet = new Set()
 let spectating = false
 
 let backgroundImage
 let gameRunning = false
-let connectionQueue = {
+const connectionQueue = {
 	connections: [],
 	disconnections: [],
 }
-let playerImageMap = new Map()
+const playerImageMap = new Map()
 
-let addAi = id => {
+const addAi = id => {
 	playerArray.push({ id, ai: true })
 	connectionQueue.connections.push(id)
 	directionQueue[id] = ['RIGHT']
@@ -62,7 +65,7 @@ let addAi = id => {
 
 ////////////////////////
 // WebSocket
-wss.on('connection', (ws, req) => {
+wss.on('connection', ws => {
 	let startingKey
 	let startingDirection
 	// disconnections or unsuccessful connections throw errors
@@ -88,9 +91,8 @@ wss.on('connection', (ws, req) => {
 		playerArray.push({ id: ws.id, ai: false })
 		humanSet.add(ws.id)
 
-		substituted = false
 		if (playerArray.length > MAX_PLAYERS) {
-			let indexToRemove = playerArray.findIndex(player => player.ai)
+			const indexToRemove = playerArray.findIndex(player => player.ai)
 			connectionQueue.disconnections.push(playerArray[indexToRemove].id)
 			playerArray.splice(indexToRemove, 1)
 			console.log('after substitution player array is now: ', playerArray)
@@ -141,7 +143,7 @@ wss.on('connection', (ws, req) => {
 				break
 			case 'CHAT_MESSAGE':
 				let dialouge
-				let parsedMsg = msg.contents.split(' ')
+				const parsedMsg = msg.contents.split(' ')
 
 				switch (msg.contents) {
 					case 'help':
@@ -157,7 +159,7 @@ wss.on('connection', (ws, req) => {
 
 				if (parsedMsg.length === 3) {
 					if (parsedMsg[0] === 'set') {
-						let parsedValue = parseInt(parsedMsg[2])
+						const parsedValue = parseInt(parsedMsg[2])
 						dialouge = chatSetOption(parsedMsg[1], parsedValue)
 					}
 				}
@@ -186,7 +188,7 @@ wss.on('connection', (ws, req) => {
 		}
 		if (playerArray.length <= MAX_PLAYERS) {
 			connectionQueue.disconnections.push(ws.id)
-			let indexToRemove = playerArray.findIndex(player => player.id === ws.id)
+			const indexToRemove = playerArray.findIndex(player => player.id === ws.id)
 			playerArray.splice(indexToRemove, 1)
 			humanSet.delete(ws.id)
 			addAi('ai_' + uuid.v4().slice(0, 8))

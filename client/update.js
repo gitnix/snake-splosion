@@ -14,15 +14,15 @@ import {
 } from './assets/audio'
 
 let mouseFrame = 0
-let mouseMaxFrame = 46
+const mouseMaxFrame = 46
 let mouseDrawDir = 'RIGHT'
 
 // draw nothing if blinkTurn under this number
-let blinkTimer = 150
+const blinkTimer = 150
 // draw color square if > blinkTimer && < blinkTimer2
-let blinkTimer2 = 250
+const blinkTimer2 = 250
 // incremented each frame
-let blinkTurn = {
+const blinkTurn = {
 	GREEN: 1,
 	PINK: 1,
 	BLUE: 1,
@@ -30,9 +30,9 @@ let blinkTurn = {
 }
 // for testing purposes
 // so animation can be frozen at certain point
-let shouldAnimate = true
+const shouldAnimate = true
 // used to divide elapsed time
-let denominator = 66
+const denominator = 66
 // used to store interpolated coords
 let drawX, drawY
 // used to store raw coords of head
@@ -59,7 +59,7 @@ const playAudio = (players, id) => {
 const updateGame = timestamp => (
 	state,
 	ctx,
-	{ width, height, mineTypeToDraw, info, spectating, gameStop },
+	{ width, height, mineTypeToDraw, spectating, gameStop },
 ) => {
 	// shouldUpdate is true when server sends new state updated
 	if (clientState.shouldUpdate) {
@@ -67,13 +67,13 @@ const updateGame = timestamp => (
 		clientState.shouldUpdate = false
 	}
 	// total elapsed time since last update message from server
-	let elapsed = timestamp - clientState.start
+	const elapsed = timestamp - clientState.start
 
 	ctx.clearRect(0, 0, width, height)
 
 	Object.keys(state.food).forEach(key => {
 		const [x, y] = strToCoords(key)
-		let foodType = state.food[key].type
+		const foodType = state.food[key].type
 		switch (foodType) {
 			case 'APPLE':
 				ctx.drawImage(FOOD['APPLE'], scale(x), scale(y))
@@ -101,7 +101,7 @@ const updateGame = timestamp => (
 
 		if (mouse.state === 'spawned') squeakAudio.play()
 
-		let offset = 0.8
+		const offset = 0.8
 		mouseFrame += 1
 		if (mouseFrame > mouseMaxFrame) mouseFrame = 0
 
@@ -184,16 +184,17 @@ const updateGame = timestamp => (
 				return
 			}
 
-			let drawColor = player.state === 'dead' ? 'dead' : player.color
-			let noInterpolate = ['dead', 'frozen'].includes(player.state)
+			const drawColor = player.state === 'dead' ? 'dead' : player.color
+			const noInterpolate = ['dead', 'frozen'].includes(player.state)
 			switch (index) {
 				/////////////////////////
 				// TAIL && HEAD
 				case player.body.length - 1:
 					// TAIL
 					if (player.bodyDirections.length > 2) {
-						let tailDirection = player.bodyDirections[player.body.length - 1]
-						let preTailDirection = player.bodyDirections[player.body.length - 2]
+						const tailDirection = player.bodyDirections[player.body.length - 1]
+						const preTailDirection =
+							player.bodyDirections[player.body.length - 2]
 
 						if (tailDirection !== preTailDirection) {
 							ctx.drawImage(
@@ -218,8 +219,8 @@ const updateGame = timestamp => (
 						} else if (clientState.countDown[player.id]) {
 							ctx.drawImage(TAIL[drawColor][tailDirection], scale(x), scale(y))
 						} else {
-							let offset = 0.8
-							let drawLimit = 60
+							const offset = 0.8
+							const drawLimit = 60
 
 							switch (preTailDirection) {
 								case 'RIGHT':
@@ -309,13 +310,13 @@ const updateGame = timestamp => (
 					if (player.bodyDirections.length > 1) {
 						// will be drawn back this amount and
 						// interpolate up this amount to server location x/y
-						let offset = 0.8
+						const offset = 0.8
 						/* will be drawn back this amount
 						 on death so head overlaps
 						 halfway on body collisions and
 						 head on collisions meet in the middle
 						*/
-						let deathOffset = 0.5
+						const deathOffset = 0.5
 
 						switch (player.direction) {
 							case 'RIGHT':

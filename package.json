@@ -31,6 +31,13 @@
 		"babel-jest": "^22.4.3",
 		"babel-loader": "^8.0.0-beta.0",
 		"css-loader": "^0.28.11",
+		"eslint": "^5.5.0",
+		"eslint-config-standard": "^12.0.0",
+		"eslint-plugin-import": "^2.14.0",
+		"eslint-plugin-node": "^7.0.1",
+		"eslint-plugin-promise": "^4.0.1",
+		"eslint-plugin-react": "^7.11.1",
+		"eslint-plugin-standard": "^4.0.0",
 		"html-webpack-plugin": "^3.0.7",
 		"jest": "^22.4.3",
 		"nodemon": "^1.12.5",
@@ -41,7 +48,13 @@
 	},
 	"jest": {
 		"verbose": false,
-		"collectCoverageFrom": ["**/*.js", "!**/node_modules/**"],
-		"moduleDirectories": ["<rootDir>", "node_modules"]
+		"collectCoverageFrom": [
+			"**/*.js",
+			"!**/node_modules/**"
+		],
+		"moduleDirectories": [
+			"<rootDir>",
+			"node_modules"
+		]
 	}
 }

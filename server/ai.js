@@ -45,7 +45,7 @@ const tryDirMove = (arr, directionQueue, id, aiX, aiY, successChance) => {
 	// shuffle the order to try so
 	// dir moves don't always result
 	// in same direction
-	let order = [1, 2, 3, 4]
+	const order = [1, 2, 3, 4]
 	shuffle(order)
 	for (let i = 0; i < order.length; i++) {
 		if (directionMap[order[i]]()) break
@@ -76,7 +76,7 @@ const processAiMove = ({
 			if (y >= GRID_ROWS / 2) targetY = GRID_ROWS
 			else targetY = 0
 		} else {
-			let targetDistances = targets.map(key => {
+			const targetDistances = targets.map(key => {
 				const [tX, tY] = strToCoords(key)
 				return {
 					key,
@@ -89,8 +89,8 @@ const processAiMove = ({
 
 		const lastDir = directionQueue[ai.id][0]
 		const random = Math.random()
-		let xDistance = Math.abs(targetX - x)
-		let yDistance = Math.abs(targetY - y)
+		const xDistance = Math.abs(targetX - x)
+		const yDistance = Math.abs(targetY - y)
 		const isClose = xDistance <= closeInDistance && yDistance <= closeInDistance
 
 		switch (lastDir) {

@@ -28,7 +28,7 @@ players = [
 	},
 ]
 
-mice: [
+mice = [
 	{
 		id: 'mouse_1',
 		body: ['10_10'],

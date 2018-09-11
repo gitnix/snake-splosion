@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default () => {
+const InfoPanel = () => {
 	return (
 		<div id="info-panel">
 			<h1 id="info-panel-header">HOW TO PLAY</h1>
@@ -17,3 +17,4 @@ export default () => {
 		</div>
 	)
 }
+export default InfoPanel

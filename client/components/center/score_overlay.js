@@ -54,6 +54,7 @@ class ScoreOverlay extends Component {
 					})
 					break
 				case 'eating':
+					// eslint-disable-next-line
 					let valueString = ''
 					switch (this.props.eatItem) {
 						case 'APPLE':
@@ -72,12 +73,12 @@ class ScoreOverlay extends Component {
 		}
 	}
 
-	onAnimationEnd(e) {
+	onAnimationEnd() {
 		this.setState({ animating: false })
 	}
 
 	render() {
-		let classString = `score-overlay ${
+		const classString = `score-overlay ${
 			this.state.animating ? 'score-overlay-animating' : ''
 		}`
 		return (

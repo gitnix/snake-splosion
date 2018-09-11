@@ -1,9 +1,7 @@
-const { getAllPlayerPositions, newBodyDirections } = require('../../utils')
+const { getAllPlayerPositions } = require('../../utils')
 
 const processPlayerCollisions = state => {
 	const { players } = state
-
-	const collisionArray = [] //mutable
 
 	const markedPlayers = players.map(player => {
 		const self = players.filter(p => p.id === player.id)
@@ -19,11 +17,6 @@ const processPlayerCollisions = state => {
 			player.state === 'teleportReady'
 				? false
 				: selfPositions.concat(otherPositions).includes(head)
-
-		if (isCollided) {
-			if (collisionArray.includes(player.body[0])) shouldSlice = false
-			else collisionArray.push(player.body[0])
-		}
 
 		return {
 			...player,

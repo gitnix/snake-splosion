@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PlayerCard from './player_card'
 
 import { COLOR_MAP } from '../../constants'

@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 const gameOptions = require('./constants')
 const initialState = require('./initial_game_state')
 
