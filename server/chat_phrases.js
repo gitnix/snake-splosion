@@ -2,7 +2,7 @@ const genericCollision = [
 	'curses',
 	'this is whack!',
 	'argh',
-	'who programmed me?',
+	'who programmed me!?',
 	'dang!',
 	'ok...',
 	'sigh',
@@ -37,7 +37,7 @@ const otherCollision = [
 const mineCollision = [
 	...genericCollision,
 	'should have seen that coming',
-	'who put that there',
+	'who put that there?',
 	'i should haved mined my own business',
 	'stupid mine',
 ]
@@ -49,6 +49,7 @@ const closeToWin = [
 	'now not to whiff',
 	'i can see the light at the end',
 	'not to brag, but my score seems to be pretty high',
+	'just keep eating',
 ]
 
 const closeToWinDead = [
@@ -56,6 +57,7 @@ const closeToWinDead = [
 	'why!!!!!',
 	'you should have just let me win',
 	'you never let me win',
+	'Noooooo!!!!!',
 ]
 
 const hasWon = [
@@ -70,13 +72,29 @@ const hasWon = [
 	"y'all got wreckt!",
 ]
 
-const genericFood = ['yummy', 'belch', 'nom nom nom']
+const genericFood = ['yummy', 'belch', 'nom nom nom', 'satisfying', 'tasty']
 
-const apple = [...genericFood, 'red and delicious', 'apple of my eye']
+const apple = [
+	...genericFood,
+	'red and delicious',
+	'apple of my eye',
+	'anything else besides apples?',
+]
 
-const mouse = [...genericFood, 'protein', 'so gooood!!']
+const mouse = [
+	...genericFood,
+	'mmmm protein',
+	'so gooood!!',
+	'got it!',
+	'caught you!',
+]
 
-const cheese = ['yuck', "i'm lactose intolerant", 'i feel bad']
+const cheese = [
+	'yuck',
+	"i'm lactose intolerant",
+	'i feel bad',
+	'should not have eaten that',
+]
 
 module.exports = {
 	apple,

@@ -6,11 +6,11 @@ import { COLOR_MAP } from '../../constants'
 const Bottom = props => {
 	return (
 		<div id="players-container">
-			{props.players.map(p => (
+			{props.players.map((p, idx) => (
 				<PlayerCard
 					color={COLOR_MAP[p.color]}
 					imgSrc={p.img}
-					key={p.name}
+					key={idx}
 					name={p.name}
 					score={p.score}
 					state={p.state}
