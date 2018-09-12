@@ -293,6 +293,7 @@ canvas {
 .player-name {
 	display: flex;
 	grid-area: name;
+	flex-direction: column;
 	align-content: center;
 	align-items: center;
 	justify-content: center;
@@ -334,6 +335,11 @@ canvas {
 .player-color {
 	grid-area: color;
 	background: black;
+}
+
+.player-wins {
+	color: white;
+	font-size: 1.1rem;
 }
 
 /* ***************************** */

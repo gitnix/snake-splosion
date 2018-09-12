@@ -47,6 +47,7 @@ const addId = (randomKey, imageMap) => (stored, currentId) => {
 					name: snakeName,
 					deathTicks: DEATH_TICKS,
 					score: 0,
+					wins: 0,
 					goalScore: gameOptions.GOAL_SCORE,
 				},
 				stored,

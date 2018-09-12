@@ -8,7 +8,12 @@ const processWinner = state => {
 		if (gameInfo.ticksUntilReset <= 0) {
 			return {
 				...initialState,
-				players: players.map(p => ({ ...p, score: 0, state: 'reset' })),
+				players: players.map(p => ({
+					...p,
+					score: 0,
+					state: 'reset',
+					wins: gameInfo.winner.id === p.id ? p.wins + 1 : p.wins,
+				})),
 				gameInfo: {
 					...gameInfo,
 					winner: null,

@@ -15,6 +15,7 @@ const Bottom = props => {
 					score={p.score}
 					state={p.state}
 					ai={p.ai}
+					wins={p.wins}
 				/>
 			))}
 		</div>
