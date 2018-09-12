@@ -25,10 +25,9 @@ body {
 	max-height: 96vh;
 }
 
-.unsupported-browser {
-	background: whitesmoke;
+#unsupported-browser {
 	font-size: 3em;
-	grid-area: banner;
+	color: #9e4646ed;
 	text-align: center;
 }
 
