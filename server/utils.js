@@ -11,9 +11,11 @@ const gameOptions = require('./constants')
 const WebSocket = require('ws')
 const { chain } = require('ramda')
 
-const broadcast = (clients, obj) => {
+const broadcast = (clients, obj, excludeId = null) => {
 	clients.forEach(client => {
-		if (client.readyState === WebSocket.OPEN) client.send(JSON.stringify(obj))
+		if (client.id !== excludeId) {
+			if (client.readyState === WebSocket.OPEN) client.send(JSON.stringify(obj))
+		}
 	})
 }
 

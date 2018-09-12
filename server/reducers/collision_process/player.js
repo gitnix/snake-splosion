@@ -11,17 +11,30 @@ const processPlayerCollisions = state => {
 		const otherPositions = getAllPlayerPositions(others)
 
 		const head = player.body[0]
-		const isCollided =
-			player.state === 'readyToMove' ||
-			player.state === 'frozen' ||
-			player.state === 'teleportReady'
-				? false
-				: selfPositions.concat(otherPositions).includes(head)
+		const ignoreCollision = ['readyToMove', 'frozen', 'teleportReady'].includes(
+			player.state,
+		)
+
+		const isCollidedSelf = ignoreCollision
+			? false
+			: selfPositions.includes(head)
+
+		const isCollidedOther = ignoreCollision
+			? false
+			: otherPositions.includes(head)
+
+		const isCollided = isCollidedSelf || isCollidedOther
+
+		const deathCause = () => {
+			if (isCollidedSelf) return 'self'
+			if (isCollidedOther) return 'other'
+			return player.deathCause
+		}
 
 		return {
 			...player,
 			state: isCollided ? 'dead' : player.state,
-			deathCause: isCollided ? 'body' : player.deathCause,
+			deathCause: deathCause(),
 		}
 	})
 

@@ -1,3 +1,4 @@
 const directionQueue = {}
+const websocket = { clients: null }
 
-module.exports = { directionQueue }
+module.exports = { directionQueue, websocket }

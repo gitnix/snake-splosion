@@ -43,6 +43,7 @@ const addId = (randomKey, imageMap) => (stored, currentId) => {
 					ai: currentId.split('_')[0] === 'ai' ? true : false,
 					body: newBody(randomKey),
 					color,
+					chat: {},
 					state: 'connecting',
 					name: snakeName,
 					deathTicks: DEATH_TICKS,

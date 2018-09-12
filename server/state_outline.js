@@ -25,6 +25,11 @@ players = [
 		img: 'imgurl',
 		// array is same size as body
 		bodyDirections: ['UP', 'RIGHT', 'RIGHT'],
+		deathCause: 'self',
+		chat: {
+			closeToWin: false,
+			hasWon: false,
+		},
 	},
 ]
 

@@ -322,7 +322,10 @@ const updateGame = timestamp => (
 							case 'RIGHT':
 								drawX =
 									head_x - offset + min(offset, divide(elapsed, denominator))
-								if (player.deathCause === 'body') {
+								if (
+									player.deathCause === 'self' ||
+									player.deathCause === 'other'
+								) {
 									ctx.drawImage(
 										HEAD[drawColor][player.direction],
 										scale(head_x - deathOffset),
@@ -340,7 +343,10 @@ const updateGame = timestamp => (
 							case 'LEFT':
 								drawX =
 									head_x + offset - min(offset, divide(elapsed, denominator))
-								if (player.deathCause === 'body') {
+								if (
+									player.deathCause === 'self' ||
+									player.deathCause === 'other'
+								) {
 									ctx.drawImage(
 										HEAD[drawColor][player.direction],
 										scale(head_x + deathOffset),
@@ -358,7 +364,10 @@ const updateGame = timestamp => (
 							case 'UP':
 								drawY =
 									head_y + offset - min(offset, divide(elapsed, denominator))
-								if (player.deathCause === 'body') {
+								if (
+									player.deathCause === 'self' ||
+									player.deathCause === 'other'
+								) {
 									ctx.drawImage(
 										HEAD[drawColor][player.direction],
 										scale(head_x),
@@ -376,7 +385,10 @@ const updateGame = timestamp => (
 							case 'DOWN':
 								drawY =
 									head_y - offset + min(offset, divide(elapsed, denominator))
-								if (player.deathCause === 'body') {
+								if (
+									player.deathCause === 'self' ||
+									player.deathCause === 'other'
+								) {
 									ctx.drawImage(
 										HEAD[drawColor][player.direction],
 										scale(head_x),

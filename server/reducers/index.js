@@ -21,11 +21,13 @@ const pu_trigger = require('./position_update/triggers')
 const pu_mice = require('./position_update/mice')
 
 const process_winner = require('./winner')
+const chat = require('./chat')
 const move = require('./move')
 const connectionUpdate = require('./connection_update')
 
 const reduceState = compose(
 	process_winner,
+	chat,
 	pu_player,
 	cp_player,
 	pu_mice,

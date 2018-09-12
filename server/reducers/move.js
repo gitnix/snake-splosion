@@ -112,6 +112,7 @@ const move = (
 				...player,
 				state: 'teleportReady',
 				deathCause: null,
+				chat: {},
 				deathTicks: DEATH_TICKS,
 			}
 		}
@@ -124,6 +125,7 @@ const move = (
 					...player,
 					state: 'teleportReady',
 					deathCause: null,
+					chat: {},
 					deathTicks: DEATH_TICKS,
 				}
 			}

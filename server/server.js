@@ -18,7 +18,7 @@ const wss = new WebSocket.Server({ server })
 
 ////////////////////////
 // app dependencies
-const { directionQueue } = require('./server_state')
+const { directionQueue, websocket } = require('./server_state')
 const { connectionUpdate, move, reduceState } = require('./reducers')
 const {
 	broadcast,
@@ -68,6 +68,7 @@ const addAi = id => {
 wss.on('connection', ws => {
 	let startingKey
 	let startingDirection
+	websocket.clients = wss.clients
 	// disconnections or unsuccessful connections throw errors
 	// will fail without err callback
 	ws.on('error', err => {
@@ -108,6 +109,19 @@ wss.on('connection', ws => {
 			addAi('ai_' + uuid.v4().slice(0, 8))
 		}
 		directionQueue['mouse_1'] = ['RIGHT']
+	} else {
+		broadcast(
+			wss.clients,
+			{
+				type: 'CHAT_MESSAGE',
+				message: {
+					contents: 'A new player has joined the match.',
+					sender: "Snake 'Splosion",
+					color: 'ORANGE',
+				},
+			},
+			ws.id,
+		)
 	}
 
 	if (!spectating && humanSet.size === 1) {
@@ -191,6 +205,14 @@ wss.on('connection', ws => {
 			const indexToRemove = playerArray.findIndex(player => player.id === ws.id)
 			playerArray.splice(indexToRemove, 1)
 			humanSet.delete(ws.id)
+			broadcast(wss.clients, {
+				type: 'CHAT_MESSAGE',
+				message: {
+					contents: 'A player has left the match.',
+					sender: "Snake 'Splosion",
+					color: 'ORANGE',
+				},
+			})
 			addAi('ai_' + uuid.v4().slice(0, 8))
 		}
 		if (humanSet.size === 0 && reason !== 'noMorePlayers') {
@@ -231,6 +253,9 @@ function gameLoop({
 
 	////////////////////////
 	// state reduction
+	const updateLastState = players =>
+		players.map(p => ({ ...p, lastState: p.state }))
+
 	const updatedPlayers = connectionUpdate(
 		{ players, food, mines, triggers },
 		connectionQueue,
@@ -238,7 +263,7 @@ function gameLoop({
 	)
 
 	const { players: playersAfterMove, mice: miceAfterMove } = move(
-		updatedPlayers,
+		updateLastState(updatedPlayers),
 		directionQueue,
 		[GRID_COLUMNS, GRID_ROWS],
 		playerImageMap,

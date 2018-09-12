@@ -21,6 +21,7 @@ const processMineCollisions = state => {
 			...player,
 			state: isCollided ? 'dead' : player.state,
 			score: isCollided ? 0 : player.score,
+			deathCause: 'mine',
 		}
 	})
 
