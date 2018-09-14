@@ -8,7 +8,7 @@ const chat = state => {
 
 		if (p.state === 'eating') {
 			// chance that nothing will be said
-			if (Math.random() <= 0.8) {
+			if (Math.random() <= 0.9) {
 				return p
 			}
 			switch (p.eatItem) {

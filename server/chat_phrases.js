@@ -40,6 +40,7 @@ const mineCollision = [
 	'who put that there?',
 	'i should haved mined my own business',
 	'stupid mine',
+	'someone set me up the bomb!',
 ]
 
 const closeToWin = [
