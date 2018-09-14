@@ -46,6 +46,7 @@ class Center extends Component {
 					<div id="score-overlay-container">
 						<ScoreOverlay
 							playerState={currentPlayer.state}
+							lastPlayerState={currentPlayer.lastState}
 							eatItem={currentPlayer.eatItem}
 							color={currentPlayer.color}
 						/>

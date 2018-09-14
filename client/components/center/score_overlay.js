@@ -12,88 +12,90 @@ const pStates = ['eating', 'detonating', 'dead']
 class ScoreOverlay extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			animating: false,
-			value: null,
-		}
-		this.onAnimationEnd = this.onAnimationEnd.bind(this)
+		// this forces react to rebuild the element
+		// which is needed for the css animation to restart
+		this.keyIncrement = 0
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		if (this.state.animating && nextState.animating === false) return true
-
+	shouldComponentUpdate(nextProps) {
 		if (
-			pStates.includes(nextProps.playerState) ||
-			pStates.includes(this.props.playerState)
+			nextProps.playerState !== nextProps.lastPlayerState &&
+			pStates.includes(nextProps.playerState)
 		) {
 			return true
 		}
 		return false
 	}
 
-	componentDidUpdate(prevProps) {
-		if (
-			this.props.playerState !== prevProps.playerState &&
-			pStates.includes(this.props.playerState)
-		) {
-			switch (this.props.playerState) {
-				case 'dead':
-					this.setState({
-						animating: true,
-						value:
-							DEAD_PHRASES[Math.floor(Math.random() * DEAD_PHRASES.length)],
-					})
-					break
-				case 'detonating':
-					this.setState({
-						animating: true,
-						value:
+	render() {
+		if (!pStates.includes(this.props.playerState)) {
+			return null
+		}
+
+		switch (this.props.playerState) {
+			case 'dead':
+				return (
+					<div
+						key={this.keyIncrement++}
+						className="score-overlay"
+						style={{
+							color: COLOR_MAP[this.props.color],
+						}}>
+						{DEAD_PHRASES[Math.floor(Math.random() * DEAD_PHRASES.length)]}
+					</div>
+				)
+			case 'detonating':
+				return (
+					<div
+						key={this.keyIncrement++}
+						className="score-overlay"
+						style={{
+							color: COLOR_MAP[this.props.color],
+						}}>
+						{
 							DETONATE_PHRASES[
 								Math.floor(Math.random() * DETONATE_PHRASES.length)
-							],
-					})
-					break
-				case 'eating':
-					// eslint-disable-next-line
-					let valueString = ''
-					switch (this.props.eatItem) {
-						case 'APPLE':
-							valueString = `+${APPLE_SCORE}`
-							break
-						case 'CHEESE':
-							valueString = `${CHEESE_SCORE}`
-							break
-						case 'MOUSE':
-							valueString = `+${MOUSE_SCORE}`
-							break
-					}
-					this.setState({ animating: true, value: valueString })
-					break
-			}
+							]
+						}
+					</div>
+				)
+			case 'eating':
+				switch (this.props.eatItem) {
+					case 'APPLE':
+						return (
+							<div
+								key={this.keyIncrement++}
+								className="score-overlay"
+								style={{
+									color: COLOR_MAP[this.props.color],
+								}}>
+								{`+${APPLE_SCORE}`}
+							</div>
+						)
+					case 'CHEESE':
+						return (
+							<div
+								key={this.keyIncrement++}
+								className="score-overlay"
+								style={{
+									color: COLOR_MAP['RED'],
+								}}>
+								{`${CHEESE_SCORE}`}
+							</div>
+						)
+					case 'MOUSE':
+						return (
+							<div
+								key={this.keyIncrement++}
+								className="score-overlay"
+								style={{
+									color: COLOR_MAP[this.props.color],
+								}}>
+								{`+${MOUSE_SCORE}`}
+							</div>
+						)
+				}
 		}
-	}
-
-	onAnimationEnd() {
-		this.setState({ animating: false })
-	}
-
-	render() {
-		const classString = `score-overlay ${
-			this.state.animating ? 'score-overlay-animating' : ''
-		}`
-		return (
-			<div
-				className={classString}
-				style={{
-					color:
-						this.state.value === `${CHEESE_SCORE}`
-							? 'red'
-							: COLOR_MAP[this.props.color],
-				}}
-				onAnimationEnd={this.onAnimationEnd}>
-				{this.state.value}
-			</div>
-		)
 	}
 }
 
