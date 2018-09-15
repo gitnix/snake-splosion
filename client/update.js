@@ -8,6 +8,7 @@ import { FOOD, MINE, MOUSE, TRIGGER, BODY, HEAD, TAIL } from './assets/images'
 import {
 	collisionAudio,
 	eatAudio,
+	explosionAudio,
 	gameOverAudio,
 	squeakAudio,
 	teleportAudio,
@@ -170,6 +171,13 @@ const updateGame = timestamp => (
 
 			// play eat audio for all players
 			if (player.state === 'eating') eatAudio.play()
+			// play explosion audio for all players
+			if (
+				player.state === 'dead' &&
+				player.lastState !== 'dead' &&
+				player.deathCause === 'mine'
+			)
+				explosionAudio.play()
 
 			if (player.state === 'readyToMove') {
 				blinkTurn[player.color]++
