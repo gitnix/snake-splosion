@@ -4,6 +4,8 @@
 
 ### Drop in/out Multiplayer Snake Game with AI
 
+Play it on https://www.zingzoop.com/
+
 1.  Eat apples to grow your snake, raise your score, and spawn mines!
 2.  Avoid the mines!
 3.  Slither over the detonators to clear mines!

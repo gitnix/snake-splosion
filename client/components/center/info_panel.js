@@ -18,12 +18,14 @@ const InfoPanel = () => {
 			</div>
 			<div id="about-container">
 				<div id="about-content">
-					<div id="about-created-by">Created By:</div>
-					<div>Gitnix</div>
-					<div id="about-github-img-container">
-						<img id="about-github-img" src="images/github_icon_64px.png" />
-					</div>
-					<div>View on Github</div>
+					<a href="https://github.com/gitnix/snake-splosion">
+						<div id="about-created-by">Created By:</div>
+						<div>Gitnix</div>
+						<div id="about-github-img-container">
+							<img id="about-github-img" src="images/github_icon_64px.png" />
+						</div>
+						<div>View on Github</div>
+					</a>
 				</div>
 			</div>
 		</div>

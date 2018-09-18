@@ -11,6 +11,11 @@ body {
 	margin: 0.5em;
 }
 
+a {
+	text-decoration: inherit;
+	color: inherit;
+}
+
 #container {
 	display: grid;
 	grid-row-gap: 0.2em;
