@@ -6,7 +6,7 @@
 	"scripts": {
 		"test": "jest",
 		"start": "nodemon server/server.js",
-		"webpack": "./node_modules/.bin/webpack"
+		"build": "./node_modules/.bin/webpack"
 	},
 	"author": "",
 	"license": "MIT",
@@ -44,7 +44,8 @@
 		"postcss-loader": "^2.0.9",
 		"style-loader": "^0.20.3",
 		"url-loader": "^1.0.1",
-		"webpack": "^3.10.0"
+		"webpack": "^4.19.0",
+		"webpack-cli": "^3.1.0"
 	},
 	"jest": {
 		"verbose": false,

@@ -11,7 +11,7 @@
 		{
 			"label": "client",
 			"type": "shell",
-			"command": "yarn webpack --watch"
+			"command": "yarn build --mode=development --watch"
 		},
 		{
 			"label": "Start Snake",
