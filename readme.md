@@ -1,6 +1,8 @@
 # Snake Splosion
 
-Drop in/out Multiplayer Snake Game with AI
+![Snake Splosion Gameplay](snake_splosion.gif)
+
+### Drop in/out Multiplayer Snake Game with AI
 
 1.  Eat apples to grow your snake, raise your score, and spawn mines!
 2.  Avoid the mines!
