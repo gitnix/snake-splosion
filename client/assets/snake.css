@@ -203,12 +203,18 @@ canvas {
 /* INFO */
 /* ***************************** */
 
-#info-panel {
+#info-panel-container {
 	grid-area: info;
-	margin: auto;
 	white-space: pre-line;
 	color: white;
 	padding-left: 1em;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+#info-panel-content {
+	margin: auto;
 }
 
 #info-panel-header {
@@ -219,6 +225,33 @@ canvas {
 
 #info-panel-instructions {
 	line-height: 2.6;
+}
+
+#about-container {
+	text-align: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	padding-right: 8%;
+	font-size: 0.9em;
+}
+
+#about-content {
+	transform: translateY(-1em);
+}
+
+#about-created-by {
+	color: #e2e24c;
+}
+
+#about-github-img-container {
+	display: flex;
+	flex-direction: column;
+}
+
+#about-github-img {
+	width: 35%;
+	align-self: center;
 }
 
 /* ***************************** */
@@ -458,8 +491,8 @@ canvas {
 		font-size: 5em;
 	}
 
-	#info-panel {
-		font-size: 1.5em;
+	#info-panel-container {
+		font-size: 1.2em;
 	}
 }
 
@@ -499,7 +532,7 @@ canvas {
 		font-size: 0.8em;
 	}
 
-	#info-panel {
+	#info-panel-container {
 		font-size: 2em;
 	}
 
@@ -564,8 +597,12 @@ canvas {
 		font-size: 2em;
 	}
 
-	#info-panel {
+	#info-panel-container {
 		font-size: 2.6em;
+	}
+
+	#about-content {
+		transform: translateY(0);
 	}
 
 	.player-card {
