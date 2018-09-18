@@ -9,7 +9,7 @@ module.exports = {
 	GOAL_SCORE: 100,
 	GRID_COLUMNS: 50,
 	GRID_ROWS: 30,
-	LOOP_REPEAT_INTERVAL: 80,
+	LOOP_REPEAT_INTERVAL: 90,
 	// total mines on field can actually exceed this
 	// depending on mine spawn settings
 	MAX_MINES: 25,
