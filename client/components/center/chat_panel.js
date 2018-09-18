@@ -18,7 +18,10 @@ class ChatPanel extends Component {
 		// look into resize event listener
 		document.addEventListener('keydown', e => {
 			if (e.key === 'c') {
-				this.inputDOM.focus()
+				if (document.activeElement !== this.inputDOM) {
+					event.preventDefault()
+					this.inputDOM.focus()
+				}
 			}
 		})
 	}
