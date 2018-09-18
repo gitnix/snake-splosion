@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Do+Hyeon');
+@font-face {
+	font-family: 'Do Hyeon';
+	src: url(fonts/DoHyeon-Regular.ttf) format('truetype');
+}
 
 * {
 	padding: 0;
