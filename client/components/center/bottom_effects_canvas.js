@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { chain, compose, contains, filter } from 'ramda'
 import Proton from 'proton-js'
 import { addScatterEmitter } from '../../setup_particles'
+import { HEIGHT, WIDTH } from '../../constants'
 
 class BottomEffectsCanvas extends Component {
 	constructor(props) {
@@ -13,8 +14,8 @@ class BottomEffectsCanvas extends Component {
 		this._child = (
 			<canvas
 				id="bottom-effects-canvas"
-				width="1000"
-				height="600"
+				width={WIDTH}
+				height={HEIGHT}
 				ref={node => {
 					this._ctx = node ? node.getContext('2d') : null
 					this._canvas = node

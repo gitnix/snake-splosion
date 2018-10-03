@@ -6,6 +6,7 @@ import {
 	addTeleportedEmitter,
 	addScatterEmitter,
 } from '../../setup_particles'
+import { HEIGHT, WIDTH } from '../../constants'
 
 class EffectsCanvas extends Component {
 	constructor(props) {
@@ -17,8 +18,8 @@ class EffectsCanvas extends Component {
 		this._child = (
 			<canvas
 				id="top-effects-canvas"
-				width="1000"
-				height="600"
+				width={WIDTH}
+				height={HEIGHT}
 				ref={node => {
 					this._ctx = node ? node.getContext('2d') : null
 					this._canvas = node

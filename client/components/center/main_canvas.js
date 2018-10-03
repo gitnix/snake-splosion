@@ -1,20 +1,19 @@
 import React, { Component } from 'react'
 import { updateGame } from '../../update'
+import { HEIGHT, WIDTH } from '../../constants'
 import { clientState, updateClientState } from '../../client_state'
 
 class MainCanvas extends Component {
 	constructor(props) {
 		super(props)
 		this._ctx = null
-		this._canvasRef
 		this._child = (
 			<canvas
 				id="main-canvas"
-				width="1000"
-				height="600"
+				width={WIDTH}
+				height={HEIGHT}
 				ref={node => {
 					this._ctx = node ? node.getContext('2d') : null
-					this._canvasRef = node
 				}}
 			/>
 		)
@@ -22,8 +21,8 @@ class MainCanvas extends Component {
 
 	componentDidMount() {
 		updateClientState(this.props, {
-			width: this._canvasRef.width,
-			height: this._canvasRef.height,
+			width: WIDTH,
+			height: HEIGHT,
 		})
 
 		// the updateGame function internally
@@ -46,8 +45,8 @@ class MainCanvas extends Component {
 
 	componentDidUpdate() {
 		updateClientState(this.props, {
-			width: this._canvasRef.width,
-			height: this._canvasRef.height,
+			width: WIDTH,
+			height: HEIGHT,
 		})
 	}
 

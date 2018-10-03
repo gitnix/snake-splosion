@@ -1,3 +1,5 @@
+const GRID_SCALE = 1.5
+
 module.exports = {
 	BACKGROUNDS: ['sand', 'calm_sand', 'gray_sand', 'night_sand'],
 	APPLE_SCORE: 10,
@@ -6,13 +8,13 @@ module.exports = {
 	COLORS: ['GREEN', 'BLUE', 'PINK', 'GOLD'],
 	DEATH_TICKS: 2,
 	DIRECTIONS: ['RIGHT', 'LEFT', 'UP', 'DOWN'],
-	GOAL_SCORE: 100,
-	GRID_COLUMNS: 50,
-	GRID_ROWS: 30,
-	LOOP_REPEAT_INTERVAL: 90,
+	GOAL_SCORE: 10,
+	GRID_COLUMNS: 50 * GRID_SCALE,
+	GRID_ROWS: 30 * GRID_SCALE,
+	LOOP_REPEAT_INTERVAL: 75,
 	// total mines on field can actually exceed this
 	// depending on mine spawn settings
-	MAX_MINES: 25,
+	MAX_MINES: Math.floor(25 * GRID_SCALE),
 	MAX_PLAYERS: 4,
 	// Actual distance for directly north, south, east, west
 	// will be this number plus 1

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { HEIGHT, WIDTH } from '../../constants'
 
 class BackgroundCanvas extends Component {
 	constructor(props) {
@@ -9,8 +10,8 @@ class BackgroundCanvas extends Component {
 				style={{
 					backgroundImage: `url(backgrounds/${this.props.backgroundImage}.png)`,
 				}}
-				width="1000"
-				height="600"
+				width={WIDTH}
+				height={HEIGHT}
 			/>
 		)
 	}

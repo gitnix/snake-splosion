@@ -463,31 +463,39 @@ const updateGame = timestamp => (
 		const winnerColor = state.players.find(
 			p => p.id === state.gameInfo.winner.id,
 		).color
+
+		const textLineOffset = 60
+
 		ctx.font = '52px Do Hyeon'
 		ctx.textAlign = 'center'
 		ctx.fillStyle = '#9e4646ed'
-		roundRect(ctx, 10, 185, 980, 240, 20)
+		roundRect(ctx, width * 0.01, height * 0.3, width * 0.98, height * 0.4, 20)
 		ctx.fill()
 		ctx.fillStyle = '#fdebbef5'
-		ctx.fillText(`${state.gameInfo.winner.name}`, width / 2, height / 2 - 60)
+		ctx.fillText(
+			`${state.gameInfo.winner.name}`,
+			width / 2,
+			height / 2 - textLineOffset,
+		)
 		ctx.fillText(`Wins!`, width / 2, height / 2)
 		ctx.font = '48px Do Hyeon'
-		ctx.fillText(`Restarting...`, width / 2, height / 2 + 60)
+		ctx.fillText(`Restarting...`, width / 2, height / 2 + textLineOffset)
 		ctx.fillStyle = '#F6F6F6'
 
 		const centerWidth = width / 2
 		const centerHeight = height / 2
-		const barOffset = 305
-		const drawOffset = 305
-		const tailOffset = drawOffset + 20
+		// const barOffset = width * 0.305
+		const drawOffset =
+			Math.round((state.gameInfo.maxTicksUntilReset / 3) * UNIT_SIZE) / 2
+		const tailOffset = drawOffset + UNIT_SIZE
 		const loadingHeight = 85
 
 		roundRect(
 			ctx,
-			centerWidth - barOffset,
-			centerHeight + loadingHeight + 2,
-			Math.round((state.gameInfo.maxTicksUntilReset / 3) * UNIT_SIZE),
-			16,
+			centerWidth - drawOffset,
+			centerHeight + loadingHeight + UNIT_SIZE * 0.1,
+			drawOffset,
+			UNIT_SIZE * 0.8,
 			20,
 		)
 		ctx.fill()
@@ -522,10 +530,11 @@ const updateGame = timestamp => (
 	}
 
 	if (gameStop) {
+		const textLineOffset = 60
 		ctx.font = '52px Do Hyeon'
 		ctx.textAlign = 'center'
 		ctx.fillStyle = '#9e4646ed'
-		roundRect(ctx, 10, 240, 980, 150, 20)
+		roundRect(ctx, width * 0.01, height * 0.4, width * 0.98, height * 0.25, 20)
 		ctx.fill()
 		ctx.fillStyle = '#fdebbef5'
 		ctx.fillText(
@@ -533,7 +542,11 @@ const updateGame = timestamp => (
 			width / 2,
 			height / 2,
 		)
-		ctx.fillText(`Click here to rejoin.`, width / 2, height / 2 + 60)
+		ctx.fillText(
+			`Click here to rejoin.`,
+			width / 2,
+			height / 2 + textLineOffset,
+		)
 	}
 
 	if (shouldAnimate)
