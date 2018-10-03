@@ -484,7 +484,6 @@ const updateGame = timestamp => (
 
 		const centerWidth = width / 2
 		const centerHeight = height / 2
-		// const barOffset = width * 0.305
 		const drawOffset =
 			Math.round((state.gameInfo.maxTicksUntilReset / 3) * UNIT_SIZE) / 2
 		const tailOffset = drawOffset + UNIT_SIZE
@@ -494,7 +493,7 @@ const updateGame = timestamp => (
 			ctx,
 			centerWidth - drawOffset,
 			centerHeight + loadingHeight + UNIT_SIZE * 0.1,
-			drawOffset,
+			drawOffset * 2,
 			UNIT_SIZE * 0.8,
 			20,
 		)
