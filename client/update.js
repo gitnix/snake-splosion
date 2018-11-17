@@ -193,7 +193,8 @@ const updateGame = timestamp => (
 			}
 
 			const drawColor = player.state === 'dead' ? 'dead' : player.color
-			const noInterpolate = ['dead', 'frozen'].includes(player.state)
+			const noInterpolate =
+				!clientState.interpolation || ['dead', 'frozen'].includes(player.state)
 			switch (index) {
 				/////////////////////////
 				// TAIL && HEAD

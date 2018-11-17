@@ -1,4 +1,5 @@
 import React from 'react'
+import { clientState } from '../../client_state'
 
 const InfoPanel = () => {
 	return (
@@ -17,6 +18,17 @@ const InfoPanel = () => {
 				</div>
 			</div>
 			<div id="about-container">
+				<div>
+					<input
+						type="checkbox"
+						defaultChecked={true}
+						style={{ marginRight: '0.6em' }}
+						onClick={() => {
+							clientState.interpolation = !clientState.interpolation
+						}}
+					/>
+					<div style={{ display: 'inline-block' }}>Smooth Animation</div>
+				</div>
 				<div id="about-content">
 					<a href="https://github.com/gitnix/snake-splosion">
 						<div id="about-created-by">Created By:</div>

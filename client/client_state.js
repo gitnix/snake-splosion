@@ -8,6 +8,7 @@ export const clientState = {
 	countDown: {},
 	playerMap: {},
 	gameState: {},
+	interpolation: true,
 }
 
 export const setPlayerStateObj = (id, player) => {

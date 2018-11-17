@@ -239,7 +239,8 @@ canvas {
 	text-align: center;
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-end;
+	justify-content: inherit;
+	align-items: center;
 	padding-right: 8%;
 	font-size: 0.9em;
 }
