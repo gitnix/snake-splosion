@@ -12,6 +12,9 @@ import { protocol } from './client_dev'
 
 import './assets/snake.css'
 
+// avoid scrolling when direction keys pressed
+document.addEventListener('keydown', e => e.preventDefault())
+
 class Client extends Component {
 	constructor(props) {
 		super(props)
