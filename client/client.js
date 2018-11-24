@@ -12,8 +12,14 @@ import { protocol } from './client_dev'
 
 import './assets/snake.css'
 
-// avoid scrolling when direction keys pressed
-document.addEventListener('keydown', e => e.preventDefault())
+// avoid scrolling when up/down arrow pressed
+document.addEventListener('keydown', e => {
+	switch (e.key) {
+		case 'ArrowUp':
+		case 'ArrowDown':
+			e.preventDefault()
+	}
+})
 
 class Client extends Component {
 	constructor(props) {
