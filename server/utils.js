@@ -117,14 +117,19 @@ const getValidRandomKey = (
 	return key
 }
 
-const getAllPlayerPositions = players => chain(player => player.body, players)
+const getAllPlayerPositions = players =>
+	chain(player => {
+		return player.body
+	}, players)
 
-const getAllOccupiedPositions = ({ players, food, mines, triggers }) => [
-	...getAllPlayerPositions(players),
-	...Object.keys(food),
-	...Object.keys(mines),
-	...Object.keys(triggers),
-]
+const getAllOccupiedPositions = ({ players, food, mines, triggers }) => {
+	return [
+		...getAllPlayerPositions(players),
+		...Object.keys(food),
+		...Object.keys(mines),
+		...Object.keys(triggers),
+	]
+}
 
 const getRandomBackgroundImage = () =>
 	BACKGROUNDS[Math.round(Math.random() * (BACKGROUNDS.length - 1))]

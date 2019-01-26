@@ -18,7 +18,11 @@ const removeId = (stored, currentId) => {
 	return foundIndex > -1 ? remove(foundIndex, 1, stored) : stored
 }
 
-const addId = (randomKey, imageMap) => (stored, currentId) => {
+const addId = (gridItems, imageMap) => (stored, currentId) => {
+	const randomKey = getValidRandomKey(
+		getAllOccupiedPositions({ ...gridItems, players: stored }),
+	)
+
 	const foundIndex = indexForId(stored, currentId)
 
 	let snakeName
@@ -64,12 +68,8 @@ const updatePlayersFromConnections = (
 		return players
 	}
 
-	const randomKey = getValidRandomKey(
-		getAllOccupiedPositions({ players, food, mines, triggers }),
-	)
-
 	const updatedPlayers = reduce(
-		addId(randomKey, imageMap),
+		addId({ food, mines, triggers }, imageMap),
 		reduce(removeId, players, disconnections),
 		connections,
 	)

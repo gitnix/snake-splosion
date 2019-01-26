@@ -11,9 +11,12 @@ const processPlayerCollisions = state => {
 		const otherPositions = getAllPlayerPositions(others)
 
 		const head = player.body[0]
-		const ignoreCollision = ['readyToMove', 'frozen', 'teleportReady'].includes(
-			player.state,
-		)
+		const ignoreCollision = [
+			'readyToMove',
+			'frozen',
+			'teleportReady',
+			'connected',
+		].includes(player.state)
 
 		const isCollidedSelf = ignoreCollision
 			? false
