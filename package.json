@@ -58,7 +58,7 @@
 	"lint-staged": {
 		"{client,server}/**/*.{js,css}": [
 			"prettier --write",
-			"eslint . --fix",
+			"eslint --fix",
 			"git add"
 		]
 	},

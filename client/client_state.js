@@ -9,10 +9,14 @@ export const clientState = {
 	playerMap: {},
 	gameState: {},
 	interpolation: true,
+	lastKey: 'none',
 }
 
-export const setPlayerStateObj = (id, player) => {
+export const setPlayerStateObj = (id, player, clientId) => {
 	clientState.playerMap[id] = player
+	if (id === clientId && player.state === 'dead') {
+		clientState.lastKey = 'none'
+	}
 	// keep track of previous state
 	// used when interpolating tail
 	// when starting from square

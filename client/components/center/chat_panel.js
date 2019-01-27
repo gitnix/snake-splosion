@@ -28,8 +28,11 @@ class ChatPanel extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.messages.length !== this.props.messages.length) {
-			const lastItem = document.getElementById('message-list').lastElementChild
-			lastItem.scrollIntoView()
+			if (this.props.viewSize === 'full') {
+				const lastItem = document.getElementById('message-list')
+					.lastElementChild
+				lastItem.scrollIntoView()
+			}
 		}
 	}
 
@@ -75,6 +78,9 @@ class ChatPanel extends Component {
 	}
 
 	render() {
+		if (this.props.viewSize !== 'full') {
+			return null
+		}
 		return (
 			<div id="chat-panel">
 				<MessageList messages={this.props.messages} />

@@ -1,7 +1,10 @@
 import React from 'react'
 import { clientState } from '../../client_state'
 
-const InfoPanel = () => {
+const InfoPanel = props => {
+	if (props.viewSize !== 'full') {
+		return null
+	}
 	return (
 		<div id="info-panel-container">
 			<div id="info-panel-content">

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { setPlayerStateObj } from './client_state'
+import { MOBILE_BREAKPOINT, FULL_SIZE_BREAKPOINT } from './constants'
+import { setPlayerStateObj, clientState } from './client_state'
 import { playAudio } from './update'
 import addKeyListener from './key_listener'
 
@@ -30,7 +31,14 @@ class Client extends Component {
 			},
 			messages: [],
 			gameStop: false,
+			viewSize:
+				window.innerWidth <= MOBILE_BREAKPOINT
+					? 'mobile'
+					: window.innerWidth >= FULL_SIZE_BREAKPOINT
+						? 'full'
+						: 'compact',
 		}
+		this.updateDimensions = this.updateDimensions.bind(this)
 		this.backgroundImage = 'sand'
 		this.clientId = null
 		this.mineTypeToDraw = 'DARK'
@@ -43,13 +51,14 @@ class Client extends Component {
 				case 'STATE_UPDATE':
 					this.setState({ gameState: msg.state })
 					msg.state.players.forEach(p => {
-						setPlayerStateObj(p.id, p)
+						setPlayerStateObj(p.id, p, this.clientId)
 					})
 					playAudio(msg.state.players, this.clientId)
 					break
 				case 'GAME_CONNECTION':
 					this.spectating = msg.spectating
 					this.clientId = msg.id
+					clientState.lastKey = msg.startingKey
 					this.backgroundImage = msg.backgroundImage
 					this.mineTypeToDraw =
 						this.backgroundImage === 'night_sand' ? 'LIGHT' : 'DARK'
@@ -67,12 +76,66 @@ class Client extends Component {
 		})
 	}
 
+	componentDidMount() {
+		window.addEventListener('resize', this.updateDimensions)
+		this.updateDimensions()
+	}
+
+	updateDimensions() {
+		if (window.innerWidth <= MOBILE_BREAKPOINT) {
+			this.setState({ viewSize: 'mobile' }, () => {
+				const container = document.getElementById('container')
+				if (!container.classList.contains('is-mobile')) {
+					container.classList.add('is-mobile')
+				}
+				if (container.classList.contains('is-compact')) {
+					container.classList.remove('is-compact')
+				}
+				if (container.classList.contains('is-full')) {
+					container.classList.remove('is-full')
+				}
+			})
+		} else {
+			if (
+				window.innerWidth > MOBILE_BREAKPOINT &&
+				window.innerWidth < FULL_SIZE_BREAKPOINT
+			) {
+				this.setState({ viewSize: 'compact' }, () => {
+					const container = document.getElementById('container')
+					if (!container.classList.contains('is-compact')) {
+						container.classList.add('is-compact')
+					}
+					if (container.classList.contains('is-mobile')) {
+						container.classList.remove('is-mobile')
+					}
+					if (container.classList.contains('is-full')) {
+						container.classList.remove('is-full')
+					}
+				})
+			} else {
+				this.setState({ viewSize: 'full' }, () => {
+					const container = document.getElementById('container')
+					if (!container.classList.contains('is-full')) {
+						container.classList.add('is-full')
+					}
+					if (container.classList.contains('is-mobile')) {
+						container.classList.remove('is-mobile')
+					}
+					if (container.classList.contains('is-compact')) {
+						container.classList.remove('is-compact')
+					}
+				})
+			}
+		}
+	}
+
 	render() {
 		if (this.spectating == null) return <div />
 		return (
 			<>
-				<Top />
+				<Top viewSize={this.state.viewSize} />
 				<Center
+					viewSize={this.state.viewSize}
 					backgroundImage={this.backgroundImage}
 					clientId={this.clientId}
 					gameState={this.state.gameState}
@@ -82,7 +145,12 @@ class Client extends Component {
 					spectating={this.spectating}
 					gameStop={this.state.gameStop}
 				/>
-				<Bottom players={this.state.gameState.players} />
+				<Bottom
+					viewSize={this.state.viewSize}
+					players={this.state.gameState.players}
+					socket={this.socket}
+					clientId={this.clientId}
+				/>
 			</>
 		)
 	}

@@ -29,8 +29,12 @@ class Center extends Component {
 					messages={this.props.messages}
 					clientId={this.props.clientId}
 					spectating={this.props.spectating}
+					viewSize={this.props.viewSize}
 				/>
-				<div id="canvas-wrapper" onClick={this.reload}>
+				<div
+					id="canvas-wrapper"
+					className={`is-${this.props.viewSize}`}
+					onClick={this.reload}>
 					<BackgroundCanvas backgroundImage={this.props.backgroundImage} />
 					<BottomEffectsCanvas
 						players={this.props.gameState.players}
@@ -43,8 +47,11 @@ class Center extends Component {
 						gameStop={this.props.gameStop}
 					/>
 					<TopEffectsCanvas gameState={this.props.gameState} />
-					<div id="score-overlay-container">
+					<div
+						id="score-overlay-container"
+						className={`is-${this.props.viewSize}`}>
 						<ScoreOverlay
+							viewSize={this.props.viewSize}
 							playerState={currentPlayer.state}
 							lastPlayerState={currentPlayer.lastState}
 							eatItem={currentPlayer.eatItem}
@@ -52,7 +59,7 @@ class Center extends Component {
 						/>
 					</div>
 				</div>
-				<InfoPanel />
+				<InfoPanel viewSize={this.props.viewSize} />
 			</>
 		)
 	}

@@ -5,6 +5,9 @@
 const scale = 1.5
 export const WIDTH = 1000 * scale
 export const HEIGHT = 600 * scale
+export const MOBILE_BREAKPOINT = 500
+export const FULL_SIZE_BREAKPOINT = 1161
+export const BANNER_TITLE = `Snake 'Splosion`
 
 if (HEIGHT / WIDTH !== 0.6) throw Error('HEIGHT/WIDTH is not a ratio of 0.6')
 

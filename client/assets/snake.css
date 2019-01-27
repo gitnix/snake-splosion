@@ -35,6 +35,22 @@ a {
 	zoom: 0.92;
 }
 
+#container.is-mobile {
+	grid-template-areas:
+		'banner banner banner'
+		'canvas canvas canvas'
+		'. controls .';
+	grid-template-rows: 1fr 6fr 2fr;
+}
+
+#container.is-compact {
+	grid-template-areas:
+		'banner banner banner'
+		'canvas canvas canvas';
+	grid-template-rows: 1fr 6fr;
+	grid-row-gap: 1.9em;
+}
+
 #unsupported-browser {
 	font-size: 3em;
 	color: #9e4646ed;
@@ -57,6 +73,12 @@ a {
 	text-align: center;
 }
 
+#banner.is-mobile,
+#banner.is-compact {
+	grid-template-columns: 1fr;
+	padding: 0 10%;
+}
+
 #banner-snake {
 	align-self: center;
 	border-radius: 30px;
@@ -75,6 +97,10 @@ a {
 	font-size: 3.1em;
 	box-shadow: 3px 12px 27px 10px #0e0e0e;
 	margin: -0.04em 0;
+}
+
+#banner-title.is-mobile {
+	font-size: 2.1em;
 }
 
 #banner-fire {
@@ -107,6 +133,12 @@ canvas {
 	width: 100%;
 	padding-top: 60%;
 	box-shadow: 3px 12px 27px 10px #0e0e0e;
+}
+
+#canvas-wrapper.is-mobile,
+#canvas-wrapper.is-compact {
+	padding-top: 100%;
+	box-shadow: none;
 }
 
 #background-canvas {
@@ -143,6 +175,11 @@ canvas {
 	font-size: 5.5em;
 	z-index: 5;
 	text-align: center;
+}
+
+#score-overlay-container.is-mobile,
+#score-overlay-container.is-compact {
+	height: 60%;
 }
 
 .score-overlay {
@@ -394,6 +431,67 @@ canvas {
 }
 
 /* ***************************** */
+/* ARROWS */
+/* ***************************** */
+
+.arrow-container {
+	display: grid;
+	grid-area: controls;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-areas:
+		'. up .'
+		'left . right'
+		'. down .';
+	transform: scale(1.75) translateY(-25%);
+}
+
+.arrow {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+
+/* svg {
+	width: 100%;
+	height: 100%;
+} */
+
+.arrow-right {
+	grid-area: right;
+	justify-self: left;
+}
+.arrow-right > svg {
+	transform: rotate(0deg);
+}
+
+.arrow-down {
+	grid-area: down;
+	/* align-self: top; */
+}
+.arrow-down > svg {
+	transform: rotate(90deg);
+}
+
+.arrow-left {
+	grid-area: left;
+	justify-self: right;
+}
+.arrow-left > svg {
+	transform: rotate(180deg);
+}
+
+.arrow-up {
+	grid-area: up;
+	/* align-self: bottom; */
+}
+.arrow-up > svg {
+	transform: rotate(270deg);
+}
+
+/* ***************************** */
 /* ANIMATIONS */
 /* ***************************** */
 
@@ -631,5 +729,15 @@ canvas {
 		height: 85%;
 		min-height: 0;
 		margin-bottom: 0;
+	}
+}
+
+/* used to prevent the play area from going off-screen in this range */
+@media (min-width: 1051px) and (max-width: 1160px) {
+	#container.is-compact {
+		grid-row-gap: 1em;
+	}
+	#canvas-wrapper {
+		width: 90%;
 	}
 }

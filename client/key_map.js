@@ -5,6 +5,7 @@ const DOWN = ['ArrowDown', 's', 'k']
 
 // [direction, opposites]
 const keyMap = {
+	none: ['', ''],
 	ArrowLeft: ['LEFT', RIGHT],
 	ArrowRight: ['RIGHT', LEFT],
 	ArrowUp: ['UP', DOWN],
