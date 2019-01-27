@@ -14,8 +14,10 @@ export const clientState = {
 
 export const setPlayerStateObj = (id, player, clientId) => {
 	clientState.playerMap[id] = player
-	if (id === clientId && player.state === 'dead') {
-		clientState.lastKey = 'none'
+	if (id === clientId) {
+		if (player.state === 'dead' || player.state === 'readyToMove') {
+			clientState.lastKey = 'none'
+		}
 	}
 	// keep track of previous state
 	// used when interpolating tail

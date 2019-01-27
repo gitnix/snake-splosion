@@ -177,9 +177,9 @@ canvas {
 	text-align: center;
 }
 
-#score-overlay-container.is-mobile,
-#score-overlay-container.is-compact {
+#score-overlay-container.is-mobile {
 	height: 60%;
+	font-size: 2em;
 }
 
 .score-overlay {

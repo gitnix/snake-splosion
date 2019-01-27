@@ -37,7 +37,7 @@ class ScoreOverlay extends Component {
 				return (
 					<div
 						key={this.keyIncrement++}
-						className="score-overlay"
+						className={`score-overlay is-${this.props.viewSize}`}
 						style={{
 							color: COLOR_MAP[this.props.color],
 						}}>

@@ -34,24 +34,30 @@ class Bottom extends Component {
 	}
 
 	render() {
+		const playerColor =
+			COLOR_MAP[clientState.playerMap[this.props.clientId].color]
 		switch (this.props.viewSize) {
 			case 'mobile':
 				return (
 					<div className="arrow-container">
 						<Arrow
 							className="arrow arrow-left"
+							color={playerColor}
 							onClick={() => this.turn('ArrowLeft')}
 						/>
 						<Arrow
 							className="arrow arrow-right"
+							color={playerColor}
 							onClick={() => this.turn('ArrowRight')}
 						/>
 						<Arrow
 							className="arrow arrow-up"
+							color={playerColor}
 							onClick={() => this.turn('ArrowUp')}
 						/>
 						<Arrow
 							className="arrow arrow-down"
+							color={playerColor}
 							onClick={() => this.turn('ArrowDown')}
 						/>
 					</div>
