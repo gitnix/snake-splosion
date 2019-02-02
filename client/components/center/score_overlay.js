@@ -28,6 +28,10 @@ class ScoreOverlay extends Component {
 	}
 
 	render() {
+		if (!this.props || !this.props.color) {
+			return
+		}
+
 		if (this.keyIncrement === 0) {
 			return (
 				<div
