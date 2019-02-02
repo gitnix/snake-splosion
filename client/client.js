@@ -35,8 +35,8 @@ class Client extends Component {
 				window.innerWidth <= MOBILE_BREAKPOINT
 					? 'mobile'
 					: window.innerWidth >= FULL_SIZE_BREAKPOINT
-						? 'full'
-						: 'compact',
+					? 'full'
+					: 'compact',
 		}
 		this.updateDimensions = this.updateDimensions.bind(this)
 		this.backgroundImage = 'sand'
@@ -132,7 +132,6 @@ class Client extends Component {
 
 	render() {
 		if (this.spectating == null) {
-			document.getElementById('loading').style.display = 'none'
 			return (
 				<>
 					<Top viewSize={this.state.viewSize} />
