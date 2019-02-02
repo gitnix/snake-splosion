@@ -44,25 +44,29 @@ class Client extends Component {
 		this.mineTypeToDraw = 'DARK'
 		this.spectating = null
 		this.requestedConnection = false
+		this.stateInitialized = false
 
 		this.socket = new WebSocket(`${protocol}://${location.host}`)
 		this.socket.addEventListener('message', message => {
 			const msg = JSON.parse(message.data)
 			switch (msg.type) {
 				case 'STATE_UPDATE':
-					this.setState({ gameState: msg.state })
-					msg.state.players.forEach(p => {
-						setPlayerStateObj(p.id, p, this.clientId)
-					})
-					playAudio(msg.state.players, this.clientId)
+					if (this.requestedConnection) {
+						this.setState({ gameState: msg.state })
+						msg.state.players.forEach(p => {
+							setPlayerStateObj(p.id, p, this.clientId)
+						})
+						playAudio(msg.state.players, this.clientId)
+						this.stateInitialized = true
+					}
 					break
 				case 'GAME_CONNECTION':
-					this.spectating = msg.spectating
 					this.clientId = msg.id
 					clientState.lastKey = msg.startingKey
 					this.backgroundImage = msg.backgroundImage
 					this.mineTypeToDraw =
 						this.backgroundImage === 'night_sand' ? 'LIGHT' : 'DARK'
+					this.spectating = msg.spectating
 					if (!this.spectating) {
 						addKeyListener(msg.startingKey, this.socket, msg.id)
 					}
@@ -152,6 +156,14 @@ class Client extends Component {
 				</>
 			)
 		}
+		if (!this.stateInitialized) {
+			return (
+				<>
+					<Top viewSize={this.state.viewSize} />
+					<div id="join-screen">Joining...</div>
+				</>
+			)
+		}
 		return (
 			<>
 				<Top viewSize={this.state.viewSize} />
@@ -171,6 +183,7 @@ class Client extends Component {
 					players={this.state.gameState.players}
 					socket={this.socket}
 					clientId={this.clientId}
+					spectating={this.spectating}
 				/>
 			</>
 		)

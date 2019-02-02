@@ -19,9 +19,12 @@ class Center extends Component {
 	}
 
 	render() {
-		const currentPlayer = find(propEq('id', this.props.clientId))(
-			this.props.gameState.players,
-		)
+		let currentPlayer = null
+		if (!this.props.spectating) {
+			currentPlayer = find(propEq('id', this.props.clientId))(
+				this.props.gameState.players,
+			)
+		}
 		return (
 			<>
 				<ChatPanel
@@ -47,17 +50,19 @@ class Center extends Component {
 						gameStop={this.props.gameStop}
 					/>
 					<TopEffectsCanvas gameState={this.props.gameState} />
-					<div
-						id="score-overlay-container"
-						className={`is-${this.props.viewSize}`}>
-						<ScoreOverlay
-							viewSize={this.props.viewSize}
-							playerState={currentPlayer.state}
-							lastPlayerState={currentPlayer.lastState}
-							eatItem={currentPlayer.eatItem}
-							color={currentPlayer.color}
-						/>
-					</div>
+					{currentPlayer ? (
+						<div
+							id="score-overlay-container"
+							className={`is-${this.props.viewSize}`}>
+							<ScoreOverlay
+								viewSize={this.props.viewSize}
+								playerState={currentPlayer.state}
+								lastPlayerState={currentPlayer.lastState}
+								eatItem={currentPlayer.eatItem}
+								color={currentPlayer.color}
+							/>
+						</div>
+					) : null}
 				</div>
 				<InfoPanel viewSize={this.props.viewSize} />
 			</>

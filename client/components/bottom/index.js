@@ -34,10 +34,16 @@ class Bottom extends Component {
 	}
 
 	render() {
-		const playerColor =
-			COLOR_MAP[clientState.playerMap[this.props.clientId].color] || 'white'
+		let playerColor = null
+		if (!this.props.spectating) {
+			playerColor =
+				COLOR_MAP[clientState.playerMap[this.props.clientId].color] || 'white'
+		}
 		switch (this.props.viewSize) {
 			case 'mobile':
+				if (this.props.spectating) {
+					return null
+				}
 				return (
 					<div className="arrow-container">
 						<Arrow
