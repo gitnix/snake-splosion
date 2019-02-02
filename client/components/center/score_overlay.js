@@ -28,6 +28,19 @@ class ScoreOverlay extends Component {
 	}
 
 	render() {
+		if (this.keyIncrement === 0) {
+			return (
+				<div
+					key={this.keyIncrement++}
+					className={`score-overlay is-${this.props.viewSize}`}
+					style={{
+						color: COLOR_MAP[this.props.color],
+					}}>
+					{`You are ${this.props.color} snake!`}
+				</div>
+			)
+		}
+
 		if (!pStates.includes(this.props.playerState)) {
 			return null
 		}

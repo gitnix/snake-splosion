@@ -59,7 +59,7 @@ module.exports = {
 							if (stderr) process.stderr.write(stderr)
 						})
 						return new Promise(resolve => {
-							setTimeout(() => resolve(), 2000)
+							setTimeout(() => resolve(), 3000)
 						})
 					},
 				)

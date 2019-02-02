@@ -15,4 +15,9 @@
 #loading-text {
 	height: 10vh;
 	text-align: center;
+	margin-top: 15px;
+}
+
+#initial-load-text {
+	text-decoration: underline;
 }
