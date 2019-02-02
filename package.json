@@ -1,20 +1,20 @@
 {
 	"name": "snake_splosion",
 	"version": "1.0.0",
-	"description": "node functional multiplayer snake with a twist",
+	"description": "drop in/out multiplayer snake game with ai",
 	"main": "index.js",
 	"scripts": {
 		"test": "jest",
 		"start": "nodemon server/server.js",
-		"build": "./node_modules/.bin/webpack"
+		"build": "./node_modules/.bin/webpack",
+		"build:html": "node writeHTML.js",
+		"clean:css": "rm dist/compiled/*.css || true"
 	},
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
-		"chance": "^1.0.13",
 		"express": "^4.16.2",
 		"google-images": "^2.1.0",
-		"node-vibrant": "^3.0.0",
 		"proton-js": "^3.1.2",
 		"ramda": "^0.25.0",
 		"react": "^16.3.2",
@@ -42,10 +42,13 @@
 		"husky": "^1.0.0-rc.14",
 		"jest": "^22.4.3",
 		"lint-staged": "^7.2.2",
+		"mini-css-extract-plugin": "^0.5.0",
 		"nodemon": "^1.12.5",
+		"optimize-css-assets-webpack-plugin": "^5.0.1",
 		"postcss-loader": "^2.0.9",
 		"prettier": "^1.14.2",
 		"style-loader": "^0.20.3",
+		"uglifyjs-webpack-plugin": "^2.1.1",
 		"url-loader": "^1.0.1",
 		"webpack": "^4.19.0",
 		"webpack-cli": "^3.1.0"

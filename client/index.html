@@ -1,16 +1,74 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Snake 'Splosion</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link href="loading/loading-screen.css" rel="stylesheet" />
+		<link href="loading/loader.css" rel="stylesheet" />
+		<script>
+			let currentLoadingTextIndex = -1
+			const loadingTextArray = [
+				'loading green snake sprites',
+				'loading blue snake sprites',
+				'loading yellow snake sprites',
+				'loading pink snake sprites',
+				'initialzing stage assets',
+				'loading apple sprites',
+				'loading mine sprites',
+				'loading explosion sprites',
+				'loading mice sprites',
+				'loading cheese sprites',
+				'initializing particle system',
+				'initialzing audio assets',
+				'loading eat audio',
+				'loading mouse squeak audio',
+				'loading explosion audio',
+				'loading death audio',
+				'loading game over audio',
+				'loading menu items',
+				'loading player logic',
+				'loading ai logic',
+				'loading game font',
+				'loading background images',
+			]
 
-<head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Snake Splosion</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+			function setLoadingWords() {
+				let loadingText = document.getElementById('loading-text')
+				currentLoadingTextIndex += 1
+				loadingText.innerText =
+					loadingTextArray[
+						(currentLoadingTextIndex + 1) % loadingTextArray.length
+					] + '...'
+			}
+			const intervalId = setInterval(setLoadingWords, 1500)
 
-<body>
-	<div id="container"></div>
-	<div id="unsupported-browser"></div>
-</body>
+			window.onload = function() {
+				window.clearInterval(intervalId)
+				document.getElementById('container').style.visibility = 'visible'
+			}
+		</script>
+	</head>
 
+	<body style="background-color: #2b2a2a;">
+		<div id="loading">
+			<div id="loading-banner">
+				<div>--- Snake 'Splosion ---</div>
+				<br />
+				<div>initial load (for first site visit only)</div>
+			</div>
+			<div id="loading-text">initialzing player assets</div>
+			<div id="loader" class="lds-ring">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+		<div id="container" style="visibility: hidden;"></div>
+		<div id="unsupported-browser"></div>
+		<link href="compiled/CSSHERE" rel="stylesheet" />
+		<script type="text/javascript" src="compiled/bundle.js"></script>
+	</body>
 </html>

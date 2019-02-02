@@ -10,7 +10,6 @@
 
 body {
 	background: #2b2a2a;
-	font-family: 'Do Hyeon', sans-serif;
 	margin: 1em 0;
 }
 
@@ -33,6 +32,7 @@ a {
 	max-height: 100vh;
 	transform: translateX(4%);
 	zoom: 0.92;
+	font-family: 'Do Hyeon', Helvetica, sans-serif;
 }
 
 #container.is-mobile {
@@ -55,6 +55,14 @@ a {
 	font-size: 3em;
 	color: #9e4646ed;
 	text-align: center;
+}
+
+#join-screen {
+	grid-area: canvas;
+	font-size: 3em;
+	text-align: center;
+	color: #fdebbef5;
+	align-self: center;
 }
 
 /* ***************************** */
@@ -95,6 +103,8 @@ a {
 	border-radius: 1em;
 	color: #fdebbef5;
 	font-size: 3.1em;
+	text-shadow: 2px 2px #312f2f;
+	font-style: italic;
 	box-shadow: 3px 12px 27px 10px #0e0e0e;
 	margin: -0.04em 0;
 }

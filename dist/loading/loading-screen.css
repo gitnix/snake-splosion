@@ -1,0 +1,18 @@
+#loading {
+	color: #fae5b9;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	transform: translateY(50%);
+}
+
+#loading-banner {
+	height: 10vh;
+	text-align: center;
+}
+
+#loading-text {
+	height: 10vh;
+	text-align: center;
+}

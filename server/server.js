@@ -84,66 +84,6 @@ wss.on('connection', ws => {
 	ws.id = uuid.v4()
 	console.log(`Client ${ws.id} has connected`)
 	console.log(`There are currently ${wss.clients.size} connected clients`)
-	if (humanSet.size >= MAX_PLAYERS) {
-		spectating = true
-		ws.spectating = true
-		spectatorSet.add(ws.id)
-	} else {
-		playerArray.push({ id: ws.id, ai: false })
-		humanSet.add(ws.id)
-
-		if (playerArray.length > MAX_PLAYERS) {
-			const indexToRemove = playerArray.findIndex(player => player.ai)
-			connectionQueue.disconnections.push(playerArray[indexToRemove].id)
-			playerArray.splice(indexToRemove, 1)
-			console.log('after substitution player array is now: ', playerArray)
-		}
-		connectionQueue.connections.push(ws.id)
-		startingDirection = getRandomDirection()
-		directionQueue[ws.id] = [startingDirection]
-		startingKey = directionToKey(startingDirection)
-	}
-
-	if (playerArray.length === 1) {
-		for (let i = 0; i < 3; i++) {
-			addAi('ai_' + uuid.v4().slice(0, 8))
-		}
-		directionQueue['mouse_1'] = ['RIGHT']
-	} else {
-		broadcast(
-			wss.clients,
-			{
-				type: 'CHAT_MESSAGE',
-				message: {
-					contents: 'A new player has joined the match.',
-					sender: "Snake 'Splosion",
-					color: 'ORANGE',
-				},
-			},
-			ws.id,
-		)
-	}
-
-	if (!spectating && humanSet.size === 1) {
-		backgroundImage = getRandomBackgroundImage()
-		gameRunning = true
-		gameLoop(initialGameState)
-	}
-
-	ws.expiration = spectating
-		? WS_SPECTATING_ACTIVITY_TIMEOUT
-		: WS_ACTIVITY_TIMEOUT
-
-	ws.send(
-		JSON.stringify({
-			type: 'GAME_CONNECTION',
-			id: ws.id,
-			spectating,
-			startingKey,
-			backgroundImage,
-			mineTypeToDraw: 'DARK',
-		}),
-	)
 
 	ws.on('message', message => {
 		const msg = JSON.parse(message)
@@ -151,7 +91,71 @@ wss.on('connection', ws => {
 		ws.expiration = ws.spectating
 			? WS_SPECTATING_ACTIVITY_TIMEOUT
 			: WS_ACTIVITY_TIMEOUT
+
 		switch (msg.type) {
+			case 'GAME_CONNECTION':
+				if (humanSet.size >= MAX_PLAYERS) {
+					spectating = true
+					ws.spectating = true
+					spectatorSet.add(ws.id)
+				} else {
+					playerArray.push({ id: ws.id, ai: false })
+					humanSet.add(ws.id)
+
+					if (playerArray.length > MAX_PLAYERS) {
+						const indexToRemove = playerArray.findIndex(player => player.ai)
+						connectionQueue.disconnections.push(playerArray[indexToRemove].id)
+						playerArray.splice(indexToRemove, 1)
+						console.log('after substitution player array is now: ', playerArray)
+					}
+					connectionQueue.connections.push(ws.id)
+					startingDirection = getRandomDirection()
+					directionQueue[ws.id] = [startingDirection]
+					startingKey = directionToKey(startingDirection)
+				}
+
+				if (playerArray.length === 1) {
+					for (let i = 0; i < 3; i++) {
+						addAi('ai_' + uuid.v4().slice(0, 8))
+					}
+					directionQueue['mouse_1'] = ['RIGHT']
+				} else {
+					broadcast(
+						wss.clients,
+						{
+							type: 'CHAT_MESSAGE',
+							message: {
+								contents: 'A new player has joined the match.',
+								sender: "Snake 'Splosion",
+								color: 'ORANGE',
+							},
+						},
+						ws.id,
+					)
+				}
+
+				if (!spectating && humanSet.size === 1) {
+					backgroundImage = getRandomBackgroundImage()
+					gameRunning = true
+					gameLoop(initialGameState)
+				}
+
+				ws.expiration = spectating
+					? WS_SPECTATING_ACTIVITY_TIMEOUT
+					: WS_ACTIVITY_TIMEOUT
+
+				ws.send(
+					JSON.stringify({
+						type: 'GAME_CONNECTION',
+						id: ws.id,
+						spectating,
+						startingKey,
+						backgroundImage,
+						mineTypeToDraw: 'DARK',
+					}),
+				)
+				break
+
 			case 'CHANGE_DIRECTION':
 				directionQueue[msg.id].push(msg.direction)
 				break

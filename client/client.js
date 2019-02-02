@@ -43,6 +43,7 @@ class Client extends Component {
 		this.clientId = null
 		this.mineTypeToDraw = 'DARK'
 		this.spectating = null
+		this.requestedConnection = false
 
 		this.socket = new WebSocket(`${protocol}://${location.host}`)
 		this.socket.addEventListener('message', message => {
@@ -130,7 +131,28 @@ class Client extends Component {
 	}
 
 	render() {
-		if (this.spectating == null) return <div />
+		if (this.spectating == null) {
+			document.getElementById('loading').style.display = 'none'
+			return (
+				<>
+					<Top viewSize={this.state.viewSize} />
+					<div
+						id="join-screen"
+						onClick={() => {
+							if (!this.requestedConnection) {
+								this.requestedConnection = true
+								this.socket.send(
+									JSON.stringify({
+										type: 'GAME_CONNECTION',
+									}),
+								)
+							}
+						}}>
+						Click/touch to connect to a game session!
+					</div>
+				</>
+			)
+		}
 		return (
 			<>
 				<Top viewSize={this.state.viewSize} />

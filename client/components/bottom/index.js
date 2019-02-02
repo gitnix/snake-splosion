@@ -35,7 +35,7 @@ class Bottom extends Component {
 
 	render() {
 		const playerColor =
-			COLOR_MAP[clientState.playerMap[this.props.clientId].color]
+			COLOR_MAP[clientState.playerMap[this.props.clientId].color] || 'white'
 		switch (this.props.viewSize) {
 			case 'mobile':
 				return (
