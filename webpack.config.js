@@ -1,5 +1,6 @@
 const path = require('path')
 const exec = require('child_process').exec
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -8,7 +9,7 @@ module.exports = {
 	entry: './client/index.js',
 	output: {
 		path: path.resolve(__dirname, 'dist/compiled'),
-		filename: 'bundle.js',
+		filename: '[contenthash].js',
 	},
 	optimization: {
 		minimizer: [
@@ -43,27 +44,13 @@ module.exports = {
 		],
 	},
 	plugins: [
+		new CleanWebpackPlugin(['dist/compiled'], { watch: true }),
 		new MiniCssExtractPlugin({
 			filename: '[contenthash].css',
 			chunkFilename: '[id].css',
 		}),
 		{
 			apply: compiler => {
-				// async hook
-				compiler.hooks.beforeCompile.tapPromise(
-					'BeforeCompilePlugin',
-					compilation => {
-						console.log('cleaning dist directory...')
-						exec('yarn clean:css', (err, stdout, stderr) => {
-							if (stdout) process.stdout.write(stdout)
-							if (stderr) process.stderr.write(stderr)
-						})
-						return new Promise(resolve => {
-							setTimeout(() => resolve(), 3000)
-						})
-					},
-				)
-				// async hook
 				compiler.hooks.afterEmit.tap('AfterEmitPlugin', compilation => {
 					console.log('building dist/index.html...')
 					exec('yarn build:html', (err, stdout, stderr) => {
