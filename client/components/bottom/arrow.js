@@ -1,7 +1,7 @@
 import React from 'react'
 
 const svg = props => (
-	<div className={props.className} onClick={props.onClick}>
+	<div className={props.className} onTouchStart={props.onTouchStart}>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width="100%"

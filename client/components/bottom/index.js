@@ -49,22 +49,22 @@ class Bottom extends Component {
 						<Arrow
 							className="arrow arrow-left"
 							color={playerColor}
-							onClick={() => this.turn('ArrowLeft')}
+							onTouchStart={() => this.turn('ArrowLeft')}
 						/>
 						<Arrow
 							className="arrow arrow-right"
 							color={playerColor}
-							onClick={() => this.turn('ArrowRight')}
+							onTouchStart={() => this.turn('ArrowRight')}
 						/>
 						<Arrow
 							className="arrow arrow-up"
 							color={playerColor}
-							onClick={() => this.turn('ArrowUp')}
+							onTouchStart={() => this.turn('ArrowUp')}
 						/>
 						<Arrow
 							className="arrow arrow-down"
 							color={playerColor}
-							onClick={() => this.turn('ArrowDown')}
+							onTouchStart={() => this.turn('ArrowDown')}
 						/>
 					</div>
 				)
